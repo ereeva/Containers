@@ -25,12 +25,12 @@ class list {
   ~list();
   list &operator=(list &&l);
 
-  const_reference front();
-  const_reference back();
+  const_reference front()const;
+  const_reference back()const;
 
-  bool empty();
-  size_type size();
-  size_type max_size();
+  bool empty()const;
+  size_type size()const;
+  size_type max_size()const;
 
   void clear();
   iterator insert(iteraror pos, const_reference value);
@@ -59,7 +59,7 @@ class list {
   Node *head_ = nullptr;
   Node *tail_ = nullptr;
 };
-
+#include "list.tpp"
 }  // namespace s21
 
 #endif  // CPP2_S21_LIST_LIST_H_

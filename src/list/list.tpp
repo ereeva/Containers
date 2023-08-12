@@ -1,5 +1,3 @@
-#include "list.h"
-
 namespace s21 {
 
 template <class T>
