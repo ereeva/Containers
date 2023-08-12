@@ -20,12 +20,12 @@ public:
 		return *this;
 	}
 	ListIterator operator++(int){
-		ListIterator tmp = this*;
+		ListIterator tmp = *this;
 		ptr_ = ptr_->next_;
 		return tmp;
 	}
 	ListIterator operator--(int){
-		ListIterator tmp = this *;
+		ListIterator tmp = *this;
 		ptr_ = ptr_->prior_;
 		return tmp;
 	}
