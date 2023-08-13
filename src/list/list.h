@@ -4,7 +4,6 @@
 #include <initializer_list>
 
 namespace s21 {
-
 template <class T>
 class list {
  public:
@@ -16,32 +15,25 @@ class list {
   using size_type = size_t;
 
   template <class T>
-  class ListIterator
-  {
-    friend class list<T>;
-
-  public:
+  class ListIterator {
+   public:
     ListIterator() : ptr_(nullptr){};
     ListIterator(Node *ptr) : ptr_(ptr){};
 
-    ListIterator &operator++()
-    {
+    ListIterator &operator++() {
       ptr_ = ptr_->next_;
       return *this;
     }
-    ListIterator &operator--()
-    {
+    ListIterator &operator--() {
       ptr_ = ptr_->prior_;
       return *this;
     }
-    ListIterator operator++(int)
-    {
+    ListIterator operator++(int) {
       ListIterator tmp = *this;
       ptr_ = ptr_->next_;
       return tmp;
     }
-    ListIterator operator--(int)
-    {
+    ListIterator operator--(int) {
       ListIterator tmp = *this;
       ptr_ = ptr_->prior_;
       return tmp;
@@ -49,14 +41,13 @@ class list {
     bool operator==(ListIterator other) { return ptr_ == other.ptr_; }
     bool operator!=(ListIterator other) { return ptr_ != other.ptr_; }
 
-  private:
+   private:
     Node *ptr_;
+    friend class list<T>;
   };
 
   template <class T>
-  class ListConstIterator : public ListIterator<T>
-  {
-  };
+  class ListConstIterator : public ListIterator<T> {};
 
   list();
   list(size_type n);
@@ -92,12 +83,12 @@ class list {
 
  private:
   struct Node {
-    T data_;
+    T value_;
     struct Node *next_;
     struct Node *prior_;
 
-    Node(value_type data, Node *next = nullptr, Node *prior = nullptr)
-        : data_(data), next_(next), prior_(prior) {}
+    Node(value_type value, Node *next = nullptr, Node *prior = nullptr)
+        : value_(value), next_(next), prior_(prior) {}
   };
   size_type size_;
   Node *head_;
