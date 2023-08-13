@@ -3,8 +3,6 @@
 
 #include <initializer_list>
 
-#include "list_iterators.h"
-
 namespace s21 {
 
 template <class T>
@@ -17,6 +15,49 @@ class list {
   using const_iterator = ListConstIterator<T>;
   using size_type = size_t;
 
+  template <class T>
+  class ListIterator
+  {
+    friend class list<T>;
+
+  public:
+    ListIterator() : ptr_(nullptr){};
+    ListIterator(Node *ptr) : ptr_(ptr){};
+
+    ListIterator &operator++()
+    {
+      ptr_ = ptr_->next_;
+      return *this;
+    }
+    ListIterator &operator--()
+    {
+      ptr_ = ptr_->prior_;
+      return *this;
+    }
+    ListIterator operator++(int)
+    {
+      ListIterator tmp = *this;
+      ptr_ = ptr_->next_;
+      return tmp;
+    }
+    ListIterator operator--(int)
+    {
+      ListIterator tmp = *this;
+      ptr_ = ptr_->prior_;
+      return tmp;
+    }
+    bool operator==(ListIterator other) { return ptr_ == other.ptr_; }
+    bool operator!=(ListIterator other) { return ptr_ != other.ptr_; }
+
+  private:
+    Node *ptr_;
+  };
+
+  template <class T>
+  class ListConstIterator : public ListIterator<T>
+  {
+  };
+
   list();
   list(size_type n);
   list(std::initializer_list<value_type> const &items);
@@ -25,12 +66,15 @@ class list {
   ~list();
   list &operator=(list &&l);
 
-  const_reference front()const;
-  const_reference back()const;
+  const_reference front() const;
+  const_reference back() const;
 
-  bool empty()const;
-  size_type size()const;
-  size_type max_size()const;
+  iterator begin();
+  iterator end();
+
+  bool empty() const;
+  size_type size() const;
+  size_type max_size() const;
 
   void clear();
   iterator insert(iteraror pos, const_reference value);
@@ -49,15 +93,16 @@ class list {
  private:
   struct Node {
     T data_;
-    struct Node *next_ = nullptr;
-    struct Node *prior_ = nullptr;
+    struct Node *next_;
+    struct Node *prior_;
 
     Node(value_type data, Node *next = nullptr, Node *prior = nullptr)
         : data_(data), next_(next), prior_(prior) {}
   };
-  size_type size_ = 0;
-  Node *head_ = nullptr;
-  Node *tail_ = nullptr;
+  size_type size_;
+  Node *head_;
+  Node *tail_;
+  Node *end_;
 };
 #include "list.tpp"
 }  // namespace s21
