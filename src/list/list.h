@@ -60,8 +60,8 @@ class list {
   const_reference front() const;
   const_reference back() const;
 
-  iterator begin();
-  iterator end();
+  iterator begin() const;
+  iterator end() const;
 
   bool empty() const;
   size_type size() const;
@@ -84,17 +84,20 @@ class list {
  private:
   struct Node {
     T value_;
-    struct Node *next_;
-    struct Node *prior_;
+    Node *next_;
+    Node *prior_;
 
-    Node(value_type value, Node *next = nullptr, Node *prior = nullptr)
+    Node(value_type value = 0, Node *next = nullptr, Node *prior = nullptr)
         : value_(value), next_(next), prior_(prior) {}
   };
   size_type size_;
   Node *head_;
   Node *tail_;
   Node *end_;
+
+  void ConnectEnd();
 };
+
 #include "list.tpp"
 }  // namespace s21
 
