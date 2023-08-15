@@ -29,7 +29,7 @@ list<T>::~list() {
 }
 
 template <class T>
-list<T>::list &list<T>::operator=(list &&l) {
+class list<T>::list &list<T>::operator=(list &&l) {
   //////
 }
 
@@ -76,36 +76,31 @@ void list<T>::clear() {
 template <class T>
 list<T>::iterator list<T>::insert(iterator pos, const_reference value) {
   Node *n = new Node(value);
-  if (empty()) {
+  Node *prior = empty() ? end().ptr_ : pos->prior_;
+  pos->prior_ = n;
+  prior->next_ = n;
+  n->next_ = pos;
+  n->prior_ = prior;
+  if(pos == begin() || empty())
     head_ = n;
+  if(pos == end() || empty())
     tail_ = n;
-    tail_->next_ = end_;
-    head_->prior_ = end_;
-    end_->prior_ = n;
-    end_->next_ = n;
-  } else {
-    Node *prior = pos->prior_;
-    pos->prior_ = n;
-    prior->next_ = n;
-    n->next_ = pos;
-    n->prior_ = prior;
-  }
   ++size_;
   return iterator(n);
 }
 
 template <class T>
 void list<T>::erase(iterator pos) {
-  if (pos == begin())
-    pop_front();
-  else if (pos == end())
-    pop_back();
-  else {
-    pos->prior_->next_ = pos->next_;
-    pos->next_->prior_ = pos->prior_;
-    delete pos.ptr_;
-  }
+  if(pos == begin()) head_ = head_->next_;
+  else if(pos == iterator(tail_)) tail_ = tail_->prior_;
+  pos->prior_->next_ = pos->next_;
+  pos->next_->prior_ = pos->prior_;
+  delete pos.ptr_;
   --size_;
+  if(empty()){
+    head_ = nullptr;
+    tail_ = nullptr;
+  }
 }
 
 template <class T>
@@ -120,28 +115,12 @@ void list<T>::push_front(const_reference value) {
 
 template <class T>
 void list<T>::pop_back() {
-  Node *tmp = tail_;
-  if (size() == 1) {
-    head_ = nullptr;
-    tail_ = nullptr;
-  } else
-    tail_ = tmp->prior_;
-  delete tmp;
-  --size_;
-  ConnectEnd();
+  erase(iterator(tail_));
 }
 
 template <class T>
 void list<T>::pop_front() {
-  Node *tmp = head_;
-  if (size() == 1) {
-    head_ = nullptr;
-    tail_ = nullptr;
-  } else
-    head_ = tmp->next_;
-  delete tmp;
-  --size_;
-  ConnectEnd();
+  erase(begin());
 }
 
 template <class T>
@@ -172,17 +151,17 @@ void list<T>::splice(const const_iterator pos, list &other) {
     other.tail_->next_ = pos;
     other.head_->prior_ = prior;
 
-    other.head_ = nullptr;
-    other.tail_ = nullptr;
+    other.end_->next_ = other.end_->prior_ = other.end_;
+    other.head_ = other.tail_ = nullptr;
     other.size_ = 0;
   }
 }
 
 template <class T>
 void list<T>::reverse() {
-  iterator b = begin();
-  iterator e = end();
-  for (size_type i = 0; i < size / 2; ++i) std::swap(*b++, *e--);
+  iterator h = begin();
+  iterator t = iterator(tail_);
+  for (size_type i = 0; i < size / 2; ++i) std::swap(*h++, *t--);
 }
 
 template <class T>
