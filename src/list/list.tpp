@@ -54,27 +54,27 @@ list<T>::iterator list<T>::end() const {
 }
 
 template <class T>
-list<T>::bool empty() const {
+bool list<T>::empty() const {
   return size_ == 0;
 }
 
 template <class T>
-list<T>::size_type size() const {
+list<T>::size_type list<T>::size() const {
   return size_;
 }
 
 template <class T>
-list<T>::size_type max_size() const {
+list<T>::size_type list<T>::max_size() const {
   //////
 }
 
 template <class T>
-list<T>::void clear() {
+void list<T>::clear() {
   while (!empty()) pop_back();
 }
 
 template <class T>
-list<T>::iterator list<T>::insert(iteraror pos, const_reference value) {
+list<T>::iterator list<T>::insert(iterator pos, const_reference value) {
   Node *n = new Node(value);
   if (empty()) {
     head_ = n;
