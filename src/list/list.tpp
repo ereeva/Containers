@@ -29,27 +29,27 @@ list<T>::~list() {
 }
 
 template <class T>
-list<T>::list &operator=(list &&l) {
+list<T>::list &list<T>::operator=(list &&l) {
   //////
 }
 
 template <class T>
-list<T>::const_reference front() const {
+list<T>::const_reference list<T>::front() const {
   return head_->value_;
 }
 
 template <class T>
-list<T>::const_reference back() const {
+list<T>::const_reference list<T>::back() const {
   return tail_->value_;
 }
 
 template <class T>
-list<T>::iterator begin() const {
+list<T>::iterator list<T>::begin() const {
   return empty() ? iterator(end_) : iterator(head_);
 }
 
 template <class T>
-list<T>::iterator end() const {
+list<T>::iterator list<T>::end() const {
   return iterator(end_);
 }
 
@@ -74,13 +74,16 @@ list<T>::void clear() {
 }
 
 template <class T>
-list<T>::iterator insert(iteraror pos, const_reference value) {
-  if (pos == begin())
-    push_front();
-  else if (pos == end())
-    push_back();
-  else {
-    Node *n = new Node(value);
+list<T>::iterator list<T>::insert(iteraror pos, const_reference value) {
+  Node *n = new Node(value);
+  if (empty()) {
+    head_ = n;
+    tail_ = n;
+    tail_->next_ = end_;
+    head_->prior_ = end_;
+    end_->prior_ = n;
+    end_->next_ = n;
+  } else {
     Node *prior = pos->prior_;
     pos->prior_ = n;
     prior->next_ = n;
@@ -92,7 +95,7 @@ list<T>::iterator insert(iteraror pos, const_reference value) {
 }
 
 template <class T>
-list<T>::void erase(iterator pos) {
+void list<T>::erase(iterator pos) {
   if (pos == begin())
     pop_front();
   else if (pos == end())
@@ -106,37 +109,17 @@ list<T>::void erase(iterator pos) {
 }
 
 template <class T>
-list<T>::void push_back(const_reference value) {
-  Node *n = new Node(value);
-  if (empty()) {
-    head_ = n;
-    tail_ = n;
-  } else {
-    n->prior_ = tail;
-    tail_->next_ = n;
-    tail_ = n;
-  }
-  ++size_;
-  ConnectEnd();
+void list<T>::push_back(const_reference value) {
+  insert(begin(), value);
 }
 
 template <class T>
-list<T>::void push_front(const_reference value) {
-  Node *n = new Node(value);
-  if (empty()) {
-    head_ = n;
-    tail_ = n;
-  } else {
-    n->next_ = head_;
-    head_->prior_ = n;
-    head_ = n;
-  }
-  ++size_;
-  ConnectEnd();
+void list<T>::push_front(const_reference value) {
+  insert(end(), value);
 }
 
 template <class T>
-list<T>::void pop_back() {
+void list<T>::pop_back() {
   Node *tmp = tail_;
   if (size() == 1) {
     head_ = nullptr;
@@ -149,7 +132,7 @@ list<T>::void pop_back() {
 }
 
 template <class T>
-list<T>::void pop_front() {
+void list<T>::pop_front() {
   Node *tmp = head_;
   if (size() == 1) {
     head_ = nullptr;
@@ -162,51 +145,56 @@ list<T>::void pop_front() {
 }
 
 template <class T>
-list<T>::void swap(list &other) {
+void list<T>::swap(list &other) {
   std::swap(head_, other.head_);
   std::swap(tail_, other.tail_);
   std::swap(end_, other.end_);
 }
 
 template <class T>
-list<T>::void merge(list &other) {
+void list<T>::merge(list &other) {
   if (this != &other && !other.empty())
-    if (empty())
-      *this = std::move(other);
-    else
-      for (auto i = begin(); !other.empty(); ++i)
-        if (other.front() < *i || i == end()) {
-          insert(i, other.front());
-          other.pop_front();
-        }
+    for (auto i = begin(); !other.empty(); ++i)
+      if (empty())
+        swap(other);
+      else if (other.front() < *i || i == end()) {
+        i = insert(i, other.front());
+        other.pop_front();
+      }
 }
 
 template <class T>
-list<T>::void splice(const const_iterator pos, list &other) {
+void list<T>::splice(const const_iterator pos, list &other) {
+  if (!other.empty()) {
+    Node *prior = pos->prior_;
+    pos->prior_ = other.tail_;
+    prior->next_ = other.head_;
+    other.tail_->next_ = pos;
+    other.head_->prior_ = prior;
+
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
+    other.size_ = 0;
+  }
+}
+
+template <class T>
+void list<T>::reverse() {
+  iterator b = begin();
+  iterator e = end();
+  for (size_type i = 0; i < size / 2; ++i) std::swap(*b++, *e--);
+}
+
+template <class T>
+void list<T>::unique() {
+  if (!empty())
+    for (auto i = begin(); i != end(); ++i)
+      if (i->value_ == i->prior_->value_) erase(i--);
+}
+
+template <class T>
+void list<T>::sort() {
   //////
-}
-
-template <class T>
-list<T>::void reverse() {
-  //////
-}
-
-template <class T>
-list<T>::void unique() {
-  //////
-}
-
-template <class T>
-list<T>::void sort() {
-  //////
-}
-
-template <class T>
-list<T>::ConnectEnd() {
-  if (tail_) tail_->next_ = end_;
-  if (head_) head_->prior_ = end_;
-  end_->prior_ = tail_;
-  end_->next_ = head_
 }
 
 }  // namespace s21

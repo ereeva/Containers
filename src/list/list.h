@@ -81,6 +81,10 @@ class list {
   void unique();
   void sort();
 
+  iterator insert_many(const_iterator pos, Args &&...args);
+  void insert_many_back(Args &&...args);
+  void insert_many_front(Args &&...args);
+
  private:
   struct Node {
     T value_;
@@ -94,8 +98,6 @@ class list {
   Node *head_;
   Node *tail_;
   Node *end_;
-
-  void ConnectEnd();
 };
 
 #include "list.tpp"
