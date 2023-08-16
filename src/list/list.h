@@ -82,17 +82,18 @@ class list {
   void unique();
   void sort();
 
-  iterator insert_many(const_iterator pos, Args &&...args);
-  void insert_many_back(Args &&...args);
-  void insert_many_front(Args &&...args);
+  // iterator insert_many(const_iterator pos, Args &&...args);
+  // void insert_many_back(Args &&...args);
+  // void insert_many_front(Args &&...args);
 
  private:
+  template <class T>
   struct Node {
     T value_;
     Node *next_;
     Node *prior_;
 
-    Node(value_type value = 0, Node *next = nullptr, Node *prior = nullptr)
+    Node(value_type value = value_type(), Node *next = this, Node *prior = this)
         : value_(value), next_(next), prior_(prior) {}
   };
   size_type size_;
@@ -101,7 +102,7 @@ class list {
   Node *end_;
 
   Node *MergeSort(Node *head);
-  void connect(Node *first, Node *second);
+  // void connect(Node *first, Node *second);
 };
 
 #include "list.tpp"

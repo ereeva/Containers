@@ -1,7 +1,8 @@
 namespace s21 {
 
 template <class T>
-list<T>::list() : size_(0), head_(nullptr), tail_(nullptr), end(new Node()) {}
+list<T>::list()
+    : size_(0), head_(nullptr), tail_(nullptr), end(new Node()) {}
 
 template <class T>
 list<T>::list(size_type n) : list() {
@@ -29,13 +30,23 @@ list<T>::~list() {
 }
 
 template <class T>
-class list<T>::list &list<T>::operator=(const list &l){
-  //////
+class list<T>::list &list<T>::operator=(const list &l) {
+  list<T> tmp = l;
+  *this = std::move(tmp);
 }
 
 template <class T>
 class list<T>::list &list<T>::operator=(list &&l) {
-  //////
+  if (this != &l) {
+    size_ = l.size_;
+    head_ = l.head_;
+    tail_ = l.tail_;
+    end_ = l.end_;
+
+    l.size_ = 0;
+    l.head_ = nullptr;
+    l.tail_ = nullptr;
+  }
 }
 
 template <class T>
@@ -70,7 +81,7 @@ list<T>::size_type list<T>::size() const {
 
 template <class T>
 list<T>::size_type list<T>::max_size() const {
-  //////
+  return (std::numeric_limits<size_type>::max() / 2 / sizeof(Node<T>));
 }
 
 template <class T>
