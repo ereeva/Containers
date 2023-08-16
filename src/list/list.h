@@ -55,6 +55,7 @@ class list {
   list(const list &l);
   list(list &&l);
   ~list();
+  list &operator=(const list &l);
   list &operator=(list &&l);
 
   const_reference front() const;
@@ -98,6 +99,9 @@ class list {
   Node *head_;
   Node *tail_;
   Node *end_;
+
+  Node *MergeSort(Node *head);
+  void connect(Node *first, Node *second);
 };
 
 #include "list.tpp"

@@ -14,17 +14,22 @@ list<T>::list(std::initializer_list<value_type> const &items) : list() {
 }
 
 template <class T>
-list<T>::list(const list &l) {
-  //////
+list<T>::list(const list &l) : list() {
+  for (auto i = l.begin(); i != l.end(); ++i) push_back(i.ptr_->value_);
 }
 
 template <class T>
-list<T>::list(list &&l) {
-  //////
+list<T>::list(list &&l) : list() {
+  swap(l);
 }
 
 template <class T>
 list<T>::~list() {
+  clear();
+}
+
+template <class T>
+class list<T>::list &list<T>::operator=(const list &l){
   //////
 }
 
@@ -81,23 +86,23 @@ list<T>::iterator list<T>::insert(iterator pos, const_reference value) {
   prior->next_ = n;
   n->next_ = pos;
   n->prior_ = prior;
-  if(pos == begin() || empty())
-    head_ = n;
-  if(pos == end() || empty())
-    tail_ = n;
+  if (pos == begin() || empty()) head_ = n;
+  if (pos == end() || empty()) tail_ = n;
   ++size_;
   return iterator(n);
 }
 
 template <class T>
 void list<T>::erase(iterator pos) {
-  if(pos == begin()) head_ = head_->next_;
-  else if(pos == iterator(tail_)) tail_ = tail_->prior_;
+  if (pos == begin())
+    head_ = head_->next_;
+  else if (pos == iterator(tail_))
+    tail_ = tail_->prior_;
   pos->prior_->next_ = pos->next_;
   pos->next_->prior_ = pos->prior_;
   delete pos.ptr_;
   --size_;
-  if(empty()){
+  if (empty()) {
     head_ = nullptr;
     tail_ = nullptr;
   }
@@ -136,8 +141,8 @@ void list<T>::merge(list &other) {
     for (auto i = begin(); !other.empty(); ++i)
       if (empty())
         swap(other);
-      else if (other.front() < *i || i == end()) {
-        i = insert(i, other.front());
+      else if (other.front()->value_ < i->value_ || i == end()) {
+        i = insert(i, other.front()->value_);
         other.pop_front();
       }
 }
@@ -172,8 +177,9 @@ void list<T>::unique() {
 }
 
 template <class T>
-void list<T>::sort() {
-  //////
-}
+void list<T>::sort() {}
+
+template <class T>
+list<T>::Node *list<T>::MergeSort(Node *head) {}
 
 }  // namespace s21
