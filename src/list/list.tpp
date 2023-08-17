@@ -1,8 +1,7 @@
 namespace s21 {
 
 template <class T>
-list<T>::list()
-    : size_(0), head_(nullptr), tail_(nullptr), end(new Node()) {}
+list<T>::list() : size_(0), head_(nullptr), tail_(nullptr), end(new Node()) {}
 
 template <class T>
 list<T>::list(size_type n) : list() {
@@ -30,13 +29,13 @@ list<T>::~list() {
 }
 
 template <class T>
-class list<T>::list &list<T>::operator=(const list &l) {
+list<T>::list &list<T>::operator=(const list &l) {
   list<T> tmp = l;
   *this = std::move(tmp);
 }
 
 template <class T>
-class list<T>::list &list<T>::operator=(list &&l) {
+list<T>::list &list<T>::operator=(list &&l) {
   if (this != &l) {
     size_ = l.size_;
     head_ = l.head_;
@@ -148,7 +147,7 @@ void list<T>::swap(list &other) {
 
 template <class T>
 void list<T>::merge(list &other) {
-  if (this != &other && !other.empty())
+  if (this != &other)
     for (auto i = begin(); !other.empty(); ++i)
       if (empty())
         swap(other);
@@ -188,9 +187,66 @@ void list<T>::unique() {
 }
 
 template <class T>
-void list<T>::sort() {}
+void list<T>::sort() {
+  //////
+}
 
 template <class T>
-list<T>::Node *list<T>::MergeSort(Node *head) {}
+list<T>::Node *list<T>::Middle(Node *head) {
+  Node *slow = head;
+  Node *fast = head->next_;
+  while (fast != end_ && fast->next_ != end_) {
+    slow = slow->next_;
+    fast = (fast->next_)->next_;
+  }
+  return slow;
+}
+
+template <class T>
+list<T>::Node *list<T>::MergeSort(Node *head) {
+  if (size() > 1) {
+    Node *mid = Middle(head);
+    Node *second = mid->next_;
+    mid->next_ = end_;
+    Node *a = MergeSort(head);
+    Node *b = MergeSort(second);
+    head = MergeSorted(a, b);
+  }
+  return head;
+}
+
+// template <class T>
+// list<T>::Node *list<T>::MergeSorted(Node *a, Node *b) {
+//   Node *new_head = new Node();
+//   Node *current = new_head;
+//   while (a != end_ && b != end_) {
+//     if (a->value_ > b->value_) {
+//       current->next_ = b;
+//       b = b->next_;
+//       current = current->next_;
+//     } else {
+//       current->next_ = a;
+//       a = a->next;
+//       current = current->next_;
+//     }
+//   }
+//   while (b != end_) {
+//     current->next_ = b;
+//     b = b->next_;
+//     current = current->next_;
+//   }
+//   while (a != end_) {
+//     current->next_ = a;
+//     a = a->next_;
+//     current = current->next_;
+//   }
+//   return new_head;
+// }
+
+template <class T>
+void list<T>::Connect(Node *first, Node *second) {
+  first->next_ = second;
+  second->prior_ = first;
+}
 
 }  // namespace s21

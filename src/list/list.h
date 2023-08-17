@@ -101,8 +101,10 @@ class list {
   Node *tail_;
   Node *end_;
 
+  Node *Middle(Node *head);
+  Node *MergeSorted(Node *a, Node *b);
   Node *MergeSort(Node *head);
-  // void connect(Node *first, Node *second);
+  void Connect(Node *first, Node *second);
 };
 
 #include "list.tpp"
