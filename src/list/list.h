@@ -107,7 +107,8 @@ class list {
   void Connect(Node *first, Node *second);
 };
 
-#include "list.tpp"
 }  // namespace s21
+
+#include "list.tpp"
 
 #endif  // CPP2_S21_LIST_LIST_H_

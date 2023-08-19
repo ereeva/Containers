@@ -188,7 +188,7 @@ void list<T>::unique() {
 
 template <class T>
 void list<T>::sort() {
-  //////
+  MergeSort(head_);
 }
 
 template <class T>
@@ -215,33 +215,20 @@ list<T>::Node *list<T>::MergeSort(Node *head) {
   return head;
 }
 
-// template <class T>
-// list<T>::Node *list<T>::MergeSorted(Node *a, Node *b) {
-//   Node *new_head = new Node();
-//   Node *current = new_head;
-//   while (a != end_ && b != end_) {
-//     if (a->value_ > b->value_) {
-//       current->next_ = b;
-//       b = b->next_;
-//       current = current->next_;
-//     } else {
-//       current->next_ = a;
-//       a = a->next;
-//       current = current->next_;
-//     }
-//   }
-//   while (b != end_) {
-//     current->next_ = b;
-//     b = b->next_;
-//     current = current->next_;
-//   }
-//   while (a != end_) {
-//     current->next_ = a;
-//     a = a->next_;
-//     current = current->next_;
-//   }
-//   return new_head;
-// }
+template <class T>
+list<T>::Node *list<T>::MergeSorted(Node *a, Node *b) {
+  Node *first = a, *second = b;
+  if(a->value_ > b->value_)
+    std::swap(first, second);
+  Node *curr = first;
+  while(curr != end_)
+    if(second < curr || curr == end_){
+      Connect(curr, second);
+      second = second->next_;
+      curr = curr->next_;
+    }
+  return first;
+}
 
 template <class T>
 void list<T>::Connect(Node *first, Node *second) {
