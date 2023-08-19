@@ -2,6 +2,7 @@
 #define CPP2_S21_LIST_LIST_H_
 
 #include <initializer_list>
+#include <limits>
 
 namespace s21 {
 template <class T>
@@ -10,15 +11,31 @@ class list {
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
-  using iterator = ListIterator<T>;
-  using const_iterator = ListConstIterator<T>;
   using size_type = size_t;
 
-  template <class T>
+ private:
+  struct Node {
+    T value_;
+    Node *next_;
+    Node *prior_;
+
+    Node(value_type value = value_type(), Node *next = nullptr,
+         Node *prior = nullptr)
+        : value_(value), next_(next), prior_(prior) {}
+  };
+
+ public:
+  template <class value_type>
   class ListIterator {
+    friend class list<T>;
+
    public:
     ListIterator() : ptr_(nullptr){};
     ListIterator(Node *ptr) : ptr_(ptr){};
+
+    reference operator*() { return ptr_->value_; }
+
+    reference operator->() { return &ptr_->value_; }
 
     ListIterator &operator++() {
       ptr_ = ptr_->next_;
@@ -41,13 +58,19 @@ class list {
     bool operator==(ListIterator other) { return ptr_ == other.ptr_; }
     bool operator!=(ListIterator other) { return ptr_ != other.ptr_; }
 
-   private:
+   protected:
     Node *ptr_;
-    friend class list<T>;
+  };
+  template <class value_type>
+  class ListConstIterator : public ListIterator<T> {
+   public:
+    ListConstIterator();
+    ListConstIterator(const ListIterator<T> &node_);
+    const_reference operator*() const;
   };
 
-  template <class T>
-  class ListConstIterator : public ListIterator<T> {};
+  using iterator = ListIterator<T>;
+  using const_iterator = ListConstIterator<T>;
 
   list();
   list(size_type n);
@@ -69,7 +92,7 @@ class list {
   size_type max_size() const;
 
   void clear();
-  iterator insert(iteraror pos, const_reference value);
+  iterator insert(iterator pos, const_reference value);
   void erase(iterator pos);
   void push_back(const_reference value);
   void pop_back();
@@ -87,24 +110,15 @@ class list {
   // void insert_many_front(Args &&...args);
 
  private:
-  template <class T>
-  struct Node {
-    T value_;
-    Node *next_;
-    Node *prior_;
-
-    Node(value_type value = value_type(), Node *next = this, Node *prior = this)
-        : value_(value), next_(next), prior_(prior) {}
-  };
   size_type size_;
   Node *head_;
   Node *tail_;
   Node *end_;
 
+  void Connect(Node *first, Node *second);
   Node *Middle(Node *head);
   Node *MergeSorted(Node *a, Node *b);
   Node *MergeSort(Node *head);
-  void Connect(Node *first, Node *second);
 };
 
 }  // namespace s21
