@@ -13,7 +13,7 @@ public:
   using value_type = key_type;
   using reference = value_type&;
   using const_reference = const value_type&;
-  using iterator = Node*;
+  using iterator = BTreeIterator;
 
   RBTree();
 
@@ -31,17 +31,18 @@ private:
 template <class key_type> struct RBTree<key_type>::Node {
   key_type data_;
   Node *left_, *right_, *parent_;
-  Node();
-  Node(key_type data, Color c = RED, Node *p = nullptr, Node *r = nullptr,
-       Node *l = nullptr)
-      : data_(data), color(c), parent_(p), left_(l), right_(r){};
+    Node();
+  Node(key_type data)
+      : data_(data), color(RED), parent_(), left_(), right_(){};
 };
 
 template <class key_type> 
 class RBTree<key_type>::BTreeIterator {
+  BTreeIterator (Node* node);
   iterator begin();
   iterator end();
   iterator next();
+  iterator prev();
   iterator operator++();
   iterator operator--();
   iterator operator++(int);
@@ -52,6 +53,8 @@ class RBTree<key_type>::BTreeIterator {
   const_reference operator*() const;
 
 private:
+  Node* FindMax(Node* ptr);
+  Node* FindMin(Node* ptr);
   Node *ptr;
 };
 

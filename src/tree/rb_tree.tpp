@@ -118,20 +118,45 @@ void RBTree<key_type>::Balance(Node *&root, Node *&pt) {
 }
 
 template <class key_type>
-RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::FindMin(iterator ptr){
-  iterator node = ptr;
+RBTree<key_type>::BTreeIterator::BTreeIterator (Node* node) : ptr(node){}
+
+template <class key_type>
+RBTree<key_type>::Node* RBTree<key_type>::BTreeIterator::FindMin(Node* ptr){
+  Node* node = ptr;
   while (node->left_ != nullptr)
     node = node->left_;
   return node;
 }
 
 template <class key_type>
+RBTree<key_type>::Node* RBTree<key_type>::BTreeIterator::FindMax(Node* ptr){
+  Node* node = ptr;
+  while (node->right_ != nullptr)
+    node = node->right_;
+  return node;
+}
+
+template <class key_type>
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin(){
+  return  iterator tmp(FindMin(root_));
+}
+
+template <class key_type>
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end(){
+  return iterator tmp(nullptr);
+}
+
+
+template <class key_type>
 RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::next(){
-  iterator node = ptr_;
+  Node* node = ptr_;
   if(node->right_ != nullptr)
     node = FindMin(node->right_);
-  else if (node->parent_ != nullptr && node == node->parent_->left_)
+  else {
+    while (node->parent_ != nullptr && node == node->parent_->right)
+      node = node->parent_;
     node = node->parent_;
-  return node;
+  }
+  return iterator tmp(node);
 };
 }; // namespace s21
