@@ -100,7 +100,7 @@ class list {
   void pop_front();
   void swap(list &other);
   void merge(list &other);
-  void splice(const const_iterator pos, list &other);
+  void splice(const iterator pos, list &other);
   void reverse();
   void unique();
   void sort();
