@@ -1,8 +1,10 @@
 namespace s21 {
 
 template <class T>
-list<T>::list() : size_(0), head_(nullptr), tail_(nullptr), end_(new Node()) {
+list<T>::list() : size_(0), end_(new Node()) {
   Connect(end_, end_);
+  head_ = end_;
+  tail_ = end_;
 }
 
 template <class T>
@@ -52,17 +54,17 @@ typename list<T>::list &list<T>::operator=(list &&l) {
 
 template <class T>
 typename list<T>::const_reference list<T>::front() const {
-  return head_ ? head_->value_ : end_->value_;
+  return head_->value_;
 }
 
 template <class T>
 typename list<T>::const_reference list<T>::back() const {
-  return tail_ ? tail_->value_ : end_->value_;
+  return tail_->value_;
 }
 
 template <class T>
 typename list<T>::iterator list<T>::begin() const {
-  return head_ ? iterator(head_) : iterator(end_);
+  return iterator(head_);
 }
 
 template <class T>
@@ -110,8 +112,8 @@ void list<T>::erase(iterator pos) {
   delete pos.ptr_;
   --size_;
   if (empty()) {
-    head_ = nullptr;
-    tail_ = nullptr;
+    head_ = end_;
+    tail_ = end_;
   }
 }
 
@@ -144,14 +146,14 @@ void list<T>::swap(list &other) {
 
 template <class T>
 void list<T>::merge(list &other) {
-  if (this != &other)
-    for (auto i = begin(); !other.empty(); ++i)
-      if (empty())
-        swap(other);
-      else if (other.front() < i.ptr_->value_ || i == end()) {
-        i = insert(i, other.front());
-        other.pop_front();
-      }
+  // if (this != &other)
+  //   for (auto i = begin(); !other.empty(); ++i)
+  //     if (empty())
+  //       swap(other);
+  //     else if (other.front() < i.ptr_->value_ || i == end()) {
+  //       i = insert(i, other.front());
+  //       other.pop_front();
+  //     }
 }
 
 template <class T>
@@ -164,7 +166,7 @@ void list<T>::splice(const iterator pos, list &other) {
     size_ += other.size_;
 
     Connect(other.end_, other.end_);
-    other.head_ = other.tail_ = nullptr;
+    other.head_ = other.tail_ = other.end_;
     other.size_ = 0;
   }
 }
@@ -183,49 +185,60 @@ void list<T>::unique() {
       if (i.ptr_->value_ == i.ptr_->prior_->value_) erase(i--);
 }
 
-// template <class T>
-// void list<T>::sort() {
-//   head_ = MergeSort(head_);
-//   tail_ = end().ptr_->prior_;
-// }
+template <class T>
+void list<T>::sort() {
+  head_ = MergeSort(head_);
+  tail_ = end().ptr_->prior_;
+}
 
-// template <class T>
-// typename list<T>::Node *list<T>::Middle(Node *head) {
-//   Node *slow = head;
-//   Node *fast = head->next_;
-//   while (fast != end_ && fast->next_ != end_) {
-//     slow = slow->next_;
-//     fast = (fast->next_)->next_;
-//   }
-//   return slow;
-// }
+template <class T>
+typename list<T>::Node *list<T>::Middle(Node *head) {
+  Node *slow = head;
+  Node *fast = head->next_;
+  while (fast != end_ && fast->next_ != end_) {
+    slow = slow->next_;
+    fast = fast->next_->next_;
+  }
+  return slow;
+}
 
-// template <class T>
-// typename list<T>::Node *list<T>::MergeSort(Node *head) {
-//   if (size() > 1) {
-//     Node *mid = Middle(head);
-//     Node *second = mid->next_;
-//     mid->next_ = end_;
-//     Node *a = MergeSort(head);
-//     Node *b = MergeSort(second);
-//     head = MergeSorted(a, b);
-//   }
-//   return head;
-// }
+template <class T>
+typename list<T>::Node *list<T>::MergeSort(Node *head) {
+  if (size() > 1) {
+    Node *mid = Middle(head);
+    Node *second = mid->next_;
+    mid->next_ = end_;
+    Node *a = MergeSort(head);
+    Node *b = MergeSort(second);
+    head = Merge(a, b);
+  }
+  return head;
+}
 
-// template <class T>
-// typename list<T>::Node *list<T>::MergeSorted(Node *a, Node *b) {
-//   Node *first = a, *second = b;
-//   if (a->value_ > b->value_) std::swap(first, second);
-//   Node *curr = first;
-//   while (curr != end_)
-//     if (second < curr || curr == end_) {
-//       Connect(curr, second);
-//       second = second->next_;
-//       curr = curr->next_;
-//     }
-//   return first;
-// }
+template <class T>
+typename list<T>::Node *list<T>::Merge(Node *a, Node *b) {
+  Node *res;
+  if (a->value_ <= b->value_) {
+    res = a;
+    Connect(res->next_, Merge(a->next_, b));
+  } else {
+    res = b;
+    Connect(res->next_, Merge(a, b->next_));
+  }
+  return res;
+
+  // Node *first = a, *second = b;
+  // if (a->value_ > b->value_) std::swap(first, second);
+  // Node *curr = first;
+  // while (second != end_)
+  //   if (second->value_ < curr->value_ || curr == end_) {
+  //     Connect(curr->prior_, second);
+  //     Connect(second, curr);
+  //     second = second->next_;
+  //   } else if (curr != end_)
+  //     curr = curr->next_;
+  // return first;
+}
 
 template <class T>
 void list<T>::Connect(Node *first, Node *second) {

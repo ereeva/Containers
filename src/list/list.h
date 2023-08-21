@@ -2,6 +2,7 @@
 #define CPP2_S21_LIST_LIST_H_
 
 #include <initializer_list>
+#include <iostream>
 #include <limits>
 
 namespace s21 {
@@ -116,8 +117,9 @@ class list {
   Node *end_;
 
   void Connect(Node *first, Node *second);
+  // void InsertNode(iterator pos, Node *node);
   Node *Middle(Node *head);
-  Node *MergeSorted(Node *a, Node *b);
+  Node *Merge(Node *a, Node *b);
   Node *MergeSort(Node *head);
 };
 
