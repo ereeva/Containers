@@ -14,17 +14,17 @@ list<T>::list(size_type n) : list() {
 
 template <class T>
 list<T>::list(std::initializer_list<T> const &items) : list() {
-  for (auto &i : items) push_back(i);
+  for (auto &item : items) push_back(item);
 }
 
 template <class T>
 list<T>::list(const list &l) : list() {
-  for (auto i = l.begin(); i != l.end(); ++i) push_back(i.ptr_->value_);
+  for (auto node : l) push_back(node);
 }
 
 template <class T>
 list<T>::list(list &&l) : list() {
-  swap(l);
+  splice(begin(), l);
 }
 
 template <class T>
@@ -54,12 +54,12 @@ typename list<T>::list &list<T>::operator=(list &&l) {
 
 template <class T>
 typename list<T>::const_reference list<T>::front() const {
-  return head_->value_;
+  return *head_->value_;
 }
 
 template <class T>
 typename list<T>::const_reference list<T>::back() const {
-  return tail_->value_;
+  return *tail_->value_;
 }
 
 template <class T>
@@ -148,6 +148,7 @@ template <class T>
 void list<T>::merge(list &other) {
   other.tail_->next_ = end_;
   head_ = Merge(head_, other.head_);
+  size_ += other.size_;
 }
 
 template <class T>
@@ -170,13 +171,14 @@ void list<T>::reverse() {
   iterator h = begin();
   iterator t = iterator(tail_);
   for (size_type i = 0; i < size() / 2; ++i) std::swap(*h++, *t--);
+  std::swap(head_, tail_);
 }
 
 template <class T>
 void list<T>::unique() {
   if (!empty())
     for (auto i = begin(); i != end(); ++i)
-      if (i.ptr_->value_ == i.ptr_->prior_->value_) erase(i--);
+      if (*i.ptr_->value_ == *i.ptr_->prior_->value_) erase(i--);
 }
 
 template <class T>
@@ -218,7 +220,7 @@ typename list<T>::Node *list<T>::Merge(Node *a, Node *b) {
     head = b;
   else if (b == end_)
     head = a;
-  else if (a->value_ < b->value_) {
+  else if (*a->value_ < *b->value_) {
     a->next_ = Merge(a->next_, b);
     a->next_->prior_ = a;
     a->prior_ = end_;
@@ -231,6 +233,7 @@ typename list<T>::Node *list<T>::Merge(Node *a, Node *b) {
   }
   return head;
 }
+
 template <class T>
 void list<T>::Connect(Node *first, Node *second) {
   first->next_ = second;

@@ -16,13 +16,12 @@ class list {
 
  private:
   struct Node {
-    T value_;
+    T *value_;
     Node *next_;
     Node *prior_;
 
-    Node(value_type value = value_type(), Node *next = nullptr,
-         Node *prior = nullptr)
-        : value_(value), next_(next), prior_(prior) {}
+    Node() : value_(nullptr), next_(nullptr), prior_(nullptr){};
+    Node(T value) : value_(&value), next_(nullptr), prior_(nullptr){};
   };
 
  public:
@@ -31,12 +30,11 @@ class list {
     friend class list<T>;
 
    public:
-    ListIterator() : ptr_(nullptr){};
     ListIterator(Node *ptr) : ptr_(ptr){};
 
-    reference operator*() { return ptr_->value_; }
+    T &operator*() { return *ptr_->value_; }
 
-    reference operator->() { return &ptr_->value_; }
+    T *operator->() { return ptr_->value_; }
 
     ListIterator &operator++() {
       ptr_ = ptr_->next_;
@@ -47,13 +45,13 @@ class list {
       return *this;
     }
     ListIterator operator++(int) {
-      ListIterator tmp = *this;
-      ptr_ = ptr_->next_;
+      iterator tmp(*this);
+      ++(*this);
       return tmp;
     }
     ListIterator operator--(int) {
-      ListIterator tmp = *this;
-      ptr_ = ptr_->prior_;
+      iterator tmp(*this);
+      --(*this);
       return tmp;
     }
     bool operator==(ListIterator other) { return ptr_ == other.ptr_; }
@@ -101,7 +99,7 @@ class list {
   void pop_front();
   void swap(list &other);
   void merge(list &other);
-  void splice(const iterator pos, list &other);
+  void splice(const iterator pos, list &other);  //////////////
   void reverse();
   void unique();
   void sort();
