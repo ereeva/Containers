@@ -208,43 +208,33 @@ template <class T>
 typename list<T>::Node *list<T>::MergeSort(Node *head) {
   if (head != end_ && head->next_ != end_) {
     Node *mid = Middle(head);
-    // std::cout << head->value_ << "  ";  ////
     Node *second = mid->next_;
     mid->next_ = end_;
-    // std::cout << second->value_ << std::endl;  ////
     Node *a = MergeSort(head);
     Node *b = MergeSort(second);
     head = Merge(a, b);
   }
-
   return head;
 }
 
 template <class T>
 typename list<T>::Node *list<T>::Merge(Node *a, Node *b) {
-  Node *first, *second, *head;
-  head = (a->value_ < b->value_) ? a : b;
-  first = (a->value_ >= b->value_) ? a : b;
-  second = head;
-
-  Node *curr = first;
-
-  std::cout << first->value_ << "  " << second->value_ << std::endl;  ////
-  while (second != end_) {
-    if (second->value_ < curr->value_ || curr == end_) {
-      Node *tmp = second->next_;
-      second->next_ = curr;
-      second = tmp;
-    } else
-      curr = curr->next_;
+  Node *head;
+  if (a == end_)
+    head = b;
+  else if (b == end_)
+    head = a;
+  else if (a->value_ < b->value_) {
+    a->next_ = Merge(a->next_, b);
+    a->next_->prior_ = a;
+    a->prior_ = end_;
+    head = a;
+  } else {
+    b->next_ = Merge(a, b->next_);
+    b->next_->prior_ = b;
+    b->prior_ = end_;
+    head = b;
   }
-  first = head;
-  for (first = head; first->next_ != end_; first = first->next_) {
-    Connect(first, first->next_);
-  }
-  std::cout << head->value_ << "->" << head->next_->value_ << "->"
-            << head->next_->next_->value_ << std::endl;
-
   return head;
 }
 template <class T>
