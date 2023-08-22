@@ -146,14 +146,8 @@ void list<T>::swap(list &other) {
 
 template <class T>
 void list<T>::merge(list &other) {
-  // if (this != &other)
-  //   for (auto i = begin(); !other.empty(); ++i)
-  //     if (empty())
-  //       swap(other);
-  //     else if (other.front() < i.ptr_->value_ || i == end()) {
-  //       i = insert(i, other.front());
-  //       other.pop_front();
-  //     }
+  other.tail_->next_ = end_;
+  head_ = Merge(head_, other.head_);
 }
 
 template <class T>
