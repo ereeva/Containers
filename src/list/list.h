@@ -117,7 +117,6 @@ class list {
   Node *end_;
 
   void Connect(Node *first, Node *second);
-  // void InsertNode(iterator pos, Node *node);
   Node *Middle(Node *head);
   Node *Merge(Node *a, Node *b);
   Node *MergeSort(Node *head);

@@ -188,7 +188,9 @@ void list<T>::unique() {
 template <class T>
 void list<T>::sort() {
   head_ = MergeSort(head_);
-  tail_ = end().ptr_->prior_;
+  tail_ = head_;
+  for (; tail_->next_ != end_; tail_ = tail_->next_)
+    ;
 }
 
 template <class T>
@@ -204,42 +206,47 @@ typename list<T>::Node *list<T>::Middle(Node *head) {
 
 template <class T>
 typename list<T>::Node *list<T>::MergeSort(Node *head) {
-  if (size() > 1) {
+  if (head != end_ && head->next_ != end_) {
     Node *mid = Middle(head);
+    // std::cout << head->value_ << "  ";  ////
     Node *second = mid->next_;
     mid->next_ = end_;
+    // std::cout << second->value_ << std::endl;  ////
     Node *a = MergeSort(head);
     Node *b = MergeSort(second);
     head = Merge(a, b);
   }
+
   return head;
 }
 
 template <class T>
 typename list<T>::Node *list<T>::Merge(Node *a, Node *b) {
-  Node *res;
-  if (a->value_ <= b->value_) {
-    res = a;
-    Connect(res->next_, Merge(a->next_, b));
-  } else {
-    res = b;
-    Connect(res->next_, Merge(a, b->next_));
+  Node *first, *second, *head;
+  head = (a->value_ < b->value_) ? a : b;
+  first = (a->value_ >= b->value_) ? a : b;
+  second = head;
+
+  Node *curr = first;
+
+  std::cout << first->value_ << "  " << second->value_ << std::endl;  ////
+  while (second != end_) {
+    if (second->value_ < curr->value_ || curr == end_) {
+      Node *tmp = second->next_;
+      second->next_ = curr;
+      second = tmp;
+    } else
+      curr = curr->next_;
   }
-  return res;
+  first = head;
+  for (first = head; first->next_ != end_; first = first->next_) {
+    Connect(first, first->next_);
+  }
+  std::cout << head->value_ << "->" << head->next_->value_ << "->"
+            << head->next_->next_->value_ << std::endl;
 
-  // Node *first = a, *second = b;
-  // if (a->value_ > b->value_) std::swap(first, second);
-  // Node *curr = first;
-  // while (second != end_)
-  //   if (second->value_ < curr->value_ || curr == end_) {
-  //     Connect(curr->prior_, second);
-  //     Connect(second, curr);
-  //     second = second->next_;
-  //   } else if (curr != end_)
-  //     curr = curr->next_;
-  // return first;
+  return head;
 }
-
 template <class T>
 void list<T>::Connect(Node *first, Node *second) {
   first->next_ = second;
