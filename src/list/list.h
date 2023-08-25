@@ -16,12 +16,12 @@ class list {
 
  private:
   struct Node {
-    T *value_;
+    T value_;
     Node *next_;
     Node *prior_;
 
-    Node() : value_(nullptr), next_(nullptr), prior_(nullptr){};
-    Node(T value) : value_(&value), next_(nullptr), prior_(nullptr){};
+    // Node() : value_(nullptr), next_(nullptr), prior_(nullptr){};
+    Node(T value = T()) : value_(value), next_(nullptr), prior_(nullptr){};
   };
 
  public:
@@ -32,9 +32,9 @@ class list {
    public:
     ListIterator(Node *ptr) : ptr_(ptr){};
 
-    T &operator*() { return *ptr_->value_; }
+    T &operator*() { return ptr_->value_; }
 
-    T *operator->() { return ptr_->value_; }
+    T *operator->() { return &ptr_->value_; }
 
     ListIterator &operator++() {
       ptr_ = ptr_->next_;
@@ -110,8 +110,6 @@ class list {
 
  private:
   size_type size_;
-  Node *head_;
-  Node *tail_;
   Node *end_;
 
   void Connect(Node *first, Node *second);
