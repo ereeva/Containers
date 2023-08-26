@@ -2,7 +2,7 @@ namespace s21 {
 
 template <class T>
 list<T>::list() : size_(0), end_(new Node()) {
-  Connect(end_, end_);
+  end_->Connect(end_);
 }
 
 template <class T>
@@ -17,7 +17,7 @@ list<T>::list(std::initializer_list<T> const &items) : list() {
 
 template <class T>
 list<T>::list(const list &l) : list() {
-  for (auto node : l) push_back(node);
+  for (auto node : l) push_back(node.ptr_->value_);
 }
 
 template <class T>
@@ -90,16 +90,15 @@ template <class T>
 typename list<T>::iterator list<T>::insert(iterator pos,
                                            const_reference value) {
   Node *n = new Node(value);
-  Connect(pos.ptr_->prior_, n);
-  Connect(n, pos.ptr_);
+  pos.ptr_->prior_->Connect(n);
+  n->Connect(pos.ptr_);
   ++size_;
   return iterator(n);
 }
 
 template <class T>
 void list<T>::erase(iterator pos) {
-  if (pos == end()) std::cout << "AAA" << std::endl;
-  Connect(pos.ptr_->prior_, pos.ptr_->next_);
+  pos.ptr_->prior_->Connect(pos.ptr_->next_);
   delete pos.ptr_;
   --size_;
 }
@@ -135,17 +134,17 @@ void list<T>::merge(list &other) {
   other.end_->prior_->next_ = end_;
   Merge(end_->next_, other.end_->next_);
   size_ += other.size_;
-  Connect(other.end_, other.end_);
+  other.end_->Connect(other.end_);
   other.size_ = 0;
 }
 
 template <class T>
 void list<T>::splice(const iterator pos, list &other) {
   if (!other.empty()) {
-    Connect(pos.ptr_->prior_, other.end_->next_);
-    Connect(other.end_->prior_, pos.ptr_);
+    pos.ptr_->prior_->Connect(other.end_->next_);
+    other.end_->prior_->Connect(pos.ptr_);
     size_ += other.size_;
-    Connect(other.end_, other.end_);
+    other.end_->Connect(other.end_);
     other.size_ = 0;
   }
 }
@@ -189,7 +188,6 @@ typename list<T>::Node *list<T>::MergeSort(Node *head) {
     Node *a = MergeSort(head);
     Node *b = MergeSort(second);
     head = Merge(a, b);
-    Connect(end_, head);
   }
   return head;
 }
@@ -203,23 +201,14 @@ typename list<T>::Node *list<T>::Merge(Node *a, Node *b) {
     head = a;
   else if (a->value_ < b->value_) {
     a->next_ = Merge(a->next_, b);
-    a->next_->prior_ = a;
-    a->prior_ = end_;
     head = a;
   } else {
     b->next_ = Merge(a, b->next_);
-    b->next_->prior_ = b;
-    b->prior_ = end_;
     head = b;
   }
-  Connect(end_, head);
+  end_->Connect(head);
+  for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;
   return head;
-}
-
-template <class T>
-void list<T>::Connect(Node *first, Node *second) {
-  first->next_ = second;
-  second->prior_ = first;
 }
 
 }  // namespace s21

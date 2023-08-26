@@ -2,7 +2,6 @@
 #define CPP2_S21_LIST_LIST_H_
 
 #include <initializer_list>
-#include <iostream>
 #include <limits>
 
 namespace s21 {
@@ -22,6 +21,11 @@ class list {
 
     // Node() : value_(nullptr), next_(nullptr), prior_(nullptr){};
     Node(T value = T()) : value_(value), next_(nullptr), prior_(nullptr){};
+
+    void Connect(Node *other) {
+      next_ = other;
+      other->prior_ = this;
+    }
   };
 
  public:
@@ -112,7 +116,6 @@ class list {
   size_type size_;
   Node *end_;
 
-  void Connect(Node *first, Node *second);
   Node *Middle(Node *head);
   Node *Merge(Node *a, Node *b);
   Node *MergeSort(Node *head);
