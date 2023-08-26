@@ -36,6 +36,11 @@ class stack {
   void pop() { list_.pop_back(); }
   void swap(stack &other) { list_.swap(other.list_); }
 
+  // template <class... Args>
+  // void insert_many_front(Args &&...args) {
+  //   insert_many_front(args...);
+  // }
+
  private:
   list<T> list_;
 };

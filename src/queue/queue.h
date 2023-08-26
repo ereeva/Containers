@@ -37,6 +37,8 @@ class queue {
   void pop() { list_.pop_front(); }
   void swap(queue &other) { list_.swap(other.list_); }
 
+  // void insert_many_back(Args &&...args) { list_.insert_many_back(args...); }
+
  private:
   list<T> list_;
 };

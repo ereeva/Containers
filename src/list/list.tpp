@@ -211,4 +211,23 @@ typename list<T>::Node *list<T>::Merge(Node *a, Node *b) {
   return head;
 }
 
+template <class T>
+// template <class... Args>
+typename list<T>::iterator insert_many(const_iterator pos, Args &&...args) {
+  for (auto &arg : {args...}) insert(pos, arg);
+  return pos;
+}
+
+template <class T>
+// template <class... Args>
+void insert_many_back(Args &&...args) {
+  for (auto &arg : {args...}) push_back(arg);
+}
+
+template <class T>
+// template <class... Args>
+void insert_many_front(Args &&...args) {
+  for (auto &arg : {args...}) push_front(arg);
+}
+
 }  // namespace s21
