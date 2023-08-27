@@ -67,62 +67,180 @@ class list {
   template <class value_type>
   class ListConstIterator : public ListIterator<T> {
    public:
-    ListConstIterator();
-    ListConstIterator(const ListIterator<T> &node_);
-    const_reference operator*() const;
+    ListConstIterator() : ListIterator<T>() {}
+    ListConstIterator(const ListIterator<T> &node_) : ListIterator<T>(node_) {}
+    const_reference operator*() const { return ListIterator<T>::operator*(); }
   };
 
   using iterator = ListIterator<T>;
   using const_iterator = ListConstIterator<T>;
 
-  list();
-  list(size_type n);
-  list(std::initializer_list<value_type> const &items);
-  list(const list &l);
-  list(list &&l);
-  ~list();
-  list &operator=(const list &l);
-  list &operator=(list &&l);
+  list() : size_(0), end_(new Node()) { end_->Connect(end_); }
 
-  const_reference front() const;
-  const_reference back() const;
+  list(size_type n) : list() {
+    for (size_type i = 0; i < n; ++i) push_back(value_type());
+  }
 
-  iterator begin() const;
-  iterator end() const;
+  list(std::initializer_list<T> const &items) : list() {
+    for (auto &item : items) push_back(item);
+  }
 
-  bool empty() const;
-  size_type size() const;
-  size_type max_size() const;
+  list(const list &l) : list() {
+    for (auto node : l) push_back(node.ptr_->value_);
+  }
 
-  void clear();
-  iterator insert(iterator pos, const_reference value);
-  void erase(iterator pos);
-  void push_back(const_reference value);
-  void pop_back();
-  void push_front(const_reference value);
-  void pop_front();
-  void swap(list &other);
-  void merge(list &other);
-  void splice(const iterator pos, list &other);  //////////////
-  void reverse();
-  void unique();
-  void sort();
+  list(list &&l) : list() { splice(begin(), l); }
 
-  // iterator insert_many(const_iterator pos, Args &&...args);
-  // void insert_many_back(Args &&...args);
-  // void insert_many_front(Args &&...args);
+  ~list() { clear(); }
+
+  list operator=(const list &l) {
+    list<T> tmp = l;
+    *this = std::move(tmp);
+  }
+
+  list operator=(list &&l) {
+    if (this != &l) {
+      size_ = l.size_;
+      end_ = l.end_;
+      l.size_ = 0;
+      l.end_ = nullptr;
+    }
+  }
+
+  const_reference front() const { return end_->next_->value_; }
+  const_reference back() const { return end_->prior_->value_; }
+
+  iterator begin() const { return iterator(end_->next_); }
+  iterator end() const { return iterator(end_); }
+
+  bool empty() const { return size_ == 0; }
+  size_type size() const { return size_; }
+  size_type max_size() const {
+    return (std::numeric_limits<size_type>::max() / 2 / sizeof(Node));
+  }
+
+  void clear() {
+    while (!empty()) pop_back();
+  }
+
+  iterator insert(iterator pos, const_reference value) {
+    Node *n = new Node(value);
+    pos.ptr_->prior_->Connect(n);
+    n->Connect(pos.ptr_);
+    ++size_;
+    return iterator(n);
+  }
+
+  void erase(iterator pos) {
+    pos.ptr_->prior_->Connect(pos.ptr_->next_);
+    delete pos.ptr_;
+    --size_;
+  }
+
+  void push_back(const_reference value) { insert(end(), value); }
+  void pop_back() { erase(iterator(end_->prior_)); }
+  void push_front(const_reference value) { insert(begin(), value); }
+  void pop_front() { erase(begin()); }
+
+  void swap(list &other) {
+    std::swap(end_, other.end_);
+    std::swap(size_, other.size_);
+  }
+
+  void merge(list &other) {
+    other.end_->prior_->next_ = end_;
+    Merge(end_->next_, other.end_->next_);
+    size_ += other.size_;
+    other.end_->Connect(other.end_);
+    other.size_ = 0;
+  }
+
+  void splice(const const_iterator pos, list &other) {
+    if (!other.empty()) {
+      pos.ptr_->prior_->Connect(other.end_->next_);
+      other.end_->prior_->Connect(pos.ptr_);
+      size_ += other.size_;
+      other.end_->Connect(other.end_);
+      other.size_ = 0;
+    }
+  }
+
+  void reverse() {
+    iterator h = begin();
+    iterator t = iterator(end_->prior_);
+    for (size_type i = 0; i < size() / 2; ++i) std::swap(*h++, *t--);
+  }
+
+  void unique() {
+    if (!empty())
+      for (auto i = begin(); i != end(); ++i)
+        if (i.ptr_->value_ == i.ptr_->prior_->value_) erase(i--);
+  }
+
+  void sort() { MergeSort(end_->next_); }
+
+  template <class... Args>
+  iterator insert_many(const_iterator pos, Args &&...args) {
+    for (auto &arg : {std::forward<T>(args)...}) insert(pos, arg);
+  }
+
+  template <class... Args>
+  void insert_many_back(Args &&...args) {
+    insert_many(end(), args...);
+  }
+
+  template <class... Args>
+  void insert_many_front(Args &&...args) {
+    insert_many(begin(), args...);
+  }
 
  private:
   size_type size_;
   Node *end_;
 
-  Node *Middle(Node *head);
-  Node *Merge(Node *a, Node *b);
-  Node *MergeSort(Node *head);
+  Node *Middle(Node *head) {
+    Node *slow = head;
+    Node *fast = head->next_;
+    while (fast != end_ && fast->next_ != end_) {
+      slow = slow->next_;
+      fast = fast->next_->next_;
+    }
+    return slow;
+  }
+
+  Node *Merge(Node *a, Node *b) {
+    Node *head;
+    if (a == end_)
+      head = b;
+    else if (b == end_)
+      head = a;
+    else if (a->value_ < b->value_) {
+      a->next_ = Merge(a->next_, b);
+      // a->next_->prior_ = a;
+      head = a;
+    } else {
+      b->next_ = Merge(a, b->next_);
+      // b->next_->prior_ = b;
+      head = b;
+    }
+    end_->Connect(head);
+    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;
+    return head;
+  }
+
+  Node *MergeSort(Node *head) {
+    if (head != end_ && head->next_ != end_) {
+      Node *mid = Middle(head);
+      Node *second = mid->next_;
+      mid->next_ = end_;
+      Node *a = MergeSort(head);
+      Node *b = MergeSort(second);
+      head = Merge(a, b);
+    }
+    return head;
+  }
 };
 
 }  // namespace s21
-
-#include "list.tpp"
 
 #endif  // CPP2_S21_LIST_LIST_H_
