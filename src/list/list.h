@@ -182,7 +182,7 @@ class list {
   iterator insert_many(const_iterator pos, Args &&...args) {
     iterator res = pos;
     --res;
-    for (auto &arg : {std::forward<T>(args)...}) insert(pos, arg);
+    for (auto &&arg : {std::forward<Args>(args)...}) insert(pos, arg);
     return ++res;
   }
 
