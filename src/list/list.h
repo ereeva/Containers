@@ -19,7 +19,6 @@ class list {
     Node *next_;
     Node *prior_;
 
-    // Node() : value_(nullptr), next_(nullptr), prior_(nullptr){};
     Node(T value = T()) : value_(value), next_(nullptr), prior_(nullptr){};
 
     void Connect(Node *other) {
@@ -181,7 +180,10 @@ class list {
 
   template <class... Args>
   iterator insert_many(const_iterator pos, Args &&...args) {
+    iterator res = pos;
+    --res;
     for (auto &arg : {std::forward<T>(args)...}) insert(pos, arg);
+    return ++res;
   }
 
   template <class... Args>
@@ -224,7 +226,7 @@ class list {
       head = b;
     }
     end_->Connect(head);
-    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;
+    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;  ///////
     return head;
   }
 
