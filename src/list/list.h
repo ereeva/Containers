@@ -15,11 +15,12 @@ class list {
 
  private:
   struct Node {
-    T value_;
+    T *value_;
     Node *next_;
     Node *prior_;
 
-    Node(T value = T()) : value_(value), next_(nullptr), prior_(nullptr){};
+    Node() : value_(nullptr), next_(nullptr), prior_(nullptr){};
+    Node(T value) : value_(new T(value)), next_(nullptr), prior_(nullptr){};
 
     void Connect(Node *other) {
       next_ = other;
@@ -35,9 +36,9 @@ class list {
    public:
     ListIterator(Node *ptr) : ptr_(ptr){};
 
-    T &operator*() { return ptr_->value_; }
+    T &operator*() { return *ptr_->value_; }
 
-    T *operator->() { return &ptr_->value_; }
+    T *operator->() { return ptr_->value_; }
 
     ListIterator &operator++() {
       ptr_ = ptr_->next_;
@@ -85,7 +86,7 @@ class list {
   }
 
   list(const list &l) : list() {
-    for (auto node : l) push_back(node.ptr_->value_);
+    for (auto node : l) push_back(node);
   }
 
   list(list &&l) : list() { splice(begin(), l); }
@@ -106,8 +107,8 @@ class list {
     }
   }
 
-  const_reference front() const { return end_->next_->value_; }
-  const_reference back() const { return end_->prior_->value_; }
+  const_reference front() const { return *end_->next_->value_; }
+  const_reference back() const { return *end_->prior_->value_; }
 
   iterator begin() const { return iterator(end_->next_); }
   iterator end() const { return iterator(end_); }
@@ -173,7 +174,7 @@ class list {
   void unique() {
     if (!empty())
       for (auto i = begin(); i != end(); ++i)
-        if (i.ptr_->value_ == i.ptr_->prior_->value_) erase(i--);
+        if (*i.ptr_->value_ == *i.ptr_->prior_->value_) erase(i--);
   }
 
   void sort() { MergeSort(end_->next_); }
@@ -216,7 +217,7 @@ class list {
       head = b;
     else if (b == end_)
       head = a;
-    else if (a->value_ < b->value_) {
+    else if (*a->value_ < *b->value_) {
       a->next_ = Merge(a->next_, b);
       // a->next_->prior_ = a;
       head = a;
