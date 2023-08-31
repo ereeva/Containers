@@ -19,8 +19,8 @@ class list {
     Node *next_;
     Node *prior_;
 
-    Node() : value_(nullptr), next_(nullptr), prior_(nullptr){};
-    Node(T value) : value_(new T(value)), next_(nullptr), prior_(nullptr){};
+    Node() : value_(nullptr), next_(nullptr), prior_(nullptr) {}
+    Node(T value) : value_(new T(value)), next_(nullptr), prior_(nullptr) {}
 
     void Connect(Node *other) {
       next_ = other;
@@ -89,7 +89,7 @@ class list {
     for (auto node : l) push_back(node);
   }
 
-  list(list &&l) : list() { splice(begin(), l); }
+  list(list &&l) : list() { swap(l); }
 
   ~list() { clear(); }
 
