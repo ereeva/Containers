@@ -1,8 +1,10 @@
 #ifndef CPP2_S21_LIST_LIST_H_
 #define CPP2_S21_LIST_LIST_H_
 
+#include <cstddef>
 #include <initializer_list>
 #include <limits>
+#include <utility>
 
 namespace s21 {
 template <class T>
@@ -93,18 +95,20 @@ class list {
 
   ~list() { clear(); }
 
-  list operator=(const list &l) {
+  list &operator=(const list &l) {
     list<T> tmp = l;
     *this = std::move(tmp);
+    return *this;
   }
 
-  list operator=(list &&l) {
+  list &operator=(list &&l) {
     if (this != &l) {
       size_ = l.size_;
       end_ = l.end_;
       l.size_ = 0;
       l.end_ = nullptr;
     }
+    return *this;
   }
 
   const_reference front() const { return *end_->next_->value_; }
@@ -172,9 +176,8 @@ class list {
   }
 
   void unique() {
-    if (!empty())
-      for (auto i = begin(); i != end(); ++i)
-        if (*i.ptr_->value_ == *i.ptr_->prior_->value_) erase(i--);
+    for (auto i = ++begin(); i != end(); ++i)
+      if (*i.ptr_->value_ == *i.ptr_->prior_->value_) erase(i--);
   }
 
   void sort() { MergeSort(end_->next_); }
@@ -219,11 +222,9 @@ class list {
       head = a;
     else if (*a->value_ < *b->value_) {
       a->next_ = Merge(a->next_, b);
-      // a->next_->prior_ = a;
       head = a;
     } else {
       b->next_ = Merge(a, b->next_);
-      // b->next_->prior_ = b;
       head = b;
     }
     end_->Connect(head);
