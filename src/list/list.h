@@ -23,6 +23,7 @@ class list {
 
     Node() : value_(nullptr), next_(nullptr), prior_(nullptr) {}
     Node(T value) : value_(new T(value)), next_(nullptr), prior_(nullptr) {}
+    ~Node(){delete value_;}
 
     void Connect(Node *other) {
       next_ = other;
