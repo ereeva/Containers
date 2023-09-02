@@ -126,12 +126,12 @@ TEST(List, Pop_Front) {
 }
 
 TEST(List, Pop_Back) {
-	s21::list<int> s21_list = {1, 2, 3, 4, 5};
-	std::list<int> std_list = {1, 2, 3, 4, 5};
+  s21::list<int> s21_list = {1, 2, 3, 4, 5};
+  std::list<int> std_list = {1, 2, 3, 4, 5};
   s21_list.pop_back();
   std_list.pop_back();
-	EXPECT_EQ(s21_list.size(), std_list.size());
-	EXPECT_EQ(s21_list.front(), std_list.front());
+  EXPECT_EQ(s21_list.size(), std_list.size());
+  EXPECT_EQ(s21_list.front(), std_list.front());
   EXPECT_EQ(s21_list.back(), std_list.back());
 }
 
@@ -184,15 +184,15 @@ TEST(List, Insert) {
   std::list<int>::iterator std_it = std_list.begin();
   s21_list.insert(s21_it, 5);
   std_list.insert(std_it, 5);
-	EXPECT_EQ(s21_list.size(), std_list.size());
-	EXPECT_EQ(s21_list.front(), std_list.front());
+  EXPECT_EQ(s21_list.size(), std_list.size());
+  EXPECT_EQ(s21_list.front(), std_list.front());
   EXPECT_EQ(s21_list.back(), std_list.back());
   s21_list.insert(s21_it, 7);
   std_list.insert(std_it, 7);
   s21_list.insert(s21_it, 9);
   std_list.insert(std_it, 9);
-	EXPECT_EQ(s21_list.size(), std_list.size());
-	EXPECT_EQ(s21_list.front(), std_list.front());
+  EXPECT_EQ(s21_list.size(), std_list.size());
+  EXPECT_EQ(s21_list.front(), std_list.front());
   EXPECT_EQ(s21_list.back(), std_list.back());
 }
 
@@ -201,15 +201,15 @@ TEST(List, Erase) {
   std::list<int> std_list = {1, 2, 3, 4, 5};
   s21_list.erase(s21_list.begin());
   std_list.erase(std_list.begin());
-	EXPECT_EQ(s21_list.size(), std_list.size());
-	EXPECT_EQ(s21_list.front(), std_list.front());
+  EXPECT_EQ(s21_list.size(), std_list.size());
+  EXPECT_EQ(s21_list.front(), std_list.front());
   EXPECT_EQ(s21_list.back(), std_list.back());
   s21::list<int>::iterator s21_it = s21_list.begin();
   ++s21_it;
   std::list<int>::iterator std_it = std_list.begin();
   ++std_it;
-	EXPECT_EQ(s21_list.size(), std_list.size());
-	EXPECT_EQ(s21_list.front(), std_list.front());
+  EXPECT_EQ(s21_list.size(), std_list.size());
+  EXPECT_EQ(s21_list.front(), std_list.front());
   EXPECT_EQ(s21_list.back(), std_list.back());
 }
 
@@ -222,8 +222,8 @@ TEST(List, Splice) {
   std::list<int>::iterator std_it = std_list_first.begin();
   s21_list_first.splice(s21_it, s21_list_second);
   std_list_first.splice(std_it, std_list_second);
-	EXPECT_EQ(s21_list_first.size(), std_list_first.size());
-	EXPECT_EQ(s21_list_first.front(), std_list_first.front());
+  EXPECT_EQ(s21_list_first.size(), std_list_first.size());
+  EXPECT_EQ(s21_list_first.front(), std_list_first.front());
   EXPECT_EQ(s21_list_first.back(), std_list_first.back());
 }
 
@@ -234,8 +234,8 @@ TEST(List, Merge) {
   std::list<int> std_list_second = {2, 3, 4, 5};
   s21_list_first.merge(s21_list_second);
   std_list_first.merge(std_list_second);
-	EXPECT_EQ(s21_list_first.size(), std_list_first.size());
-	EXPECT_EQ(s21_list_first.front(), std_list_first.front());
+  EXPECT_EQ(s21_list_first.size(), std_list_first.size());
+  EXPECT_EQ(s21_list_first.front(), std_list_first.front());
   EXPECT_EQ(s21_list_first.back(), std_list_first.back());
   EXPECT_EQ(s21_list_second.empty(), std_list_second.empty());
 }
@@ -245,8 +245,8 @@ TEST(List, Reverse) {
   std::list<int> std_list = {1, 2, 3, 4, 5};
   s21_list.reverse();
   std_list.reverse();
-	EXPECT_EQ(s21_list.size(), std_list.size());
-	EXPECT_EQ(s21_list.front(), std_list.front());
+  EXPECT_EQ(s21_list.size(), std_list.size());
+  EXPECT_EQ(s21_list.front(), std_list.front());
   EXPECT_EQ(s21_list.back(), std_list.back());
 }
 
@@ -257,8 +257,7 @@ TEST(List, Unique) {
   std_list.unique();
   s21::list<int>::iterator s21_it = s21_list.begin();
   std::list<int>::iterator std_it = std_list.begin();
-	while(s21_it != s21_list.end())
-  EXPECT_EQ(*s21_it++, *std_it++);
+  while (s21_it != s21_list.end()) EXPECT_EQ(*s21_it++, *std_it++);
 }
 
 TEST(List, Sort) {
@@ -268,8 +267,7 @@ TEST(List, Sort) {
   std_list.sort();
   s21::list<int>::iterator s21_it = s21_list.begin();
   std::list<int>::iterator std_it = std_list.begin();
-	while(s21_it != s21_list.end())
-  EXPECT_EQ(*s21_it++, *std_it++);
+  while (s21_it != s21_list.end()) EXPECT_EQ(*s21_it++, *std_it++);
 }
 
 TEST(List, Insert_Many) {

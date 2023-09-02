@@ -23,7 +23,7 @@ class list {
 
     Node() : value_(nullptr), next_(nullptr), prior_(nullptr) {}
     Node(T value) : value_(new T(value)), next_(nullptr), prior_(nullptr) {}
-    ~Node(){delete value_;}
+    ~Node() { delete value_; }
 
     void Connect(Node *other) {
       next_ = other;
@@ -229,7 +229,7 @@ class list {
       head = b;
     }
     end_->Connect(head);
-    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;  ///////
+    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;
     return head;
   }
 
