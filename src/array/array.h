@@ -5,7 +5,7 @@ namespace s21 {
 
 template <class T, std::size_t N>
 struct array {
-  T data[N];
+  T arr[N];
 
   using value_type = T;
   using reference = T &;
@@ -16,33 +16,33 @@ struct array {
 
   reference at(size_type pos) {
     if (pos >= N) throw std::out_of_range("out of range");
-    return data[pos];
+    return arr[pos];
   }
-  reference operator[](size_type pos) { return data[pos]; }
-  const_reference operator[](size_type pos) const { return data[pos]; }
+  reference operator[](size_type pos) { return arr[pos]; }
+  const_reference operator[](size_type pos) const { return arr[pos]; }
 
-  reference front() { return data[0]; }
-  const_reference front() const { return data[0]; }
+  reference front() { return arr[0]; }
+  const_reference front() const { return arr[0]; }
 
-  reference back() { return data[N - 1]; }
-  const_reference back() const { return data[N - 1]; }
+  reference back() { return arr[N - 1]; }
+  const_reference back() const { return arr[N - 1]; }
 
-  iterator data() noexcept { return data; }
-  const_iterator data() const noexcept { return data; }
+  iterator data() noexcept { return arr; }
+  const_iterator data() const noexcept { return arr; }
 
-  iterator begin() noexcept { return data; }
-  const_iterator begin() const noexcept { return data; }
+  iterator begin() noexcept { return arr; }
+  const_iterator begin() const noexcept { return arr; }
 
-  iterator end() { return data + N; }
-  const_iterator end() { return data + N; }
+  iterator end() { return arr + N; }
+  const_iterator end() const { return arr + N; }
 
   bool empty() const noexcept { return N == 0; }
   size_type size() const noexcept { return N; }
-  size_type max_size() const noexcept { ; }
+  size_type max_size() const noexcept { return 0; }
 
-  void swap(array &other) noexcept { std::swap(data, other.data); }
-  void fill(const_reference value) { std::fill(data, data + N - 1, value); }
-}
+  void swap(array &other) noexcept { std::swap(arr, other.arr); }
+  void fill(const_reference value) { std::fill(arr, arr + N - 1, value); }
+};
 
 }  // namespace s21
 
