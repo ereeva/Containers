@@ -111,16 +111,21 @@ class list {
     }
     return *this;
   }
-
+  reference front() { return *end_->next_->value_; }
   const_reference front() const { return *end_->next_->value_; }
+
+  reference back() { return *end_->prior_->value_; }
   const_reference back() const { return *end_->prior_->value_; }
 
-  iterator begin() const { return iterator(end_->next_); }
-  iterator end() const { return iterator(end_); }
+  iterator begin() noexcept { return iterator(end_->next_); }
+  const_iterator begin() const noexcept { return iterator(end_->next_); }
 
-  bool empty() const { return size_ == 0; }
-  size_type size() const { return size_; }
-  size_type max_size() const {
+  iterator end() noexcept { return iterator(end_); }
+  const_iterator end() const noexcept { return iterator(end_); }
+  
+  bool empty() const noexcept { return size_ == 0; }
+  size_type size() const noexcept { return size_; }
+  size_type max_size() const noexcept {
     return (std::numeric_limits<size_type>::max() / 2 / sizeof(Node));
   }
 
@@ -147,7 +152,7 @@ class list {
   void push_front(const_reference value) { insert(begin(), value); }
   void pop_front() { erase(begin()); }
 
-  void swap(list &other) {
+  void swap(list &other) noexcept {
     std::swap(end_, other.end_);
     std::swap(size_, other.size_);
   }
@@ -171,7 +176,7 @@ class list {
     }
   }
 
-  void reverse() {
+  void reverse() noexcept {
     iterator h = begin();
     iterator t = iterator(end_->prior_);
     for (size_type i = 0; i < size() / 2; ++i) std::swap(*h++, *t--);
