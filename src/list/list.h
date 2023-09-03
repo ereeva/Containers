@@ -17,12 +17,12 @@ class list {
 
  private:
   struct Node {
-    T *value_;
-    Node *next_;
-    Node *prior_;
+    T *value_ = nullptr;
+    Node *next_ = nullptr;
+    Node *prior_ = nullptr;
 
-    Node() : value_(nullptr), next_(nullptr), prior_(nullptr) {}
-    Node(T value) : value_(new T(value)), next_(nullptr), prior_(nullptr) {}
+    Node() = default;
+    Node(T value) : value_(new T(value)) {}
     ~Node() { delete value_; }
 
     void Connect(Node *other) {
