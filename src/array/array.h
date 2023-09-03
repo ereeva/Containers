@@ -38,7 +38,7 @@ struct array {
 
   bool empty() const noexcept { return N == 0; }
   size_type size() const noexcept { return N; }
-  size_type max_size() const noexcept { return 0; }
+  size_type max_size() const noexcept { return N; }
 
   void swap(array &other) noexcept { std::swap(arr, other.arr); }
   void fill(const_reference value) { std::fill(arr, arr + N - 1, value); }
