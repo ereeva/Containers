@@ -154,7 +154,8 @@ class list {
 
   void merge(list &other) {
     other.end_->prior_->next_ = end_;
-    Merge(end_->next_, other.end_->next_);
+    Node *head = Merge(end_->next_, other.end_->next_);
+    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;
     size_ += other.size_;
     other.end_->Connect(other.end_);
     other.size_ = 0;
@@ -181,7 +182,10 @@ class list {
       if (*i.ptr_->value_ == *i.ptr_->prior_->value_) erase(i--);
   }
 
-  void sort() { MergeSort(end_->next_); }
+  void sort() {
+    Node *head = MergeSort(end_->next_);
+    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;
+  }
 
   template <class... Args>
   iterator insert_many(const_iterator pos, Args &&...args) {
@@ -229,7 +233,6 @@ class list {
       head = b;
     }
     end_->Connect(head);
-    for (auto i = head; i != end_; i = i->next_) i->next_->prior_ = i;
     return head;
   }
 
