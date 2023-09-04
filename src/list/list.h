@@ -40,7 +40,6 @@ class list {
     ListIterator(Node *ptr) : ptr_(ptr){};
 
     T &operator*() { return *ptr_->value_; }
-
     T *operator->() { return ptr_->value_; }
 
     ListIterator &operator++() {
@@ -70,9 +69,10 @@ class list {
   template <class value_type>
   class ListConstIterator : public ListIterator<T> {
    public:
-    ListConstIterator() : ListIterator<T>() {}
-    ListConstIterator(const ListIterator<T> &node_) : ListIterator<T>(node_) {}
-    const_reference operator*() const { return ListIterator<T>::operator*(); }
+    ListConstIterator(const ListIterator<T> &other) : ListIterator<T>(other) {}
+
+    const T &operator*() { return ListIterator<T>::operator*(); }
+    const T *operator->() { return ListIterator<T>::operator->(); }
   };
 
   using iterator = ListIterator<T>;
@@ -94,7 +94,10 @@ class list {
 
   list(list &&l) : list() { swap(l); }
 
-  ~list() { clear(); }
+  ~list() {
+    clear();
+    delete end_;
+  }
 
   list &operator=(const list &l) {
     list<T> tmp = l;
@@ -118,11 +121,11 @@ class list {
   const_reference back() const { return *end_->prior_->value_; }
 
   iterator begin() noexcept { return iterator(end_->next_); }
-  const_iterator begin() const noexcept { return iterator(end_->next_); }
+  const_iterator begin() const noexcept { return const_iterator(end_->next_); }
 
   iterator end() noexcept { return iterator(end_); }
-  const_iterator end() const noexcept { return iterator(end_); }
-  
+  const_iterator end() const noexcept { return const_iterator(end_); }
+
   bool empty() const noexcept { return size_ == 0; }
   size_type size() const noexcept { return size_; }
   size_type max_size() const noexcept {
@@ -254,6 +257,6 @@ class list {
   }
 };
 
-}  // namespace s21
+};  // namespace s21
 
 #endif  // CPP2_S21_LIST_LIST_H_
