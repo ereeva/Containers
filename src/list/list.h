@@ -80,19 +80,19 @@ class list {
 
   list() : size_(0), end_(new Node()) { end_->Connect(end_); }
 
-  list(size_type n) : list() {
+  list(size_type n) {
     for (size_type i = 0; i < n; ++i) push_back(value_type());
   }
 
-  list(std::initializer_list<T> const &items) : list() {
+  list(std::initializer_list<T> const &items) {
     for (auto &item : items) push_back(item);
   }
 
-  list(const list &l) : list() {
+  list(const list &l) {
     for (auto node : l) push_back(node);
   }
 
-  list(list &&l) : list() { swap(l); }
+  list(list &&l) { swap(l); }
 
   ~list() {
     clear();
