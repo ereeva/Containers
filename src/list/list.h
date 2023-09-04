@@ -79,19 +79,15 @@ class list {
   using const_iterator = ListConstIterator<T>;
 
   list() : size_(0), end_(new Node()) { end_->Connect(end_); }
-
   list(size_type n) {
     for (size_type i = 0; i < n; ++i) push_back(value_type());
   }
-
   list(std::initializer_list<T> const &items) {
     for (auto &item : items) push_back(item);
   }
-
   list(const list &l) {
     for (auto node : l) push_back(node);
   }
-
   list(list &&l) { swap(l); }
 
   ~list() {
@@ -104,16 +100,12 @@ class list {
     *this = std::move(tmp);
     return *this;
   }
-
   list &operator=(list &&l) {
-    if (this != &l) {
-      size_ = l.size_;
-      end_ = l.end_;
-      l.size_ = 0;
-      l.end_ = nullptr;
-    }
+    if (this != &l)
+      swap(l);
     return *this;
   }
+
   reference front() { return *end_->next_->value_; }
   const_reference front() const { return *end_->next_->value_; }
 
