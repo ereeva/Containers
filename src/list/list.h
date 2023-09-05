@@ -88,7 +88,7 @@ class list {
   list(const list &l) {
     for (auto node : l) push_back(node);
   }
-  list(list &&l) { swap(l); }
+  list(list &&l) noexcept { swap(l); }
 
   ~list() {
     clear();
@@ -100,7 +100,7 @@ class list {
     *this = std::move(tmp);
     return *this;
   }
-  list &operator=(list &&l) {
+  list &operator=(list &&l) noexcept {
     if (this != &l)
       swap(l);
     return *this;
