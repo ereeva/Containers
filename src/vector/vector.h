@@ -2,6 +2,7 @@
 #define CPP2_S21_VECTOR_VECTOR_H_
 
 #include <cstddef>
+#include <cstring>
 #include <limits>
 #include <memory>
 #include <new>
@@ -91,11 +92,11 @@ class vector {
       RawMemory<T> data2(n);
       std::uninitialized_move_n(data_.buf_, size_, data2.buf_);
       std::destroy_n(data_.buf_, size_);
-      data_.swap(data2);
+      data_.Swap(data2);
     }
   }
   size_type capacity() { return data_.cp_; }
-  void shrink_to_fit(){
+  void shrink_to_fit() {
     RawMemory<T> data2(size_);
     std::uninitialized_move_n(data_.buf_, size_, data2.buf_);
     std::destroy_n(data_.buf_, size_);
@@ -111,10 +112,13 @@ class vector {
     std::destroy_n(begin(), end());
     size_ = 0;
   }
-  iterator insert(iterator pos, const_reference value) {  /////
+  iterator insert(iterator pos, const_reference value) {
     if (size_ == data_.cp_) reserve(size_ == 0 ? 1 : size_ * 2);
     new (data_ + size_) T;
     ++size_;
+    std::memmove(pos + 1, pos, end() - pos);
+    *pos = T(value);
+    return pos;
   }
   void erase(iterator pos) {
     std::destroy_at(pos);
@@ -125,11 +129,6 @@ class vector {
     new (data_ + size_) T(elem);
     ++size_;
   }
-  // void push_back(T &&elem) {
-  //   if (size_ == data_.cp_) reserve(size_ == 0 ? 1 : size_ * 2);
-  //   new (data_ + size_) T(std::move(elem));
-  //   ++size_;
-  // }
   void pop_back() {
     std::destroy_at(data_ + size_ - 1);
     --size_;
