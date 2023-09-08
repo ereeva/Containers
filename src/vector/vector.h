@@ -1,6 +1,7 @@
 #ifndef CPP2_S21_VECTOR_VECTOR_H_
 #define CPP2_S21_VECTOR_VECTOR_H_
 
+#include <algorithm>
 #include <cstddef>
 #include <cstring>
 #include <limits>
@@ -113,11 +114,13 @@ class vector {
     size_ = 0;
   }
   iterator insert(iterator pos, const_reference value) {
+    size_t tmp = pos - begin();
     if (size_ == data_.cp_) reserve(size_ == 0 ? 1 : size_ * 2);
     new (data_ + size_) T;
-    ++size_;
-    std::memmove(pos + 1, pos, end() - pos);
+    pos = begin() + tmp;
+    for (iterator i = end(); i != pos; --i) *i = *(i - 1);  ////
     *pos = T(value);
+    ++size_;
     return pos;
   }
   void erase(iterator pos) {
@@ -141,6 +144,17 @@ class vector {
     else if (size_ > n)
       std::destroy_n(data_ + n, size_ - n);
     size_ = n;
+  }
+
+  template <typename... Args>
+  iterator insert_many(const_iterator pos, Args &&...args) {
+    for (auto &&arg : {std::forward<Args>(args)...}) insert(pos, arg);
+    return pos;
+  }
+
+  template <typename... Args>
+  void insert_many_back(Args &&...args) {
+    for (auto &&arg : {std::forward<Args>(args)...}) push_back(arg);
   }
 
  private:
