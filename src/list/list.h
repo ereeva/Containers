@@ -58,8 +58,8 @@ class list {
       --(*this);
       return tmp;
     }
-    bool operator==(ListIterator other) { return ptr_ == other.ptr_; }
-    bool operator!=(ListIterator other) { return ptr_ != other.ptr_; }
+    bool operator==(ListIterator other) const { return ptr_ == other.ptr_; }
+    bool operator!=(ListIterator other) const { return ptr_ != other.ptr_; }
 
    protected:
     Node *ptr_;
