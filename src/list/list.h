@@ -17,13 +17,11 @@ class list {
 
  private:
   struct Node {
-    T *value_ = nullptr;
-    Node *next_ = nullptr;
-    Node *prior_ = nullptr;
+    T value_;
+    Node *next_;
+    Node *prior_;
 
-    Node() = default;
-    Node(T value) : value_(new T(value)) {}
-    ~Node() { delete value_; }
+    Node(T value = T()) : value_(value), next_(nullptr), prior_(nullptr) {}
 
     void Connect(Node *other) {
       next_ = other;
@@ -39,8 +37,8 @@ class list {
    public:
     ListIterator(Node *ptr) : ptr_(ptr){};
 
-    T &operator*() { return *ptr_->value_; }
-    T *operator->() { return ptr_->value_; }
+    T &operator*() const { return ptr_->value_; }
+    T *operator->() const { return &ptr_->value_; }
 
     ListIterator &operator++() {
       ptr_ = ptr_->next_;
@@ -71,24 +69,24 @@ class list {
    public:
     ListConstIterator(const ListIterator<T> &other) : ListIterator<T>(other) {}
 
-    const T &operator*() { return ListIterator<T>::operator*(); }
-    const T *operator->() { return ListIterator<T>::operator->(); }
+    const T &operator*() const { return ListIterator<T>::operator*(); }
+    const T *operator->() const { return ListIterator<T>::operator->(); }
   };
 
   using iterator = ListIterator<T>;
   using const_iterator = ListConstIterator<T>;
 
   list() : size_(0), end_(new Node()) { end_->Connect(end_); }
-  list(size_type n) {
+  list(size_type n) : list() {
     for (size_type i = 0; i < n; ++i) push_back(value_type());
   }
-  list(std::initializer_list<T> const &items) {
+  list(std::initializer_list<T> const &items) : list() {
     for (auto &item : items) push_back(item);
   }
-  list(const list &l) {
+  list(const list &l) : list() {
     for (auto node : l) push_back(node);
   }
-  list(list &&l) noexcept { swap(l); }
+  list(list &&l) noexcept : list() { swap(l); }
 
   ~list() {
     clear();
@@ -97,20 +95,19 @@ class list {
 
   list &operator=(const list &l) {
     list<T> tmp = l;
-    *this = std::move(tmp);
+    swap(tmp);
     return *this;
   }
   list &operator=(list &&l) noexcept {
-    if (this != &l)
-      swap(l);
+    swap(l);
     return *this;
   }
 
-  reference front() { return *end_->next_->value_; }
-  const_reference front() const { return *end_->next_->value_; }
+  reference front() { return end_->next_->value_; }
+  const_reference front() const { return end_->next_->value_; }
 
-  reference back() { return *end_->prior_->value_; }
-  const_reference back() const { return *end_->prior_->value_; }
+  reference back() { return end_->prior_->value_; }
+  const_reference back() const { return end_->prior_->value_; }
 
   iterator begin() noexcept { return iterator(end_->next_); }
   const_iterator begin() const noexcept { return const_iterator(end_->next_); }
@@ -179,7 +176,7 @@ class list {
 
   void unique() {
     for (auto i = ++begin(); i != end(); ++i)
-      if (*i.ptr_->value_ == *i.ptr_->prior_->value_) erase(i--);
+      if (i.ptr_->value_ == i.ptr_->prior_->value_) erase(i--);
   }
 
   void sort() {
@@ -225,7 +222,7 @@ class list {
       head = b;
     else if (b == end_)
       head = a;
-    else if (*a->value_ < *b->value_) {
+    else if (a->value_ < b->value_) {
       a->next_ = Merge(a->next_, b);
       head = a;
     } else {
