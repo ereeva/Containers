@@ -77,15 +77,18 @@ class vector {
   reference back() { return data_[size_ - 1]; }
   const_reference back() const { return data_[size_ - 1]; }
 
-  T *data() { return front(); }
-  const T *data() const { return front(); }
+  T *data() { return begin(); }
+  const T *data() const { return begin(); }
 
   iterator begin() { return &data_[0]; }
-  iterator end() { return &data_[size_]; }
+  const_iterator begin() const { return &data_[0]; }
 
-  bool empty() { return size_ == 0; }
-  size_type size() { return size_; }
-  size_type max_size() {
+  iterator end() { return &data_[size_]; }
+  const_iterator end() const { return &data_[size_]; }
+
+  bool empty() const { return size_ == 0; }
+  size_type size() const { return size_; }
+  size_type max_size() const {
     return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
   }
   void reserve(size_t n) {
@@ -96,12 +99,12 @@ class vector {
       data_.Swap(data2);
     }
   }
-  size_type capacity() { return data_.cp_; }
+  size_type capacity() const { return data_.cp_; }
   void shrink_to_fit() {
     RawMemory<T> data2(size_);
     std::uninitialized_move_n(data_.buf_, size_, data2.buf_);
     std::destroy_n(data_.buf_, size_);
-    data_.swap(data2);
+    data_.Swap(data2);
   }
 
   void swap(vector &other) noexcept {
@@ -110,7 +113,7 @@ class vector {
   }
 
   void clear() {
-    std::destroy_n(begin(), end());
+    std::destroy(begin(), end());
     size_ = 0;
   }
   iterator insert(iterator pos, const_reference value) {
