@@ -11,7 +11,7 @@ public:
   using const_reference = const value_type &;
   using iterator = BTreeIterator;
 
-  private:
+private:
 };
 
 #endif
