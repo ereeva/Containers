@@ -10,8 +10,7 @@ RBTree<key_type>::Node *RBTree<key_type>::Insert(key_type &x) {
 };
 
 template <class key_type>
-RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root,
-                                                 Node *pt) const {
+RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root, Node *pt) const {
   if (root == nullptr)
     return pt;
   if (pt->data < root->data) {
@@ -77,8 +76,7 @@ void RBTree<key_type>::Balance(Node *&root, Node *&pt) {
         parent_pt->color = BLACK;
         uncle_pt->color = BLACK;
         pt = grand_parent_pt;
-      }
-      else {
+      } else {
         // Case : 2
         if (pt == parent_pt->right) {
           RotateLeft(root, parent_pt);
@@ -118,45 +116,98 @@ void RBTree<key_type>::Balance(Node *&root, Node *&pt) {
 }
 
 template <class key_type>
-RBTree<key_type>::BTreeIterator::BTreeIterator (Node* node) : ptr(node){}
+RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node) : ptr(node) {}
 
 template <class key_type>
-RBTree<key_type>::Node* RBTree<key_type>::BTreeIterator::FindMin(Node* ptr){
-  Node* node = ptr;
+RBTree<key_type>::Node *RBTree<key_type>::BTreeIterator::FindMin(Node *ptr) {
+  Node *node = ptr;
   while (node->left_ != nullptr)
     node = node->left_;
   return node;
 }
 
 template <class key_type>
-RBTree<key_type>::Node* RBTree<key_type>::BTreeIterator::FindMax(Node* ptr){
-  Node* node = ptr;
+RBTree<key_type>::Node *RBTree<key_type>::BTreeIterator::FindMax(Node *ptr) {
+  Node *node = ptr;
   while (node->right_ != nullptr)
     node = node->right_;
   return node;
 }
 
 template <class key_type>
-RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin(){
-  return  iterator tmp(FindMin(root_));
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin() {
+  return iterator tmp(FindMin(root_));
 }
 
 template <class key_type>
-RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end(){
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end() {
   return iterator tmp(nullptr);
 }
 
-
 template <class key_type>
-RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::next(){
-  Node* node = ptr_;
-  if(node->right_ != nullptr)
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::next() {
+  Node *node = ptr_;
+  if (node->right_ != nullptr)
     node = FindMin(node->right_);
   else {
-    while (node->parent_ != nullptr && node == node->parent_->right)
+    while (node->parent_ != nullptr && node == node->parent_->right_)
       node = node->parent_;
     node = node->parent_;
   }
   return iterator tmp(node);
+};
+
+template <class key_type>
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::next() {
+  Node *node = ptr_;
+  if (node->left_ != nullptr)
+    node = FindMax(node->left_);
+  else {
+    while (node->parent_ != nullptr && node == node->parent_->left_)
+      node = node->parent_;
+    node = node->parent_;
+  }
+  return iterator tmp(node);
+};
+
+template <class key_type>
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::operator++() {
+  return next();
+};
+
+template <class key_type>
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::operator--() {
+  return prev();
+};
+
+template <class key_type>
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::operator++(int) {
+  iterator tmp = iterator(ptr);
+  next();
+  return tmp;
+};
+
+template <class key_type>
+RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::operator--(int) {
+  iterator tmp = iterator(ptr);
+  prev();
+  return tmp;
+};
+template <class key_type>
+RBTree<key_type>::bool RBTree<key_type>::BTreeIterator:: operator==(const iterator rhs) const{
+  return ptr == rhs.ptr; 
+};
+template <class key_type>
+RBTree<key_type>::bool RBTree<key_type>::BTreeIterator::operator<(const iterator rhs)const{
+  return ptr->data_ < rhs.ptr->data_; 
+};
+
+template <class key_type>
+RBTree<key_type>::reference RBTree<key_type>::BTreeIterator::operator*(){
+  return *ptr;
+};
+template <class key_type>
+RBTree<key_type>::const_reference RBTree<key_type>::BTreeIterator::operator*() const{
+  return *ptr;
 };
 }; // namespace s21

@@ -152,8 +152,8 @@ void RBTree::Balance(Node *&root, Node *&pt) {
   root->color = BLACK;
 }
 
-void RBTree::Insert(const int &data) {
-  Node *pt = new Node(data);
+void RBTree::Insert(const int &n) {
+  Node *pt = new Node(n);
   root = BSTInsert(root, pt);
   Balance(root, pt);
 }
