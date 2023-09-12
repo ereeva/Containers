@@ -4,12 +4,16 @@
 #include "tree/rb_tree.h"
 
 template <class T> class set : public RBTree {
-public:
-  using key_type = T;
-  using value_type = key_type;
-  using reference = value_type &;
-  using const_reference = const value_type &;
-  using iterator = BTreeIterator;
+public: 
+set();
+set(std::initializer_list<value_type> const &items);
+set(const set &s);
+set(set &&s);
+~set();
+operator=(set &&s);
+bool empty();
+size_type size();
+size_type max_size();
 
 private:
 };
