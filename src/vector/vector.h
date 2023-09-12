@@ -2,8 +2,6 @@
 #define CPP2_S21_VECTOR_VECTOR_H_
 
 #include <algorithm>
-#include <cstddef>
-#include <cstring>
 #include <limits>
 #include <memory>
 #include <new>
@@ -38,10 +36,6 @@ class vector {
   vector(vector &&other) noexcept { swap(other); }
   ~vector() { std::destroy_n(data_.buf_, size_); }
 
-  vector &operator=(vector &&other) noexcept {
-    swap(other);
-    return *this;
-  }
   vector &operator=(const vector &other) {
     if (other.size_ > data_.cp_) {
       vector tmp(other);
@@ -58,6 +52,10 @@ class vector {
     }
     return *this;
   }
+  vector &operator=(vector &&other) noexcept {
+    swap(other);
+    return *this;
+  }
 
   reference at(size_type pos) {
     if (pos >= size_) throw std::out_of_range("out of range");
@@ -67,13 +65,11 @@ class vector {
     if (pos >= size_) throw std::out_of_range("out of range");
     return data_[pos];
   }
-
   reference operator[](size_type pos) { return data_[pos]; }
   const_reference operator[](size_type pos) const { return data_[pos]; }
 
   reference front() { return data_[0]; }
   const_reference front() const { return data_[0]; }
-
   reference back() { return data_[size_ - 1]; }
   const_reference back() const { return data_[size_ - 1]; }
 
@@ -82,13 +78,12 @@ class vector {
 
   iterator begin() { return &data_[0]; }
   const_iterator begin() const { return &data_[0]; }
-
   iterator end() { return &data_[size_]; }
   const_iterator end() const { return &data_[size_]; }
 
-  bool empty() const { return size_ == 0; }
-  size_type size() const { return size_; }
-  size_type max_size() const {
+  bool empty() const noexcept { return size_ == 0; }
+  size_type size() const noexcept { return size_; }
+  size_type max_size() const noexcept {
     return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
   }
   void reserve(size_t n) {
@@ -99,7 +94,7 @@ class vector {
       data_.Swap(data2);
     }
   }
-  size_type capacity() const { return data_.cp_; }
+  size_type capacity() const noexcept { return data_.cp_; }
   void shrink_to_fit() {
     RawMemory<T> data2(size_);
     std::uninitialized_move_n(data_.buf_, size_, data2.buf_);
