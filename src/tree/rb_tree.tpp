@@ -14,11 +14,11 @@ RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root, Node *pt) const {
   if (root == nullptr)
     return pt;
   if (pt->data < root->data) {
-    root->left = BSTInsert(root->left, pt);
-    root->left->parent = root;
+    root->left_ = BSTInsert(root->left, pt);
+    root->left_->parent_ = root;
   } else if (pt->data > root->data) {
-    root->right = BSTInsert(root->right, pt);
-    root->right->parent = root;
+    root->right_ = BSTInsert(root->right_, pt);
+    root->right_->parent_ = root;
   }
   return root;
 }
@@ -28,48 +28,48 @@ RBTree<key_type>::Node *RBTree<key_type>::Remove(reference x){};
 
 template <class key_type>
 void RBTree<key_type>::RotateLeft(Node *&root, Node *&pt) {
-  Node *pt_right = pt->right;
-  pt->right = pt_right->left;
-  if (pt->right != nullptr)
-    pt->right->parent = pt;
-  pt_right->parent = pt->parent;
-  if (pt->parent == nullptr)
-    root = pt_right;
-  else if (pt == pt->parent->left)
-    pt->parent->left = pt_right;
+  Node *pt_right_ = pt->right_;
+  pt->right_ = pt_right_->left_;
+  if (pt->right_ != nullptr)
+    pt->right_->parent_ = pt;
+  pt_right_->parent_ = pt->parent_;
+  if (pt->parent_ == nullptr)
+    root = pt_right_;
+  else if (pt == pt->parent_->left_)
+    pt->parent_->left_ = pt_right_;
   else
-    pt->parent->right = pt_right;
-  pt_right->left = pt;
-  pt->parent = pt_right;
+    pt->parent_->right_ = pt_right_;
+  pt_right_->left_ = pt;
+  pt->parent_ = pt_right_;
 }
 
 template <class key_type>
 void RBTree<key_type>::RotateRight(Node *&root, Node *&pt) {
-  Node *pt_left = pt->left;
-  pt->left = pt_left->right;
-  if (pt->left != nullptr)
-    pt->left->parent = pt;
-  pt_left->parent = pt->parent;
-  if (pt->parent == nullptr)
-    root = pt_left;
-  else if (pt == pt->parent->left)
-    pt->parent->left = pt_left;
+  Node *pt_left_ = pt->left;
+  pt->left_ = pt_left->right_;
+  if (pt->left_ != nullptr)
+    pt->left_->parent_ = pt;
+  pt_left_->parent_ = pt->parent_;
+  if (pt->parent_ == nullptr)
+    root = pt_left_;
+  else if (pt == pt->parent_->left_)
+    pt->parent_->left_ = pt_left;
   else
-    pt->parent->right = pt_left;
-  pt_left->right = pt;
-  pt->parent = pt_left;
+    pt->parent_->right_ = pt_left_;
+  pt_left_->right_ = pt;
+  pt->parent_ = pt_left_;
 }
 
 template <class key_type>
 void RBTree<key_type>::Balance(Node *&root, Node *&pt) {
   Node *parent_pt = nullptr;
   Node *grand_parent_pt = nullptr;
-  while ((pt != root) && (pt->color != BLACK) && (pt->parent->color == RED)) {
-    parent_pt = pt->parent;
-    grand_parent_pt = pt->parent->parent;
+  while ((pt != root) && (pt->color != BLACK) && (pt->parent_->color == RED)) {
+    parent_pt = pt->parent_;
+    grand_parent_pt = pt->parent_->parent_;
     //  Case : A
-    if (parent_pt == grand_parent_pt->left) {
-      Node *uncle_pt = grand_parent_pt->right;
+    if (parent_pt == grand_parent_pt->left_) {
+      Node *uncle_pt = grand_parent_pt->right_;
       // Case : 1
       if (uncle_pt != nullptr && uncle_pt->color == RED) {
         grand_parent_pt->color = RED;
@@ -78,20 +78,20 @@ void RBTree<key_type>::Balance(Node *&root, Node *&pt) {
         pt = grand_parent_pt;
       } else {
         // Case : 2
-        if (pt == parent_pt->right) {
-          RotateLeft(root, parent_pt);
+        if (pt == parent_pt->right_) {
+          Rotateleft_(root, parent_pt);
           pt = parent_pt;
-          parent_pt = pt->parent;
+          parent_pt = pt->parent_;
         }
         // Case : 3
-        RotateRight(root, grand_parent_pt);
+        Rotateright_(root, grand_parent_pt);
         std::swap(parent_pt->color, grand_parent_pt->color);
         pt = parent_pt;
       }
     }
     // Case : B
     else {
-      Node *uncle_pt = grand_parent_pt->left;
+      Node *uncle_pt = grand_parent_pt->left_;
       // Case : 1
       if ((uncle_pt != nullptr) && (uncle_pt->color == RED)) {
         grand_parent_pt->color = RED;
@@ -100,13 +100,13 @@ void RBTree<key_type>::Balance(Node *&root, Node *&pt) {
         pt = grand_parent_pt;
       } else {
         // Case : 2
-        if (pt == parent_pt->left) {
-          RotateRight(root, parent_pt);
+        if (pt == parent_pt->left_) {
+          Rotateright_(root, parent_pt);
           pt = parent_pt;
-          parent_pt = pt->parent;
+          parent_pt = pt->parent_;
         }
         // Case : 3
-        RotateLeft(root, grand_parent_pt);
+        Rotateleft_(root, grand_parent_pt);
         std::swap(parent_pt->color, grand_parent_pt->color);
         pt = parent_pt;
       }

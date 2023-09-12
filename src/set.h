@@ -27,10 +27,10 @@ private:
 
 template <class T> class set::set(){};
 template <class T>
-class set::set(std::initializer_list<value_type> const &items);
-template <class T> class set::set(const set &s);
-template <class T> class set::set(set &&s);
-template <class T> class set::~set();
+class set::set(std::initializer_list<value_type> const &items){};
+template <class T> class set::set(const set &s){};
+template <class T> class set::set(set &&s){};
+template <class T> class set::~set(){};
 
 } // namespace s21
 
