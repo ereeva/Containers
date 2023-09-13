@@ -8,7 +8,9 @@ int main() {
   tree.Insert(a[1]);
   tree.Insert(a[0]);
   s21::RBTree<int>::iterator ptr = tree.begin();
-  std::cout << *ptr++;
-  std::cout << *ptr++;
+  std::cout << *ptr;
+  ++ptr;
+  std::cout << *ptr;
+  ++ptr;
   std::cout << *ptr;
 }
