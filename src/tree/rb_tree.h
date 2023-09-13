@@ -1,6 +1,6 @@
 #ifndef S21_CONTAINERS_TREE_RB_TREE_H
 #define S21_CONTAINERS_TREE_RB_TREE_H
-
+#include <utility>
 namespace s21 {
 enum Color { RED, BLACK };
 
@@ -16,6 +16,15 @@ public:
   using iterator = BTreeIterator;
 
   RBTree();
+  iterator begin(){
+    iterator iter(root_);
+    return iter.begin();
+  };
+
+  iterator end() {
+    iterator iter(root_);
+    return iter.end();
+  };
 
   Node *Insert(reference x);
   Node *Search(Node *root, Node *first) const;
@@ -29,7 +38,7 @@ private:
 
 template <class key_type> struct RBTree<key_type>::Node {
   key_type data_;
-  Color color;
+  bool color;
   Node *left_, *right_, *parent_;
     Node();
   Node(key_type data)
@@ -38,6 +47,7 @@ template <class key_type> struct RBTree<key_type>::Node {
 
 template <class key_type> 
 class RBTree<key_type>::BTreeIterator {
+public:
   BTreeIterator (Node* node);
   iterator begin();
   iterator end();
@@ -47,8 +57,8 @@ class RBTree<key_type>::BTreeIterator {
   iterator operator--();
   iterator operator++(int);
   iterator operator--(int);
-  bool operator==();
-  bool operator<();
+  bool operator==(const iterator rhs) const;
+  bool operator<(const iterator rhs)const;
   reference operator*();
   const_reference operator*() const;
 
