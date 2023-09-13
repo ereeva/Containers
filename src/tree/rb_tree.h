@@ -14,16 +14,14 @@ public:
   using reference = value_type&;
   using const_reference = const value_type&;
   using iterator = BTreeIterator;
-  using size_type = size_t;
 
   RBTree();
 
   Node *Insert(reference x);
   Node *Search(Node *root, Node *first) const;
   Node *Remove(reference x);
-protected:
-  void Balance(Node *&root, Node *&pt);
 private:
+  void Balance(Node *&root, Node *&pt);
   void RotateLeft(Node *&root, Node *&pt);
   void RotateRight(Node *&root, Node *&pt); 
   Node *root_;
@@ -31,6 +29,7 @@ private:
 
 template <class key_type> struct RBTree<key_type>::Node {
   key_type data_;
+  Color color;
   Node *left_, *right_, *parent_;
     Node();
   Node(key_type data)
