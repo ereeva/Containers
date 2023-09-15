@@ -1,9 +1,10 @@
 namespace s21 {
 
-template <class key_type> RBTree<key_type>::RBTree() : root_(){};
+template <class key_type> RBTree<key_type>::RBTree() : root_(new Node()), end_(root_) {};
 
 template <class key_type>
 typename RBTree<key_type>::Node *RBTree<key_type>::Insert(const_reference data_) {
+  if(root_ = end_) root_ = nullptr;
   Node *pt = new Node(data_);
   root_ = Search(root_, pt);
   Balance(root_, pt);
@@ -22,10 +23,11 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root_, Node *pt)
     root_->right_->parent_ = root_;
   }
   return root_;
-}
 
 template <class key_type>
-typename RBTree<key_type>::Node *RBTree<key_type>::Remove(reference x){};
+typename RBTree<key_type>::Node *RBTree<key_type>::Remove(iterator pos){
+  
+};
 
 template <class key_type>
 void RBTree<key_type>::RotateLeft(Node *&root_, Node *&pt) {
@@ -142,7 +144,7 @@ typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin() {
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end() {
-  return iterator(nullptr);
+  return iterator(end_);
 }
 
 template <class key_type>

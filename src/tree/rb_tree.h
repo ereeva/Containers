@@ -17,10 +17,14 @@ public:
   using iterator = BTreeIterator;
   using size_type = std::size_t;
 
-  RBTree();
+  RBTree() ;
   RBTree(RBTree &&other) {
     root_ = other.root_;
     other.root_ = nullptr;
+  }
+  ~RBTree () { 
+    for(auto iter : *this)
+      Remove()
   }
   iterator begin() const{
     iterator iter(root_);
@@ -34,19 +38,19 @@ public:
 
   Node *Insert(const_reference x);
   Node *Search(Node *root, Node *first) const;
-  Node *Remove(reference x);
+  Node *Remove(iterator pos);
 private:
   void Balance(Node *&root, Node *&pt);
   void RotateLeft(Node *&root, Node *&pt);
   void RotateRight(Node *&root, Node *&pt); 
-  Node *root_;
+  Node* root_, *end_;
 };
 
 template <class key_type> struct RBTree<key_type>::Node {
   key_type data_;
   bool color;
   Node *left_, *right_, *parent_;
-    Node();
+  Node() : data_(){};
   Node(key_type data)
       : data_(data), color(RED), parent_(), left_(), right_(){};
 };
