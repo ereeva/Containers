@@ -3,7 +3,7 @@ namespace s21 {
 template <class key_type> RBTree<key_type>::RBTree() : root_(){};
 
 template <class key_type>
-typename RBTree<key_type>::Node *RBTree<key_type>::Insert(key_type &data_) {
+typename RBTree<key_type>::Node *RBTree<key_type>::Insert(const_reference data_) {
   Node *pt = new Node(data_);
   root_ = Search(root_, pt);
   Balance(root_, pt);
@@ -142,7 +142,7 @@ typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin() {
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end() {
-  return iterator(FindMax(ptr));
+  return iterator(nullptr);
 }
 
 template <class key_type>
