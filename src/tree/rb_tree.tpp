@@ -4,7 +4,7 @@ template <class key_type> RBTree<key_type>::RBTree() : root_(new Node()), end_(r
 
 template <class key_type>
 typename RBTree<key_type>::Node *RBTree<key_type>::Insert(const_reference data_) {
-  if(root_ = end_) root_ = nullptr;
+  if(root_ == end_) root_ = nullptr;
   Node *pt = new Node(data_);
   root_ = Search(root_, pt);
   Balance(root_, pt);
@@ -23,11 +23,19 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root_, Node *pt)
     root_->right_->parent_ = root_;
   }
   return root_;
+}
 
 template <class key_type>
-typename RBTree<key_type>::Node *RBTree<key_type>::Remove(iterator pos){
+typename RBTree<key_type>::Node *RBTree<key_type>::Remove(){
   
 };
+
+template <class key_type>
+void RBTree<key_type>::clear(){
+  root_->Clear();
+  if(root_ != end_) delete root_; 
+  root_ = end_; 
+}
 
 template <class key_type>
 void RBTree<key_type>::RotateLeft(Node *&root_, Node *&pt) {
@@ -70,45 +78,37 @@ void RBTree<key_type>::Balance(Node *&root_, Node *&pt) {
   while ((pt != root_) && (pt->color != BLACK) && (pt->parent_->color == RED)) {
     parent_pt = pt->parent_;
     grand_parent_pt = pt->parent_->parent_;
-    //  Case : A
     if (parent_pt == grand_parent_pt->left_) {
       Node *uncle_pt = grand_parent_pt->right_;
-      // Case : 1
       if (uncle_pt != nullptr && uncle_pt->color == RED) {
         grand_parent_pt->color = RED;
         parent_pt->color = BLACK;
         uncle_pt->color = BLACK;
         pt = grand_parent_pt;
       } else {
-        // Case : 2
         if (pt == parent_pt->right_) {
           RotateLeft(root_, parent_pt);
           pt = parent_pt;
           parent_pt = pt->parent_;
         }
-        // Case : 3
         RotateRight(root_, grand_parent_pt);
         std::swap(parent_pt->color, grand_parent_pt->color);
         pt = parent_pt;
       }
     }
-    // Case : B
     else {
       Node *uncle_pt = grand_parent_pt->left_;
-      // Case : 1
       if ((uncle_pt != nullptr) && (uncle_pt->color == RED)) {
         grand_parent_pt->color = RED;
         parent_pt->color = BLACK;
         uncle_pt->color = BLACK;
         pt = grand_parent_pt;
       } else {
-        // Case : 2
         if (pt == parent_pt->left_) {
           RotateRight(root_, parent_pt);
           pt = parent_pt;
           parent_pt = pt->parent_;
         }
-        // Case : 3
         RotateLeft(root_, grand_parent_pt);
         std::swap(parent_pt->color, grand_parent_pt->color);
         pt = parent_pt;
@@ -210,6 +210,6 @@ typename RBTree<key_type>::reference RBTree<key_type>::BTreeIterator::operator*(
 template <class key_type>
 typename RBTree<key_type>::const_reference
 RBTree<key_type>::BTreeIterator::operator*() const {
-  return *ptr;
+  return ptr->data_;
 };
 }; // namespace s21

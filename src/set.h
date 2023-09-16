@@ -18,7 +18,7 @@ public:
   set(std::initializer_list<T> const &items);
   set(const set &s);
   set(set &&s);
-  // ~set();
+  ~set();
   // operator=(set &&s);
   // bool empty();
   // size_type size();
@@ -45,7 +45,7 @@ template <class value_type> set<value_type>::set(const set<value_type> &s){
     this->Insert(it);
 };
 template <class value_type> set<value_type>::set(set &&s){};
-// template <class T> class set::~set(){};
+template <class value_type> set<value_type>::~set(){};
 
 } // namespace s21
 

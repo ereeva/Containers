@@ -12,38 +12,40 @@ public:
 
   using key_type = T;
   using value_type = key_type;
-  using reference = value_type&;
-  using const_reference = const value_type&;
+  using reference = value_type &;
+  using const_reference = const value_type &;
   using iterator = BTreeIterator;
   using size_type = std::size_t;
 
-  RBTree() ;
+  RBTree();
   RBTree(RBTree &&other) {
     root_ = other.root_;
     other.root_ = nullptr;
   }
-  ~RBTree () { 
-    for(auto iter : *this)
-      Remove()
-  }
-  iterator begin() const{
+  ~RBTree() { clear(); 
+    
+  };
+
+  iterator begin() const {
     iterator iter(root_);
     return iter.begin();
   };
 
-  iterator end() const{
+  iterator end() const {
     iterator iter(root_);
     return iter.end();
   };
 
   Node *Insert(const_reference x);
   Node *Search(Node *root, Node *first) const;
-  Node *Remove(iterator pos);
+  Node *Remove();
+  void clear();
+
 private:
   void Balance(Node *&root, Node *&pt);
   void RotateLeft(Node *&root, Node *&pt);
-  void RotateRight(Node *&root, Node *&pt); 
-  Node* root_, *end_;
+  void RotateRight(Node *&root, Node *&pt);
+  Node *root_, *end_;
 };
 
 template <class key_type> struct RBTree<key_type>::Node {
@@ -51,14 +53,22 @@ template <class key_type> struct RBTree<key_type>::Node {
   bool color;
   Node *left_, *right_, *parent_;
   Node() : data_(){};
-  Node(key_type data)
-      : data_(data), color(RED), parent_(), left_(), right_(){};
+  Node(key_type data) : data_(data), color(RED), parent_(), left_(), right_(){};
+  void Clear() {
+    if (left_ != nullptr) {
+      left_->Clear();
+      delete left_;
+    }
+    if (right_ != nullptr) {
+      right_->Clear();
+      delete right_;
+    }
+  }
 };
 
-template <class key_type> 
-class RBTree<key_type>::BTreeIterator {
+template <class key_type> class RBTree<key_type>::BTreeIterator {
 public:
-  BTreeIterator (Node* node);
+  BTreeIterator(Node *node);
   iterator begin();
   iterator end();
   iterator next();
@@ -68,14 +78,14 @@ public:
   iterator operator++(int);
   iterator operator--(int);
   bool operator==(const iterator rhs) const;
-  bool operator<(const iterator rhs)const;
-  bool operator!=(const iterator rhs)const {return !operator==(rhs);}; 
+  bool operator<(const iterator rhs) const;
+  bool operator!=(const iterator rhs) const { return !operator==(rhs); };
   reference operator*();
   const_reference operator*() const;
 
 private:
-  Node* FindMax(Node* ptr);
-  Node* FindMin(Node* ptr);
+  Node *FindMax(Node *ptr);
+  Node *FindMin(Node *ptr);
   Node *ptr;
 };
 
