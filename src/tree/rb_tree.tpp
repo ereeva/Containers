@@ -26,13 +26,14 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root_, Node *pt)
 }
 template <class key_type>
 bool RBTree<key_type>::Node::contains(Node *node, const key_type key){
-  if(root_ == nullptr) return false;
+  if(node == nullptr) return false;
+  int a = node -> data_;
   bool cont = false;
-  if (root_ -> data_ == key ) return true;
-  else if(root_->data_ < key && root_->right_ != nullptr){
-    cont |= root_->left_->contains(root_->left_,key);
-  } else if (root_->data_ > key && root_->right_ != nullptr){
-    cont |= root_->right_->contains(root_->left_key);
+  cont |= (node->data_ == key);
+  if(node->data_ > key && node->right_ != nullptr){
+    cont |= node->left_->contains(node->left_,key);
+  } else if (node->data_ < key && node->right_ != nullptr){
+    cont |= node->right_->contains(node->right_, key);
   } 
   return cont;
 }

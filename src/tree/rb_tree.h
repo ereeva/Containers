@@ -38,7 +38,7 @@ public:
   Node *Search(Node *root, Node *first) const;
   Node *Remove();
   void clear();
-  bool contains(const key_type key);
+  bool contains(const key_type key){return root_->contains(root_, key);};
 
 private:
   void Balance(Node *&root, Node *&pt);

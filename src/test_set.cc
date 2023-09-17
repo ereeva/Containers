@@ -1,9 +1,41 @@
 #include "set.h"
-#include <iostream>
-#include <set>
+#include <gtest/gtest.h>
+
+TEST(SetTest, InitializerList) {
+    s21::set<int> mySet = {1, 0, 2, 4, 3, 10, 9, 6, 7};
+    EXPECT_EQ(mySet.contains(5), false);
+    EXPECT_EQ(mySet.contains(1), true);
+    EXPECT_EQ(mySet.contains(0), true);
+    EXPECT_EQ(mySet.contains(2), true);
+    EXPECT_EQ(mySet.contains(4), true);
+    EXPECT_EQ(mySet.contains(13), false);
+    EXPECT_EQ(mySet.contains(10), true);
+    EXPECT_EQ(mySet.contains(3), true);
+}
+TEST(SetTest, Insertion) {
+    s21::set<int> mySet; 
+    mySet.insert(0);
+    mySet.insert (2);
+    mySet.insert(9);
+    mySet.insert(7);
+    EXPECT_EQ(mySet.contains(9), true);
+    EXPECT_EQ(mySet.contains(7), true);
+    EXPECT_EQ(mySet.contains(0), true);
+    EXPECT_EQ(mySet.contains(2), true);
+ }
+/*
+TEST(SetTest, AssignmentOperator) {
+    s21::set<int> mySet;
+    mySet.Insert(5);
+    mySet.Insert(10);
+    s21::set<int> assignedSet;
+    assignedSet = mySet;
+    EXPECT_NE(assignedSet.contains(5), assignedSet.end());
+    EXPECT_NE(assignedSet.find(10), assignedSet.end());
+}
+*/
 
 int main() {
-  s21::set<int> sint = {1, 0, 2, 4, 3, 10, 9, 6, 7};
-  std::cout<<sint.contains(5);
-  return 0;
+  testing::InitGoogleTest();
+  return RUN_ALL_TESTS();
 }

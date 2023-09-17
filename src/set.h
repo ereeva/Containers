@@ -19,12 +19,13 @@ public:
   set(const set &s);
   set(set &&s);
   ~set();
+
   // operator=(set &&s);
   // bool empty();
   // size_type size();
   // size_type max_size();
   // void clear();
-  // std::pair<iterator, bool> insert(const value);
+  std::pair<typename set<value_type>::iterator, bool> insert(const value_type& value);
   // void erase(iterator pos);
   // void swap(set &other);
   // void merge(set &other);
@@ -45,6 +46,9 @@ template <class value_type> set<value_type>::set(const set<value_type> &s){
 };
 template <class value_type> set<value_type>::set(set<value_type> &&s){};
 template <class value_type> set<value_type>::~set(){};
+
+template <class value_type> 
+typename std::pair<typename s21::set<value_type>::iterator, bool> s21::set<value_type>::insert(const value_type& value){};
 } // namespace s21
 
 #endif
