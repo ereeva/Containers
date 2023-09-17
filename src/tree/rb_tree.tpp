@@ -30,7 +30,7 @@ bool RBTree<key_type>::Node::contains(Node *node, const key_type key){
   int a = node -> data_;
   bool cont = false;
   cont |= (node->data_ == key);
-  if(node->data_ > key && node->right_ != nullptr){
+  if(node->data_ > key && node->left_ != nullptr){
     cont |= node->left_->contains(node->left_,key);
   } else if (node->data_ < key && node->right_ != nullptr){
     cont |= node->right_->contains(node->right_, key);

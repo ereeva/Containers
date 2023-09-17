@@ -19,9 +19,9 @@ TEST(SetTest, Insertion) {
     mySet.insert(9);
     mySet.insert(7);
     EXPECT_EQ(mySet.contains(9), true);
-    EXPECT_EQ(mySet.contains(7), true);
     EXPECT_EQ(mySet.contains(0), true);
     EXPECT_EQ(mySet.contains(2), true);
+    EXPECT_EQ(mySet.contains(7), true);
  }
 /*
 TEST(SetTest, AssignmentOperator) {
@@ -38,4 +38,15 @@ TEST(SetTest, AssignmentOperator) {
 int main() {
   testing::InitGoogleTest();
   return RUN_ALL_TESTS();
+  // s21::set<int> a;
+  //   mySet.insert(0);
+  //   mySet.insert (2);
+  //   mySet.insert(9);
+  //   mySet.insert(7);
+  // std::cout<<a.contains(2);
+  // std::cout << a. contains(3);
+  // std::cout<<a.contains(0);
+  // std::cout<<a.contains(9);
+  // std::cout<<a.contains(7);
+  return 0;
 }
