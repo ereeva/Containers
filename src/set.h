@@ -29,7 +29,6 @@ public:
   // void swap(set &other);
   // void merge(set &other);
   // iterator find(const key_type &key);
-  bool contains(const key_type key);
 
 private:
 };
@@ -46,10 +45,6 @@ template <class value_type> set<value_type>::set(const set<value_type> &s){
 };
 template <class value_type> set<value_type>::set(set<value_type> &&s){};
 template <class value_type> set<value_type>::~set(){};
-template <class value_type> 
-bool set<value_type>::contains(const key_type key){
-  
-};
 } // namespace s21
 
 #endif

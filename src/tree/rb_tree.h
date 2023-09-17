@@ -22,8 +22,8 @@ public:
     root_ = other.root_;
     other.root_ = nullptr;
   };
-  ~RBTree() { 
-    clear(); 
+  ~RBTree() {
+    clear();
     delete end_;
   };
 
@@ -32,9 +32,7 @@ public:
     return iter.begin();
   };
 
-  iterator end() const {
-    return iterator(end_, end_);
-  };
+  iterator end() const { return iterator(end_, end_); };
 
   Node *Insert(const_reference x);
   Node *Search(Node *root, Node *first) const;
@@ -54,17 +52,25 @@ template <class key_type> struct RBTree<key_type>::Node {
   bool color;
   Node *left_, *right_, *parent_;
   Node() : data_(){};
-  Node(const_reference data) : data_(data), color(RED), parent_(), left_(), right_(){};
+  Node(const Node *other)
+      : data_(other->data_), color(other->color), parent_(other->parent_),
+        left_(other->left_), right_(other->right_){};
+  Node(const_reference data)
+      : data_(data), color(RED), parent_(nullptr), left_(nullptr),
+        right_(nullptr){};
   void Clear() {
     if (left_ != nullptr) {
       left_->Clear();
       delete left_;
+      left_ = nullptr;
     }
     if (right_ != nullptr) {
       right_->Clear();
       delete right_;
+      right_ = nullptr;
     }
   }
+  bool contains(Node *node, const key_type key);
 };
 
 template <class key_type> class RBTree<key_type>::BTreeIterator {
