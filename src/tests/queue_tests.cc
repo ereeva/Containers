@@ -44,7 +44,7 @@ TEST(QueueTest, CopyConstructor) {
   }
 }
 
-TEST(QueueTest, MoveConstructor1) {
+TEST(QueueTest, MoveConstructor) {
   s21::queue<int> q1{1, 2, 3, 4};
   s21::queue<int> q2(std::move(q1));
   std::queue<int> q3;
@@ -102,7 +102,7 @@ TEST(QueueTest, MoveAssignmentOperator) {
   }
 }
 
-TEST(QueueTest, SwapTest) {
+TEST(QueueTest, Swap) {
   s21::queue<int> q1{1, 2, 3};
   s21::queue<int> q2{4, 5, 6};
   s21::queue<int> q1_copy{q1};

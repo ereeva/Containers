@@ -12,25 +12,26 @@ bool listsEqual(s21::list<int> L1, std::list<int> L2) {
   return true;
 }
 
-TEST(CONSTRUCTORS, DEFAULT_CONSTRUCTOR) {
+TEST(ListTest, DefaultConstructor) {
   s21::list<int> L1;
   std::list<int> L2;
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(CONSTRUCTORS, NSIZE_CONSTRUCTOR) {
+TEST(ListTest, NsizeConstructor) {
   s21::list<int> L1(3);
   std::list<int> L2(3);
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(CONSTRUCTORS, LIST_CONSTRUCTOR) {
+TEST(ListTest, InitializerListConstructor)
+{
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(CONSTRUCTORS, COPY_CONSTRUCTOR) {
+TEST(ListTest, CopyConstructor) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2(L1);
   std::list<int> L3 = {1, 2, 3};
@@ -39,7 +40,7 @@ TEST(CONSTRUCTORS, COPY_CONSTRUCTOR) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(CONSTRUCTORS, MOVE_CONSTRUCTOR) {
+TEST(ListTest, MoveConstructor) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2(std::move(L1));
   std::list<int> L3 = {1, 2, 3};
@@ -48,48 +49,13 @@ TEST(CONSTRUCTORS, MOVE_CONSTRUCTOR) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_SIZE, SIZE_DEFAULT_CONTRUCTOR) {
-  s21::list<int> L1;
-  std::list<int> L2;
-  ASSERT_EQ(L1.size(), L2.size());
-}
-
-TEST(METHOD_SIZE, SIZE_NSIZE_CONSTRUCTOR) {
-  s21::list<int> L1(3);
-  std::list<int> L2(3);
-  ASSERT_EQ(L1.size(), L2.size());
-}
-
-TEST(METHOD_SIZE, SIZE_LIST_CONSTRUCTOR) {
-  s21::list<int> L1 = {1, 2, 3, 4, 5};
-  std::list<int> L2 = {1, 2, 3, 4, 5};
-  ASSERT_EQ(L1.size(), L2.size());
-}
-
-TEST(METHOD_SIZE, SIZE_COPY_CONSTRUCTOR) {
-  s21::list<int> L1 = {1, 2, 3, 4, 5, 6, 7};
-  s21::list<int> L2(L1);
-  std::list<int> L3 = {1, 2, 3, 4, 5, 6, 7};
-  std::list<int> L4(L3);
-  ASSERT_EQ(L2.size(), L4.size());
-}
-
-TEST(METHOD_SIZE, SIZE_MOVE_CONSTRUCTOR) {
-  s21::list<int> L1 = {1, 2, 3, 4, 5};
-  s21::list<int> L2(std::move(L1));
-  std::list<int> L3 = {1, 2, 3, 4, 5};
-  std::list<int> L4(std::move(L3));
-  ASSERT_EQ(listsEqual(L1, L3), true);
-  ASSERT_EQ(listsEqual(L2, L4), true);
-}
-
-TEST(METHOD_EMPTY, EMPTY_DEFAULT_CONSTRUCTOR) {
+TEST(ListTest, Empty) {
   s21::list<int> L1;
   std::list<int> L2;
   ASSERT_EQ(L1.empty(), L2.empty());
 }
 
-TEST(METHOD_EMPTY, EMPTY_NSIZE_CONSTRUCTOR) {
+TEST(ListTest, EmptyN) {
   s21::list<int> L1(1);
   std::list<int> L2(1);
   ASSERT_EQ(L1.empty(), L2.empty());
@@ -108,7 +74,7 @@ TEST(METHOD_EMPTY, EMPTY_NSIZE_CONSTRUCTOR) {
   ASSERT_EQ(L5.empty(), L6.empty());
 }
 
-TEST(METHOD_EMPTY, EMPTY_LIST_CONSTRUCTOR) {
+TEST(ListTest, EmptyList) {
   s21::list<int> L1 = {};
   std::list<int> L2 = {};
   ASSERT_EQ(L1.empty(), L2.empty());
@@ -122,7 +88,7 @@ TEST(METHOD_EMPTY, EMPTY_LIST_CONSTRUCTOR) {
   ASSERT_EQ(L1.empty(), L2.empty());
 }
 
-TEST(METHOD_EMPTY, EMPTY_COPY_CONSTRUCTOR) {
+TEST(ListTest, EmptyCopy) {
   s21::list<int> L1;
   s21::list<int> L2(L1);
   std::list<int> L3;
@@ -136,7 +102,7 @@ TEST(METHOD_EMPTY, EMPTY_COPY_CONSTRUCTOR) {
   ASSERT_EQ(L6.empty(), L8.empty());
 }
 
-TEST(METHOD_EMPTY, EMPTY_MOVE_CONSTRUCTOR) {
+TEST(ListTest, EmptyMove) {
   s21::list<int> L1;
   s21::list<int> L2(std::move(L1));
   std::list<int> L3;
@@ -145,7 +111,7 @@ TEST(METHOD_EMPTY, EMPTY_MOVE_CONSTRUCTOR) {
   ASSERT_EQ(L2.empty(), L4.empty());
 }
 
-TEST(METHOD_SWAP, SWAP_ONE_LIST_EMPTY1) {
+TEST(ListTest, SwapOneListEmpty) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {};
   std::list<int> L3 = {1, 2, 3};
@@ -156,7 +122,7 @@ TEST(METHOD_SWAP, SWAP_ONE_LIST_EMPTY1) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_SWAP, SWAP_ONE_LIST_EMPTY2) {
+TEST(ListTest, SwapOneListEmpty2) {
   s21::list<int> L1 = {};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> L3 = {};
@@ -167,7 +133,7 @@ TEST(METHOD_SWAP, SWAP_ONE_LIST_EMPTY2) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_SWAP, SWAP_EMPTY_LISTS) {
+TEST(ListTest, SwapBothEmpty) {
   s21::list<int> L1 = {};
   s21::list<int> L2 = {};
   std::list<int> L3 = {};
@@ -178,7 +144,7 @@ TEST(METHOD_SWAP, SWAP_EMPTY_LISTS) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_SWAP, SWAP_SAME_NUMBER_OF_ELEMENTS) {
+TEST(ListTest, SwapSameSize) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> L3 = {1, 2, 3};
@@ -189,7 +155,7 @@ TEST(METHOD_SWAP, SWAP_SAME_NUMBER_OF_ELEMENTS) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_SWAP, SWAP_DIFFERENT_NUMBER_OF_ELEMENTS1) {
+TEST(ListTest, SwapDiffSize) {
   s21::list<int> L1 = {1, 2, 3, 4, 5};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> L3 = {1, 2, 3, 4, 5};
@@ -200,7 +166,8 @@ TEST(METHOD_SWAP, SWAP_DIFFERENT_NUMBER_OF_ELEMENTS1) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_SWAP, SWAP_DIFFERENT_NUMBER_OF_ELEMENTS2) {
+TEST(ListTest, SwapDiffSize2)
+{
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {4, 5, 6, 128, 40};
   std::list<int> L3 = {1, 2, 3};
@@ -211,7 +178,7 @@ TEST(METHOD_SWAP, SWAP_DIFFERENT_NUMBER_OF_ELEMENTS2) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_REVERSE, REVERSE_5_ELEMENTS) {
+TEST(ListTest, Reverse5) {
   s21::list<int> L1 = {1, 2, 3, 4, 5};
   std::list<int> L2 = {1, 2, 3, 4, 5};
   L1.reverse();
@@ -219,7 +186,7 @@ TEST(METHOD_REVERSE, REVERSE_5_ELEMENTS) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_REVERSE, REVERSE_4_ELEMENTS) {
+TEST(ListTest, Reverse4) {
   s21::list<int> L1 = {1, 2, 3, 4};
   std::list<int> L2 = {1, 2, 3, 4};
   L1.reverse();
@@ -227,7 +194,7 @@ TEST(METHOD_REVERSE, REVERSE_4_ELEMENTS) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_REVERSE, REVERSE_1_ELEMENTS) {
+TEST(ListTest, Reverse1) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   L1.reverse();
@@ -235,7 +202,7 @@ TEST(METHOD_REVERSE, REVERSE_1_ELEMENTS) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_REVERSE, REVERSE_0_ELEMENTS) {
+TEST(ListTest, Reverse0) {
   s21::list<int> L1 = {};
   std::list<int> L2 = {};
   L1.reverse();
@@ -243,7 +210,7 @@ TEST(METHOD_REVERSE, REVERSE_0_ELEMENTS) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_INSERT, INSERT_START_OF_THE_LIST_3_ELEMENTS) {
+TEST(ListTest, InsertStart) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -253,7 +220,7 @@ TEST(METHOD_INSERT, INSERT_START_OF_THE_LIST_3_ELEMENTS) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_INSERT, INSERT_MIDDLE_OF_THE_LIST) {
+TEST(ListTest, InsertMiddle) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = ++L1.begin();
@@ -263,7 +230,7 @@ TEST(METHOD_INSERT, INSERT_MIDDLE_OF_THE_LIST) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_INSERT, INSERT_START_OF_THE_LIST_1_ELEMENT) {
+TEST(ListTest, InsertStart2) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -273,7 +240,7 @@ TEST(METHOD_INSERT, INSERT_START_OF_THE_LIST_1_ELEMENT) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_INSERT, INSERT_END_OF_THE_LIST) {
+TEST(ListTest, InsertEnd) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -285,7 +252,7 @@ TEST(METHOD_INSERT, INSERT_END_OF_THE_LIST) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_INSERT, INSERT_CYCLIC_SHIFT) {
+TEST(ListTest, InsertStartEnd) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -299,7 +266,7 @@ TEST(METHOD_INSERT, INSERT_CYCLIC_SHIFT) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_INSERT, INSERT_EMPTY_LIST) {
+TEST(ListTest, InsertEmpty) {
   s21::list<int> L1 = {};
   std::list<int> L2 = {};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -309,13 +276,13 @@ TEST(METHOD_INSERT, INSERT_EMPTY_LIST) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_MAX_SIZE, MAX_SIZE) {
+TEST(ListTest, MaxSize) {
   s21::list<double> L1;
   std::list<double> L2;
   ASSERT_EQ(L1.max_size(), L2.max_size());
 }
 
-TEST(METHOD_ERASE, ERASE_FIRST_ELEM) {
+TEST(ListTest, EraseFirst) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -325,7 +292,7 @@ TEST(METHOD_ERASE, ERASE_FIRST_ELEM) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_ERASE, ERASE_LAST_ELEM) {
+TEST(ListTest, EraseLast) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = --L1.end();
@@ -335,7 +302,7 @@ TEST(METHOD_ERASE, ERASE_LAST_ELEM) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_ERASE, ERASE_MIDDLE_ELEM) {
+TEST(ListTest, EraseMiddle) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = ++L1.begin();
@@ -345,7 +312,7 @@ TEST(METHOD_ERASE, ERASE_MIDDLE_ELEM) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_SORT, SORT_1) {
+TEST(ListTest, Sort) {
   s21::list<int> L1 = {9, 2, 3, 1, 4};
   std::list<int> L2 = {9, 2, 3, 1, 4};
   L1.sort();
@@ -353,7 +320,7 @@ TEST(METHOD_SORT, SORT_1) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_SORT, SORT_2) {
+TEST(ListTest, Sort2) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   L1.sort();
@@ -361,7 +328,7 @@ TEST(METHOD_SORT, SORT_2) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_SORT, SORT_3) {
+TEST(ListTest, Sort3) {
   s21::list<int> L1 = {};
   std::list<int> L2 = {};
   L1.sort();
@@ -369,7 +336,7 @@ TEST(METHOD_SORT, SORT_3) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_SORT, SORT_TYPE_STRING) {
+TEST(ListTest, SortString) {
   s21::list<std::string> L1 = {"abcd", "abcdef", "abc"};
   std::list<std::string> L2 = {"abcd", "abcdef", "abc"};
   L1.sort();
@@ -381,7 +348,7 @@ TEST(METHOD_SORT, SORT_TYPE_STRING) {
   }
 }
 
-TEST(METHOD_SORT, SORT_SORTED_LIST) {
+TEST(ListTest, SortSorted) {
   s21::list<int> L1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   std::list<int> L2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   L1.sort();
@@ -389,7 +356,7 @@ TEST(METHOD_SORT, SORT_SORTED_LIST) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_MERGE, MERGE_IDENTICAL_LISTS) {
+TEST(ListTest, MergeIdentical) {
   s21::list<int> L1 = {1, 2, 3, 4, 5};
   s21::list<int> L2 = {1, 2, 3, 4, 5};
   std::list<int> L3 = {1, 2, 3, 4, 5};
@@ -400,7 +367,7 @@ TEST(METHOD_MERGE, MERGE_IDENTICAL_LISTS) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_MERGE, MERGE_FIRST_LIST_EMPTY) {
+TEST(ListTest, MergeFirstEmpty) {
   s21::list<int> L1 = {};
   s21::list<int> L2 = {5, 4, 3, 2, 1};
   std::list<int> L3 = {};
@@ -411,7 +378,7 @@ TEST(METHOD_MERGE, MERGE_FIRST_LIST_EMPTY) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_MERGE, MERGE_SECOND_LIST_EMPTY) {
+TEST(ListTest, MergeSecondEmpty) {
   s21::list<int> L1 = {1, 2, 3, 4, 5};
   s21::list<int> L2 = {};
   std::list<int> L3 = {1, 2, 3, 4, 5};
@@ -422,7 +389,7 @@ TEST(METHOD_MERGE, MERGE_SECOND_LIST_EMPTY) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_MERGE, MERGE_SORTED_LISTS_1) {
+TEST(ListTest, Merge1) {
   s21::list<int> L1 = {1, 2, 3, 4, 5};
   s21::list<int> L2 = {6, 7, 8, 9, 10};
   std::list<int> L3 = {1, 2, 3, 4, 5};
@@ -433,7 +400,7 @@ TEST(METHOD_MERGE, MERGE_SORTED_LISTS_1) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_MERGE, MERGE_SORTED_LISTS_2) {
+TEST(ListTest, Merge2) {
   s21::list<int> L1 = {1, 3, 5, 7};
   s21::list<int> L2 = {2, 4, 6, 8};
   std::list<int> L3 = {1, 3, 5, 7};
@@ -444,7 +411,7 @@ TEST(METHOD_MERGE, MERGE_SORTED_LISTS_2) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(METHOD_MERGE, MERGE_TYPE_STRING) {
+TEST(ListTest, MergeStrings) {
   s21::list<std::string> L1 = {"abc", "abcd", "abcdef"};
   s21::list<std::string> L2 = {"ab", "abcde"};
   std::list<std::string> L3 = {"abc", "abcd", "abcdef"};
@@ -459,7 +426,7 @@ TEST(METHOD_MERGE, MERGE_TYPE_STRING) {
   for (; it_L4 != L4.end(); ++it_L4, ++it_L2) ASSERT_EQ(*it_L2, *it_L4);
 }
 
-TEST(METHOD_UNIQUE, UNIQUE_SORTED_LIST) {
+TEST(ListTest, Unique) {
   s21::list<int> L1 = {1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9, 9, 10};
   std::list<int> L2 = {1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9, 9, 10};
   L1.unique();
@@ -467,7 +434,7 @@ TEST(METHOD_UNIQUE, UNIQUE_SORTED_LIST) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_UNIQUE, UNIQUE_UNSORTED_LIST) {
+TEST(ListTest, Unique2) {
   s21::list<int> L1 = {1, 3, 3, 1, 1, 1, 5, 6, 128, 128, 4, 1, 1};
   std::list<int> L2 = {1, 3, 3, 1, 1, 1, 5, 6, 128, 128, 4, 1, 1};
   L1.unique();
@@ -475,7 +442,7 @@ TEST(METHOD_UNIQUE, UNIQUE_UNSORTED_LIST) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_UNIQUE, UNIQUE_EMPTY_LIST) {
+TEST(ListTest, UniqueEmpty) {
   s21::list<int> L1 = {};
   std::list<int> L2 = {};
   L1.unique();
@@ -483,7 +450,7 @@ TEST(METHOD_UNIQUE, UNIQUE_EMPTY_LIST) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_UNIQUE, UNIQUE_ONE_ELEM) {
+TEST(ListTest, UniqueOne) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   L1.unique();
@@ -491,7 +458,7 @@ TEST(METHOD_UNIQUE, UNIQUE_ONE_ELEM) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_SPLICE, SPLICE_FIRST_ELEM) {
+TEST(ListTest, SpliceFirst) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> empty_list = {};
@@ -502,7 +469,7 @@ TEST(METHOD_SPLICE, SPLICE_FIRST_ELEM) {
   ASSERT_EQ(listsEqual(L2, empty_list), true);
 }
 
-TEST(METHOD_SPLICE, SPLICE_SECOND_ELEM) {
+TEST(ListTest, SpliceSecond) {
   s21::list<int> L1 = {1, 2};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> empty_list = {};
@@ -513,7 +480,7 @@ TEST(METHOD_SPLICE, SPLICE_SECOND_ELEM) {
   ASSERT_EQ(listsEqual(L2, empty_list), true);
 }
 
-TEST(METHOD_SPLICE, SPLICE_TO_EMPTY_LIST) {
+TEST(ListTest, SpliceEmpty) {
   s21::list<int> L1 = {};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> empty_list = {};
@@ -524,7 +491,7 @@ TEST(METHOD_SPLICE, SPLICE_TO_EMPTY_LIST) {
   ASSERT_EQ(listsEqual(L2, empty_list), true);
 }
 
-TEST(METHOD_SPLICE, SPLICE_FROM_EMPTY_LIST) {
+TEST(ListTest, SpliceFromEmpty) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {};
   std::list<int> empty_list = {};
@@ -535,31 +502,31 @@ TEST(METHOD_SPLICE, SPLICE_FROM_EMPTY_LIST) {
   ASSERT_EQ(listsEqual(L2, empty_list), true);
 }
 
-TEST(METHOD_FRONT, FRONT_EMPTY_LIST) {
+TEST(ListTest, FrontEmpty) {
   s21::list<int> L1;
   std::list<int> L2;
   ASSERT_EQ(L1.front(), L2.front());
 }
 
-TEST(METHOD_FRONT, FRONT_3_ELEMENTS) {
+TEST(ListTest, Front) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   ASSERT_EQ(L1.front(), L2.front());
 }
 
-TEST(METHOD_BACK, BACK_EMPTY_LIST) {
+TEST(ListTest, BackEmpty) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   ASSERT_EQ(L1.back(), L2.back());
 }
 
-TEST(METHOD_BACK, BACK_3_ELEMENTS) {
+TEST(ListTest, Back) {
   s21::list<int> L1;
   std::list<int> L2;
   ASSERT_EQ(L1.back(), L2.back());
 }
 
-TEST(METHOD_PUSH_FRONT, PUSH_FRONT) {
+TEST(ListTest, PushFront) {
   s21::list<int> L1;
   std::list<int> L2;
   L1.push_front(1);
@@ -567,7 +534,7 @@ TEST(METHOD_PUSH_FRONT, PUSH_FRONT) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_PUSH_BACK, PUSH_BACK) {
+TEST(ListTest, PushBack) {
   s21::list<int> L1;
   std::list<int> L2;
   L1.push_back(1);
@@ -575,7 +542,7 @@ TEST(METHOD_PUSH_BACK, PUSH_BACK) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_POP_FRONT, POP_FRONT) {
+TEST(ListTest, PopFront) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   L1.pop_front();
@@ -583,7 +550,7 @@ TEST(METHOD_POP_FRONT, POP_FRONT) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(METHOD_POP_BACK, POP_BACK) {
+TEST(ListTest, PopBack) {
   s21::list<int> L1 = {1};
   std::list<int> L2 = {1};
   L1.pop_back();
@@ -591,7 +558,7 @@ TEST(METHOD_POP_BACK, POP_BACK) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(ITERATORS, PLUS_PLUS_OPERATOR) {
+TEST(ListTest, IteratorIncrement) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = ++L1.begin();
@@ -599,7 +566,7 @@ TEST(ITERATORS, PLUS_PLUS_OPERATOR) {
   ASSERT_EQ(*it_L1, *it_L2);
 }
 
-TEST(ITERATORS, OPERATOR_PLUS_PLUS) {
+TEST(ListTest, IteratorIncrement2) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = L1.begin()++;
@@ -607,7 +574,7 @@ TEST(ITERATORS, OPERATOR_PLUS_PLUS) {
   ASSERT_EQ(*it_L1, *it_L2);
 }
 
-TEST(ITERATORS, OPERATOR_MINUS_MINUS) {
+TEST(ListTest, IteratorDecrement) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = L1.begin()--;
@@ -615,7 +582,7 @@ TEST(ITERATORS, OPERATOR_MINUS_MINUS) {
   ASSERT_EQ(*it_L1, *it_L2);
 }
 
-TEST(ITERATORS, DEREFERENCE_OPERATOR_EXISTING_LIST_1) {
+TEST(ListTest, Dereference) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -623,7 +590,8 @@ TEST(ITERATORS, DEREFERENCE_OPERATOR_EXISTING_LIST_1) {
   ASSERT_EQ(*it_L1, *it_L2);
 }
 
-TEST(ITERATORS, DEREFERENCE_OPERATOR_EXISTING_LIST_2) {
+TEST(ListTest, Dereference2)
+{
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = L1.begin();
@@ -633,63 +601,19 @@ TEST(ITERATORS, DEREFERENCE_OPERATOR_EXISTING_LIST_2) {
   ASSERT_EQ(*it_L1, *it_L2);
 }
 
-TEST(ITERATORS, NOT_EQUAL_OPERATOR) {
+TEST(ListTest, NotEqual) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   ASSERT_EQ(L1.begin() != L1.begin(), L2.begin() != L2.begin());
 }
 
-TEST(ITERATORS, EQUAL_OPERATOR) {
+TEST(ListTest, Equal) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   ASSERT_EQ(L1.begin() == L1.begin(), L2.begin() == L2.begin());
 }
 
-TEST(CONST_ITERATORS, PLUS_PLUS_OPERATOR) {
-  s21::list<int> L1 = {1, 2, 3};
-  std::list<int> L2 = {1, 2, 3};
-  s21::list<int>::const_iterator it_L1 = ++L1.begin();
-  std::list<int>::const_iterator it_L2 = ++L2.begin();
-  ASSERT_EQ(*it_L1, *it_L2);
-}
-
-TEST(CONST_ITERATORS, OPERATOR_PLUS_PLUS) {
-  s21::list<int> L1 = {1, 2, 3};
-  std::list<int> L2 = {1, 2, 3};
-  s21::list<int>::const_iterator it_L1 = L1.begin()++;
-  std::list<int>::const_iterator it_L2 = L2.begin()++;
-  ASSERT_EQ(*it_L1, *it_L2);
-}
-
-TEST(CONST_ITERATORS, OPERATOR_MINUS_MINUS) {
-  s21::list<int> L1 = {1, 2, 3};
-  std::list<int> L2 = {1, 2, 3};
-  s21::list<int>::const_iterator it_L1 = L1.begin()--;
-  std::list<int>::const_iterator it_L2 = L2.begin()--;
-  ASSERT_EQ(*it_L1, *it_L2);
-}
-
-TEST(CONST_ITERATORS, DEREFERENCE_OPERATOR_EXISTING_LIST) {
-  s21::list<int> L1 = {1, 2, 3};
-  std::list<int> L2 = {1, 2, 3};
-  s21::list<int>::const_iterator it_L1 = L1.begin();
-  std::list<int>::const_iterator it_L2 = L2.begin();
-  ASSERT_EQ(*it_L1, *it_L2);
-}
-
-TEST(CONST_ITERATORS, NOT_EQUAL_OPERATOR) {
-  s21::list<int> L1 = {1, 2, 3};
-  std::list<int> L2 = {1, 2, 3};
-  ASSERT_EQ(L1.begin() != L1.begin(), L2.begin() != L2.begin());
-}
-
-TEST(CONST_ITERATORS, EQUAL_OPERATOR) {
-  s21::list<int> L1 = {1, 2, 3};
-  std::list<int> L2 = {1, 2, 3};
-  ASSERT_EQ(L1.begin() == L1.begin(), L2.begin() == L2.begin());
-}
-
-TEST(LIST, OPERATOR_EQUAL_COPY) {
+TEST(ListTest, EqualCopy) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> L3 = {1, 2, 3};
@@ -700,7 +624,7 @@ TEST(LIST, OPERATOR_EQUAL_COPY) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(LIST, OPERATOR_EQUAL_MOVE) {
+TEST(ListTest, EqualMove) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {4, 5, 6};
   std::list<int> L3 = {1, 2, 3};

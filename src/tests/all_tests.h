@@ -3,4 +3,4 @@
 
 #include <gtest/gtest.h>
 
-#endif // CPP2_S21_TESTS_TESTS_H_
+#endif  // CPP2_S21_TESTS_TESTS_H_
