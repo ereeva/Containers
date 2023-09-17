@@ -1,8 +1,7 @@
-#include <gtest/gtest.h>
-
 #include <vector>
 
 #include "../vector/vector.h"
+#include "all_tests.h"
 
 template <typename value_type>
 bool compare_vectors(const s21::vector<value_type> &v1,
@@ -557,9 +556,4 @@ TEST(VectorConstIteratorTest2, ConstIteratorOperatorMinusTest2) {
   ptrdiff_t result = it2 - it1;
 
   EXPECT_EQ(result, 3);
-}
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

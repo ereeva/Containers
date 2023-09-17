@@ -1,8 +1,7 @@
-#include <gtest/gtest.h>
-
 #include <stack>
 
 #include "../stack/stack.h"
+#include "all_tests.h"
 
 TEST(StackTest, DefaultConstructor) {
   s21::stack<int> my_stack;
@@ -184,9 +183,4 @@ TEST(StackTest, InitializerListConstructor) {
   ASSERT_EQ(my_stack.empty(), std_stack.empty());
   ASSERT_EQ(my_stack.size(), std_stack.size());
   ASSERT_EQ(my_stack.top(), std_stack.top());
-}
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

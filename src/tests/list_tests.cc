@@ -1,8 +1,7 @@
-#include <gtest/gtest.h>
-
 #include <list>
 
 #include "../list/list.h"
+#include "all_tests.h"
 
 bool listsEqual(s21::list<int> L1, std::list<int> L2) {
   if (L1.size() != L2.size()) return false;
@@ -311,8 +310,8 @@ TEST(METHOD_INSERT, INSERT_EMPTY_LIST) {
 }
 
 TEST(METHOD_MAX_SIZE, MAX_SIZE) {
-  s21::list<int> L1;
-  std::list<int> L2;
+  s21::list<double> L1;
+  std::list<double> L2;
   ASSERT_EQ(L1.max_size(), L2.max_size());
 }
 
@@ -710,8 +709,3 @@ TEST(LIST, OPERATOR_EQUAL_MOVE) {
   L3 = std::move(L4);
   ASSERT_EQ(listsEqual(L1, L3), true);
 }
-
-// int main(int argc, char **argv) {
-//   ::testing::InitGoogleTest(&argc, argv);
-//   return RUN_ALL_TESTS();
-// }

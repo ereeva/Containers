@@ -1,8 +1,7 @@
-#include <gtest/gtest.h>
-
 #include <queue>
 
 #include "../queue/queue.h"
+#include "all_tests.h"
 
 TEST(QueueTest, DefaultConstructor) {
   s21::queue<int> q1;
@@ -127,8 +126,3 @@ TEST(QueueTest, SwapTest) {
   EXPECT_EQ(q1.front(), 1);
   EXPECT_EQ(q1.back(), 3);
 }
-
-// int main(int argc, char **argv) {
-//   ::testing::InitGoogleTest(&argc, argv);
-//   return RUN_ALL_TESTS();
-// }
