@@ -7,7 +7,7 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Insert(const_reference data_)
   if(root_ == end_) root_ = nullptr;
   Node *pt = new Node(data_);
   root_ = Search(root_, pt);
-  Balance(root_, pt);
+   Balance(root_, pt);
   return root_;
 };
 
@@ -23,6 +23,11 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root_, Node *pt)
     root_->right_->parent_ = root_;
   }
   return root_;
+}
+template <class key_type>
+bool RBTree<key_type>::contains(const key_type key){
+  
+  return false;
 }
 
 template <class key_type>
@@ -122,6 +127,10 @@ template <class key_type>
 RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node) : ptr(node) {}
 
 template <class key_type>
+RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node, Node *end) : ptr(node), end_(end) {}
+
+
+template <class key_type>
 typename RBTree<key_type>::Node *RBTree<key_type>::BTreeIterator::FindMin(Node *ptr) {
   Node *node = ptr;
   while (node->left_ != nullptr)
@@ -139,12 +148,12 @@ typename RBTree<key_type>::Node *RBTree<key_type>::BTreeIterator::FindMax(Node *
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin() {
-  return iterator(FindMin(ptr));
+  return iterator(FindMin(ptr), end_);
 }
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end() {
-  return iterator(end_);
+  return iterator(end_, end_);
 }
 
 template <class key_type>
@@ -183,14 +192,14 @@ typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::operator--(
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::operator++(int) {
-  iterator tmp(ptr);
+  iterator tmp(ptr, end_);
   next();
   return tmp;
 };
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::operator--(int) {
-  iterator tmp(ptr);
+  iterator tmp(ptr, end_);
   prev();
   return tmp;
 };

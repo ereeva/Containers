@@ -29,7 +29,7 @@ public:
   // void swap(set &other);
   // void merge(set &other);
   // iterator find(const key_type &key);
-  // bool contains(const key_type key);
+  bool contains(const key_type key);
 
 private:
 };
@@ -41,12 +41,15 @@ set<value_type>::set(std::initializer_list<value_type> const &items) : set(){
     this->Insert(item);
 };
 template <class value_type> set<value_type>::set(const set<value_type> &s){
-  for(const auto it : s)
+  for(auto &it : s)
     this->Insert(it);
 };
-template <class value_type> set<value_type>::set(set &&s){};
+template <class value_type> set<value_type>::set(set<value_type> &&s){};
 template <class value_type> set<value_type>::~set(){};
-
+template <class value_type> 
+bool set<value_type>::contains(const key_type key){
+  
+};
 } // namespace s21
 
 #endif

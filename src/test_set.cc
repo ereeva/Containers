@@ -1,16 +1,16 @@
 #include "set.h"
-#include <set>
 #include <iostream>
+#include <set>
 
 int main() {
-  s21::set<int> sint = {1, 0, 2};
-  s21::set<int> m;
-  std::set<int> c;
-  s21::set<int>::iterator ptr =m.begin();
+  std::set<int> sint = {1, 0, 2, 4, 3, 10, 9, 6, 7};
+  sint.insert(2);
+  std::set<int>::iterator ptr = sint.begin();
   std::cout << *ptr;
-//  ++ptr;
-// std::cout << *ptr;
-//   ++ptr;
-//   std::cout << *ptr;
+  ptr++;
+  std::cout << *ptr;
+  for (auto &ptr : sint) {
+    std::cout << ptr;
+  }
   return 0;
 }

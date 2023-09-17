@@ -21,25 +21,26 @@ public:
   RBTree(RBTree &&other) {
     root_ = other.root_;
     other.root_ = nullptr;
-  }
-  ~RBTree() { clear(); 
-    
+  };
+  ~RBTree() { 
+    clear(); 
+    delete end_;
   };
 
   iterator begin() const {
-    iterator iter(root_);
+    iterator iter(root_, end_);
     return iter.begin();
   };
 
   iterator end() const {
-    iterator iter(root_);
-    return iter.end();
+    return iterator(end_, end_);
   };
 
   Node *Insert(const_reference x);
   Node *Search(Node *root, Node *first) const;
   Node *Remove();
   void clear();
+  bool contains(const key_type key);
 
 private:
   void Balance(Node *&root, Node *&pt);
@@ -53,7 +54,7 @@ template <class key_type> struct RBTree<key_type>::Node {
   bool color;
   Node *left_, *right_, *parent_;
   Node() : data_(){};
-  Node(key_type data) : data_(data), color(RED), parent_(), left_(), right_(){};
+  Node(const_reference data) : data_(data), color(RED), parent_(), left_(), right_(){};
   void Clear() {
     if (left_ != nullptr) {
       left_->Clear();
@@ -69,6 +70,7 @@ template <class key_type> struct RBTree<key_type>::Node {
 template <class key_type> class RBTree<key_type>::BTreeIterator {
 public:
   BTreeIterator(Node *node);
+  BTreeIterator(Node *node, Node *end);
   iterator begin();
   iterator end();
   iterator next();
@@ -86,7 +88,7 @@ public:
 private:
   Node *FindMax(Node *ptr);
   Node *FindMin(Node *ptr);
-  Node *ptr;
+  Node *ptr, *end_;
 };
 
 }; // namespace s21
