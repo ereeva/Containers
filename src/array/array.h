@@ -1,6 +1,8 @@
 #ifndef CPP2_S21_ARRAY_ARRAY_H_
 #define CPP2_S21_ARRAY_ARRAY_H_
 
+#include <stdexcept>
+
 namespace s21 {
 
 template <class T, std::size_t N>

@@ -6,6 +6,7 @@
 #include <memory>
 #include <new>
 #include <utility>
+#include <stdexcept>
 
 namespace s21 {
 template <class T>
@@ -116,7 +117,7 @@ class vector {
     if (size_ == data_.cp_) reserve(size_ == 0 ? 1 : size_ * 2);
     new (data_ + size_) T;
     pos = begin() + tmp;
-    for (iterator i = end(); i != pos; --i) *i = *(i - 1);  ////
+    for (iterator i = end(); i != pos; --i) *i = *(i - 1);
     *pos = T(value);
     ++size_;
     return pos;
@@ -146,7 +147,7 @@ class vector {
 
   template <typename... Args>
   iterator insert_many(const_iterator pos, Args &&...args) {
-    for (auto &&arg : {std::forward<Args>(args)...}) insert(pos, arg);
+    for (auto &&arg : {std::forward<Args>(args)...}) pos = insert(pos + 1, arg);
     return pos;
   }
 

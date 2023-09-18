@@ -118,7 +118,7 @@ class list {
   bool empty() const noexcept { return size_ == 0; }
   size_type size() const noexcept { return size_; }
   size_type max_size() const noexcept {
-    return (std::numeric_limits<size_type>::max() / sizeof(Node));
+    return (std::numeric_limits<size_type>::max() /2/ sizeof(Node));
   }
 
   void clear() {
