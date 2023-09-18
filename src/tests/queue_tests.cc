@@ -82,6 +82,26 @@ TEST(QueueTest, Push) {
   EXPECT_EQ(q.back(), std_q.back());
 }
 
+TEST(QueueTest, CopyAssignmentOperator) {
+  s21::queue<int> q1{1, 2, 3, 4};
+  s21::queue<int> q2;
+  q2 = q1;
+  std::queue<int> q3;
+  q3.push(1);
+  q3.push(2);
+  q3.push(3);
+  q3.push(4);
+  std::queue<int> q4;
+  q4 = q3;
+  EXPECT_EQ(q2.empty(), q4.empty());
+  EXPECT_EQ(q2.size(), q4.size());
+  while (!q2.empty()) {
+    EXPECT_EQ(q2.front(), q4.front());
+    q2.pop();
+    q4.pop();
+  }
+}
+
 TEST(QueueTest, MoveAssignmentOperator) {
   s21::queue<int> q1{1, 2, 3, 4};
   s21::queue<int> q2;
@@ -125,4 +145,12 @@ TEST(QueueTest, Swap) {
   EXPECT_EQ(q2.back(), 6);
   EXPECT_EQ(q1.front(), 1);
   EXPECT_EQ(q1.back(), 3);
+}
+
+TEST(QueueTest, InsertManyBack) {
+  s21::queue<int> q1{1, 2, 3, 4};
+  q1.insert_many_back(5, 6, 7, 8, 9, 0);
+  EXPECT_EQ(q1.size(), 10);
+  EXPECT_EQ(q1.front(), 1);
+  EXPECT_EQ(q1.back(), 0);
 }

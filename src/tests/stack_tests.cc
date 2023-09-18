@@ -1,6 +1,7 @@
 #include <stack>
 
 #include "../stack/stack.h"
+#include "../vector/vector.h"
 #include "all_tests.h"
 
 TEST(StackTest, DefaultConstructor) {
@@ -29,8 +30,8 @@ TEST(StackTest, PushAndTop) {
 }
 
 TEST(StackTest, Pop) {
-  s21::stack<int> my_stack;
-  std::stack<int> std_stack;
+  s21::stack<int, s21::vector<int>> my_stack;
+  std::stack<int, s21::vector<int>> std_stack;
 
   my_stack.push(1);
   std_stack.push(1);
@@ -154,6 +155,29 @@ TEST(StackTest, MoveConstructor) {
   ASSERT_EQ(my_stack2.top(), std_stack2.top());
 }
 
+TEST(StackTest, CopyAssignmentOperator)
+{
+  s21::stack<int> my_stack1;
+  std::stack<int> std_stack1;
+
+  my_stack1.push(1);
+  my_stack1.push(2);
+  my_stack1.push(3);
+  std_stack1.push(1);
+  std_stack1.push(2);
+  std_stack1.push(3);
+
+  s21::stack<int> my_stack2;
+  std::stack<int> std_stack2;
+
+  my_stack2 = my_stack1;
+  std_stack2 = std_stack1;
+
+  ASSERT_EQ(my_stack2.empty(), std_stack2.empty());
+  ASSERT_EQ(my_stack2.size(), std_stack2.size());
+  ASSERT_EQ(my_stack2.top(), std_stack2.top());
+}
+
 TEST(StackTest, MoveAssignmentOperator) {
   s21::stack<int> my_stack1;
   std::stack<int> std_stack1;
@@ -183,4 +207,12 @@ TEST(StackTest, InitializerListConstructor) {
   ASSERT_EQ(my_stack.empty(), std_stack.empty());
   ASSERT_EQ(my_stack.size(), std_stack.size());
   ASSERT_EQ(my_stack.top(), std_stack.top());
+}
+
+TEST(StackTest, InsertManyBack)
+{
+  s21::stack<int> st{1, 2, 3, 4};
+  st.insert_many_front(5, 6, 7, 8, 9, 0);
+  EXPECT_EQ(st.size(), 10);
+  EXPECT_EQ(st.top(), 0);
 }

@@ -4,7 +4,7 @@
 #include "../list/list.h"
 
 namespace s21 {
-template <class T>
+template <class T, class Container = list<T>>
 class stack {
  public:
   using value_type = T;
@@ -38,11 +38,11 @@ class stack {
 
   template <class... Args>
   void insert_many_front(Args &&...args) {
-    list_.insert_many_front(args...);
+    list_.insert_many_back(args...);
   }
 
  private:
-  list<T> list_;
+  Container list_;
 };
 
 }  // namespace s21

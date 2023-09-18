@@ -18,7 +18,7 @@ TEST(ListTest, DefaultConstructor) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(ListTest, NsizeConstructor) {
+TEST(ListTest, SizeConstructor) {
   s21::list<int> L1(3);
   std::list<int> L2(3);
   ASSERT_EQ(listsEqual(L1, L2), true);
@@ -629,4 +629,25 @@ TEST(ListTest, EqualMove) {
   L1 = std::move(L2);
   L3 = std::move(L4);
   ASSERT_EQ(listsEqual(L1, L3), true);
+}
+
+TEST(ListTest, InsertMany) {
+  s21::list<int> L1 = {1, 5, 6};
+  std::list<int> L2 = {1, 2, 3, 4, 5, 6};
+  L1.insert_many(++L1.begin(), 2, 3, 4);
+  ASSERT_EQ(listsEqual(L1, L2), true);
+}
+
+TEST(ListTest, InsertManyBack) {
+  s21::list<int> L1 = {1, 2, 3, 4, 5};
+  std::list<int> L2 = {1, 2, 3, 4, 5, 6};
+  L1.insert_many_back(6);
+  ASSERT_EQ(listsEqual(L1, L2), true);
+}
+
+TEST(ListTest, InsertManyFront) {
+  s21::list<int> L1 = {5, 6};
+  std::list<int> L2 = {1, 2, 3, 4, 5, 6};
+  L1.insert_many_front(1, 2, 3, 4);
+  ASSERT_EQ(listsEqual(L1, L2), true);
 }
