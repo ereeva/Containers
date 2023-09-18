@@ -36,7 +36,8 @@ public:
 
   Node *Insert(const_reference x);
   Node *Search(Node *root, Node *first) const;
-  Node *Remove();
+  void Remove(Node *node);
+  void Merge(Node *node);
   void clear();
   bool contains(const key_type key) {
     if (root_ == end_)
@@ -55,7 +56,7 @@ template <class key_type> struct RBTree<key_type>::Node {
   key_type data_;
   bool color;
   Node *left_, *right_, *parent_;
-  Node() : data_(){};
+  Node() : data_(), color(RED), parent_(), right_(), left_(){};
   Node(const Node *other)
       : data_(other->data_), color(other->color), parent_(other->parent_),
         left_(other->left_), right_(other->right_){};
@@ -98,7 +99,7 @@ public:
 private:
   Node *FindMax(Node *ptr);
   Node *FindMin(Node *ptr);
-  Node *ptr, *end_;
+  Node *ptr, *end_, *root;
 };
 
 }; // namespace s21

@@ -3,6 +3,7 @@
 
 #include "tree/rb_tree.h"
 #include <initializer_list>
+#include <limits>
 #include <utility>
 
 namespace s21 {
@@ -14,7 +15,7 @@ public:
   using value_type = key_type;
   using reference = value_type &;
   using const_reference = const value_type &;
-  using size_type = unsigned;
+  using size_type = std::size_t;
   using iterator = typename RBTree<T>::BTreeIterator;
 
   set();
@@ -25,10 +26,10 @@ public:
 
   bool empty();
   size_type size();
-  // size_type max_size();
+  size_type max_size();
   // void clear();
   std::pair<iterator, bool> insert(const value_type &value);
-  // void erase(iterator pos);
+  void erase(iterator pos);
   // void swap(set &other);
   // void merge(set &other);
   // iterator find(const key_type &key);
@@ -53,6 +54,12 @@ template <class value_type> set<value_type>::~set(){};
 template <class value_type> bool set<value_type>::empty(){return this->root_ == this->end_;};
 template <class value_type> 
 typename set<value_type>::size_type set<value_type>::size(){return size_;};
+template <class value_type> 
+typename set<value_type>::size_type set<value_type>::max_size(){return (std::numeric_limits<typename s21::set<value_type>::size_type>::max() * sizeof(Node));};
+
+template <class value_type> 
+void set<value_type>::erase(iterator pos){
+};
 template <class value_type>
 typename std::pair<typename s21::set<value_type>::iterator, bool>
 s21::set<value_type>::insert(const value_type &value) {

@@ -3,6 +3,7 @@
 
 TEST(SetTest, InitializerList) {
     s21::set<int> mySet = {1, 0, 2, 4, 3, 10, 9, 6, 7};
+    EXPECT_NE(mySet.max_size(), 1);
     EXPECT_EQ(mySet.contains(5), false);
     EXPECT_EQ(mySet.contains(1), true);
     EXPECT_EQ(mySet.contains(0), true);
@@ -25,8 +26,21 @@ TEST(SetTest, Insertion) {
     EXPECT_EQ(mySet.contains(0), true);
     EXPECT_EQ(mySet.contains(2), true);
     EXPECT_EQ(mySet.contains(7), true);
- }
- 
+    int i = mySet.size();
+    for(auto &it : mySet)
+        i--;
+    EXPECT_EQ(i, 0); 
+}
+
+ TEST(SetTest, RengeBasedFor) {
+    s21::set<int> mySet =  {1, 0, 2, 4, 3, 10, 9, 6, 7};
+    int i = mySet.size();
+    for(auto &it : mySet)
+        i--;
+    EXPECT_EQ(i, 0); 
+}
+
+
 /*
 TEST(SetTest, AssignmentOperator) {
     s21::set<int> mySet;
@@ -42,11 +56,16 @@ TEST(SetTest, AssignmentOperator) {
 int main() {
   testing::InitGoogleTest();
   return RUN_ALL_TESTS();
-  // s21::set<int> a;
-  //   mySet.insert(0);
-  //   mySet.insert (2);
-  //   mySet.insert(9);
-  //   mySet.insert(7);
+//   s21::set<int> mySet;
+//     mySet.insert(0);
+//     mySet.insert (2);
+//     mySet.insert(9);
+//     mySet.insert(7);
+//       int i = mySet.size();
+//       auto it_end = mySet.end();
+//       auto it_begin = mySet.begin();
+//     for(; it_begin != it_end; ++it_begin )
+//         i--;
   // std::cout<<a.contains(2);
   // std::cout << a. contains(3);
   // std::cout<<a.contains(0);

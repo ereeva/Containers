@@ -39,8 +39,7 @@ bool RBTree<key_type>::Node::contains(Node *node, const key_type key){
 }
 
 template <class key_type>
-typename RBTree<key_type>::Node *RBTree<key_type>::Remove(){
-  
+void RBTree<key_type>::Remove(Node* node){
 };
 
 template <class key_type>
@@ -132,10 +131,17 @@ void RBTree<key_type>::Balance(Node *&root_, Node *&pt) {
 }
 
 template <class key_type>
-RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node) : ptr(node) {}
+RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node) : ptr(node) {
+  root = ptr;
+  while (root->parent_ != nullptr) root = root->parent_;
+}
 
 template <class key_type>
-RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node, Node *end) : ptr(node), end_(end) {}
+RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node, Node *end) : ptr(node), end_(end){
+  if(ptr == end_) return;
+  root = ptr;
+  while (root->parent_ != nullptr) root = root->parent_;
+  }
 
 
 template <class key_type>
@@ -161,12 +167,13 @@ typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin() {
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end() {
-  return iterator(end_, end_);
+  return iterator(end_);
 }
 
 template <class key_type>
 typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::next() {
-  if (ptr->right_ != nullptr)
+  if(ptr == FindMax(root)) ptr = end_;
+  else if (ptr->right_ != nullptr)
     ptr = FindMin(ptr->right_);
   else {
     while (ptr->parent_ != nullptr && ptr == ptr->parent_->right_)
