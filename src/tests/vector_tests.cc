@@ -370,8 +370,7 @@ TEST(VectorTest, IteratorIncrement1) {
   EXPECT_EQ(*it, 3);
 }
 
-TEST(VectorTest, IteratorIncrement2)
-{
+TEST(VectorTest, IteratorIncrement2) {
   s21::vector<int> v{1, 2, 3};
   s21::vector<int>::iterator it = v.begin();
   ++it;
@@ -380,8 +379,7 @@ TEST(VectorTest, IteratorIncrement2)
   EXPECT_NE(*it, 2);
 }
 
-TEST(VectorTest, IteratorDecrement1)
-{
+TEST(VectorTest, IteratorDecrement1) {
   s21::vector<int> v{1, 2, 3};
   s21::vector<int>::iterator it = v.end();
   --it;
@@ -390,8 +388,7 @@ TEST(VectorTest, IteratorDecrement1)
   EXPECT_EQ(*it, 2);
 }
 
-TEST(VectorTest, IteratorDecrement2)
-{
+TEST(VectorTest, IteratorDecrement2) {
   s21::vector<int> v{1, 2, 3};
   s21::vector<int>::iterator it = v.end();
   --it;
@@ -434,8 +431,7 @@ TEST(VectorTest, Equal2) {
   EXPECT_TRUE(it1 != it2);
 }
 
-TEST(VectorTest, ConstIteratorIncrement1)
-{
+TEST(VectorTest, ConstIteratorIncrement1) {
   const s21::vector<int> v{1, 2, 3};
   auto it = v.begin();
   ++it;
@@ -444,8 +440,7 @@ TEST(VectorTest, ConstIteratorIncrement1)
   EXPECT_EQ(*it, 3);
 }
 
-TEST(VectorTest, ConstIteratorIncrement2)
-{
+TEST(VectorTest, ConstIteratorIncrement2) {
   const s21::vector<int> v{1, 2, 3};
   auto it = v.begin();
   ++it;
@@ -454,8 +449,7 @@ TEST(VectorTest, ConstIteratorIncrement2)
   EXPECT_NE(*it, 2);
 }
 
-TEST(VectorTest, ConstIteratorDecrement1)
-{
+TEST(VectorTest, ConstIteratorDecrement1) {
   const s21::vector<int> v{1, 2, 3};
   auto it = v.end();
   --it;
@@ -464,8 +458,7 @@ TEST(VectorTest, ConstIteratorDecrement1)
   EXPECT_EQ(*it, 2);
 }
 
-TEST(VectorTest, ConstIteratorDecrement2)
-{
+TEST(VectorTest, ConstIteratorDecrement2) {
   const s21::vector<int> v{1, 2, 3};
   auto it = v.end();
   --it;
@@ -474,8 +467,7 @@ TEST(VectorTest, ConstIteratorDecrement2)
   EXPECT_NE(*it, 1);
 }
 
-TEST(VectorTest, ConstIteratorDereference1)
-{
+TEST(VectorTest, ConstIteratorDereference1) {
   const s21::vector<int> v{1, 2, 3};
   auto it = v.begin();
   EXPECT_EQ(*it, 1);
@@ -483,8 +475,7 @@ TEST(VectorTest, ConstIteratorDereference1)
   EXPECT_EQ(*it, 2);
 }
 
-TEST(VectorTest, ConstIteratorDereference2)
-{
+TEST(VectorTest, ConstIteratorDereference2) {
   const s21::vector<int> v{1, 2, 3};
   auto it = v.begin();
   EXPECT_NE(*it, 2);
@@ -492,8 +483,7 @@ TEST(VectorTest, ConstIteratorDereference2)
   EXPECT_NE(*it, 1);
 }
 
-TEST(VectorTest, ConstIteratorEqual1)
-{
+TEST(VectorTest, ConstIteratorEqual1) {
   const s21::vector<int> v{1, 2, 3};
   auto it1 = v.begin();
   auto it2 = v.begin();
@@ -502,8 +492,7 @@ TEST(VectorTest, ConstIteratorEqual1)
   EXPECT_FALSE(it1 == it2);
 }
 
-TEST(VectorTest, ConstIteratorEqual2)
-{
+TEST(VectorTest, ConstIteratorEqual2) {
   const s21::vector<int> v{1, 2, 3};
   auto it1 = v.begin();
   auto it2 = v.begin();

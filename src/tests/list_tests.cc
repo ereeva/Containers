@@ -24,8 +24,7 @@ TEST(ListTest, NsizeConstructor) {
   ASSERT_EQ(listsEqual(L1, L2), true);
 }
 
-TEST(ListTest, InitializerListConstructor)
-{
+TEST(ListTest, InitializerListConstructor) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   ASSERT_EQ(listsEqual(L1, L2), true);
@@ -166,8 +165,7 @@ TEST(ListTest, SwapDiffSize) {
   ASSERT_EQ(listsEqual(L2, L4), true);
 }
 
-TEST(ListTest, SwapDiffSize2)
-{
+TEST(ListTest, SwapDiffSize2) {
   s21::list<int> L1 = {1, 2, 3};
   s21::list<int> L2 = {4, 5, 6, 128, 40};
   std::list<int> L3 = {1, 2, 3};
@@ -590,8 +588,7 @@ TEST(ListTest, Dereference) {
   ASSERT_EQ(*it_L1, *it_L2);
 }
 
-TEST(ListTest, Dereference2)
-{
+TEST(ListTest, Dereference2) {
   s21::list<int> L1 = {1, 2, 3};
   std::list<int> L2 = {1, 2, 3};
   s21::list<int>::iterator it_L1 = L1.begin();
