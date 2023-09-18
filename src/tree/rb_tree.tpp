@@ -4,6 +4,12 @@ template <class key_type>
 RBTree<key_type>::RBTree() : root_(new Node()), end_(root_){};
 
 template <class key_type>
+RBTree<key_type>::RBTree(RBTree &&other) {
+    std::swap(root_ , other.root_);
+    std::swap(other.root_ = other.end_);
+  };
+
+template <class key_type>
 typename RBTree<key_type>::Node *
 RBTree<key_type>::Insert(const_reference data_) {
   if (root_ == end_)

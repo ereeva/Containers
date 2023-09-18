@@ -1,6 +1,26 @@
 #include "set.h"
 #include <gtest/gtest.h>
 
+TEST(SetTest, Constructors) {
+  s21::set<int> initList = {1, 2, 3, 4};
+  s21::set<int> copyCons(initList);
+  s21::set<int> moveCons(std::move(initList));
+  EXPECT_EQ(copyCons.contains(1), true);
+  EXPECT_EQ(copyCons.contains(2), true);
+  EXPECT_EQ(copyCons.contains(3), true);
+  EXPECT_EQ(copyCons.contains(4), true);
+  EXPECT_EQ(moveCons.contains(1), true);
+  EXPECT_EQ(moveCons.contains(2), true);
+  EXPECT_EQ(moveCons.contains(3), true);
+  EXPECT_EQ(moveCons.contains(4), true);
+  EXPECT_EQ(initList.contains(1), false);
+  EXPECT_EQ(initList.contains(2), false);
+  EXPECT_EQ(initList.contains(3), false);
+  EXPECT_EQ(initList.contains(4), false);
+  EXPECT_EQ(initList.size(), 0);
+  EXPECT_EQ(copyCons.size(), 4);
+  EXPECT_EQ(moveCons.size(), 4);
+}
 TEST(SetTest, InitializerList) {
   s21::set<int> mySet = {1, 0, 2, 4, 3, 10, 9, 6, 7};
   EXPECT_NE(mySet.max_size(), 1);
@@ -83,6 +103,9 @@ TEST(SetTest, AssignmentOperator) {
 int main() {
   testing::InitGoogleTest();
   return RUN_ALL_TESTS();
+//   s21::set<int> initList = {1, 2, 3, 4};
+//   s21::set<int> copyCons(initList);
+//   s21::set<int> moveCons(std::move(initList));
   //   s21::set<int> mySet =  {1, 0, 2, 4, 3, 10, 9, 6, 7};
   // s21::set<int>::iterator ptr = mySet.find(10);
   // std::cout<<*ptr;

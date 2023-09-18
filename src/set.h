@@ -48,7 +48,9 @@ template <class value_type> set<value_type>::set(const set<value_type> &s) {
   for (auto &it : s)
     this->insert(it);
 };
-template <class value_type> set<value_type>::set(set<value_type> &&s){};
+template <class value_type> set<value_type>::set(set<value_type> &&s){ 
+  swap(s);
+  };
 template <class value_type> set<value_type>::set(Node *node){};
 template <class value_type> set<value_type>::~set(){};
 

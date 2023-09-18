@@ -19,10 +19,7 @@ public:
 
   RBTree();
   RBTree(Node *node) : RBTree() { root_ = node; };
-  RBTree(RBTree &&other) {
-    root_ = other.root_;
-    other.root_ = other.end_;
-  };
+  RBTree(RBTree &&other) ;
   ~RBTree() {
     clear();
     delete end_;
