@@ -91,6 +91,39 @@ TEST(VectorTest, MoveConstructor2) {
   EXPECT_NE(v1_moved.size(), v1.size());
 }
 
+TEST(VectorTest, CopyAssignment) {
+  s21::vector<int> v1{1, 2, 3};
+  s21::vector<int> v2;
+  v2 = v1;
+  std::vector<int> v3{1, 2, 3};
+  std::vector<int> v4;
+  v4 = v3;
+  EXPECT_TRUE(compare_vectors(v2, v4));
+}
+
+TEST(VectorTest, CopyAssignment2) {
+  s21::vector<int> v1{1, 2, 3};
+  s21::vector<int> v2{1, 2, 3, 4, 5, 6, 7};
+  v2 = v1;
+  std::vector<int> v3{1, 2, 3};
+  std::vector<int> v4{1, 2, 3, 4, 5, 6, 7};
+  v4 = v3;
+  EXPECT_TRUE(compare_vectors(v2, v4));
+}
+
+TEST(VectorTest, CopyAssignment3)
+{
+  s21::vector<int> v1{1, 2, 3};
+  s21::vector<int> v2;
+  v2.reserve(7);
+  v2 = v1;
+  std::vector<int> v3{1, 2, 3};
+  std::vector<int> v4;
+  v4.reserve(7);
+  v4 = v3;
+  EXPECT_TRUE(compare_vectors(v2, v4));
+}
+
 TEST(VectorTest, MoveAssignment) {
   s21::vector<int> v1{1, 2, 3};
   s21::vector<int> v1_moved;
@@ -133,6 +166,13 @@ TEST(VectorTest, At1) {
 }
 
 TEST(VectorTest, At2) {
+  const s21::vector<int> v1{1, 2, 3};
+  EXPECT_EQ(v1.at(0), 1);
+  EXPECT_EQ(v1.at(1), 2);
+  EXPECT_EQ(v1.at(2), 3);
+}
+
+TEST(VectorTest, At3) {
   s21::vector<int> v1{1, 2, 3};
   EXPECT_THROW(v1.at(3), std::out_of_range);
 }
@@ -140,6 +180,12 @@ TEST(VectorTest, At2) {
 TEST(VectorTest, Front) {
   s21::vector<int> v1{1, 2, 3};
   std::vector<int> v2{1, 2, 3};
+  EXPECT_EQ(v1.front(), v2.front());
+}
+
+TEST(VectorTest, Front1) {
+  const s21::vector<int> v1{1, 2, 3};
+  const std::vector<int> v2{1, 2, 3};
   EXPECT_EQ(v1.front(), v2.front());
 }
 
@@ -155,6 +201,12 @@ TEST(VectorTest, FrontAndBack2) {
   EXPECT_NE(v1.back(), 1);
 }
 
+TEST(VectorTest, FrontAndBack3) {
+  const s21::vector<int> v1{1, 2, 3};
+  EXPECT_NE(v1.front(), 3);
+  EXPECT_NE(v1.back(), 1);
+}
+
 TEST(VectorTest, Data) {
   s21::vector<int> v1{1, 2, 3};
   std::vector<int> v2{1, 2, 3};
@@ -162,10 +214,10 @@ TEST(VectorTest, Data) {
 }
 
 TEST(VectorTest, Data1) {
-  s21::vector<int> v1{1, 2, 3};
-  std::vector<int> v2{1, 2, 3};
-  int *ar1 = v1.data();
-  int *ar2 = v2.data();
+  const s21::vector<int> v1{1, 2, 3};
+  const std::vector<int> v2{1, 2, 3};
+  const int *ar1 = v1.data();
+  const int *ar2 = v2.data();
   EXPECT_EQ(ar1[1], ar2[1]);
 }
 
@@ -272,6 +324,24 @@ TEST(VectorTest, Clear2) {
   s21::vector<int> v1{1, 2, 3};
   v1.clear();
   EXPECT_FALSE(v1.size() == 3);
+}
+
+TEST(VectorTest, Insert){
+  s21::vector<std::string> v1{"1", "2", "3"};
+  auto i1 = v1.insert(v1.begin() + 2, "qwe");
+  std::vector<std::string> v2{"1", "2", "3"};
+  auto i2 = v2.insert(v2.begin() + 2, "qwe");
+  EXPECT_TRUE(compare_vectors(v1, v2));
+  EXPECT_EQ(*i1, *i2);
+}
+
+TEST(VectorTest, Erase){
+  s21::vector<std::string> v1{"1", "2", "3"};
+  v1.erase(v1.begin());
+  std::vector<std::string> v2{"1", "2", "3"};
+  v2.erase(v2.begin());
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_TRUE(compare_vectors(v1, v2));
 }
 
 TEST(VectorTest, PushBack) {
