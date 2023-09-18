@@ -155,8 +155,7 @@ TEST(StackTest, MoveConstructor) {
   ASSERT_EQ(my_stack2.top(), std_stack2.top());
 }
 
-TEST(StackTest, CopyAssignmentOperator)
-{
+TEST(StackTest, CopyAssignmentOperator) {
   s21::stack<int> my_stack1;
   std::stack<int> std_stack1;
 
@@ -209,8 +208,7 @@ TEST(StackTest, InitializerListConstructor) {
   ASSERT_EQ(my_stack.top(), std_stack.top());
 }
 
-TEST(StackTest, InsertManyBack)
-{
+TEST(StackTest, InsertManyBack) {
   s21::stack<int> st{1, 2, 3, 4};
   st.insert_many_front(5, 6, 7, 8, 9, 0);
   EXPECT_EQ(st.size(), 10);

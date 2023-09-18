@@ -15,18 +15,19 @@ class stack {
   stack() : list_() {}
   stack(std::initializer_list<T> const &items) : list_(items) {}
   stack(const stack &q) : list_(q.list_) {}
-  stack(stack &&q) : list_(std::move(q.list_)) {}
+  stack(stack &&q) noexcept : list_(std::move(q.list_)) {}
   ~stack() {}
 
   stack &operator=(const stack &q) {
     list_ = q.list_;
     return *this;
   }
-  stack &operator=(stack &&q) {
+  stack &operator=(stack &&q) noexcept {
     list_ = std::move(q.list_);
     return *this;
   }
 
+  reference top() { return list_.back(); }
   const_reference top() const { return list_.back(); }
 
   bool empty() const { return list_.empty(); }
