@@ -24,29 +24,16 @@ TEST(VectorTest, DefaultConstructor1) {
   EXPECT_EQ(v1.size(), v2.size());
 }
 
-TEST(VectorTest, DefaultConstructor2) {
-  s21::vector<int> v1;
-  std::vector<int> v2;
-  v2.push_back(1);
-  EXPECT_NE(v1.size(), v2.size());
-}
-
 TEST(VectorTest, SizeConstructor) {
   s21::vector<int> v1(5);
   std::vector<int> v2(5);
   EXPECT_TRUE(compare_vectors(v1, v2));
 }
 
-TEST(VectorTest, SizeConstructor1) {
-  s21::vector<int> v1(5);
-  std::vector<int> v2(5);
-  EXPECT_EQ(v1.size(), v2.size());
-}
-
 TEST(VectorTest, SizeConstructor2) {
-  s21::vector<int> v1(5);
-  std::vector<int> v2(6);
-  EXPECT_NE(v1.size(), v2.size());
+  s21::vector<std::string> v1(5);
+  std::vector<std::string> v2(5);
+  EXPECT_EQ(v1.size(), v2.size());
 }
 
 TEST(VectorTest, InitializerListConstructor) {
@@ -56,15 +43,9 @@ TEST(VectorTest, InitializerListConstructor) {
 }
 
 TEST(VectorTest, InitializerListConstructor1) {
-  s21::vector<int> v1{1, 2, 3};
-  std::vector<int> v2{1, 2, 3};
+  s21::vector<std::string> v1{"qwe", "rty", ""};
+  std::vector<std::string> v2{"qwe", "rty", ""};
   EXPECT_EQ(v1.size(), v2.size());
-}
-
-TEST(VectorTest, InitializerListConstructor2) {
-  s21::vector<int> v1{1, 2, 3};
-  std::vector<int> v2{1, 2, 3, 4};
-  EXPECT_NE(v1.size(), v2.size());
 }
 
 TEST(VectorTest, CopyConstructor) {
