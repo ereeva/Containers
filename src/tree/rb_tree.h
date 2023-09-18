@@ -20,7 +20,7 @@ public:
   RBTree();
   RBTree(RBTree &&other) {
     root_ = other.root_;
-    other.root_ = nullptr;
+    other.root_ = other.end_;
   };
   ~RBTree() {
     clear();

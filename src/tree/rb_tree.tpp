@@ -7,7 +7,7 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Insert(const_reference data_)
   if(root_ == end_) root_ = nullptr;
   Node *pt = new Node(data_);
   root_ = Search(root_, pt);
-   Balance(root_, pt);
+  Balance(root_, pt);
   return root_;
 };
 

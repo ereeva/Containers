@@ -11,9 +11,12 @@ TEST(SetTest, InitializerList) {
     EXPECT_EQ(mySet.contains(13), false);
     EXPECT_EQ(mySet.contains(10), true);
     EXPECT_EQ(mySet.contains(3), true);
+    EXPECT_EQ(mySet.size(), 9);
+    
 }
 TEST(SetTest, Insertion) {
     s21::set<int> mySet; 
+    EXPECT_EQ(mySet.contains(0),  false);
     mySet.insert(0);
     mySet.insert (2);
     mySet.insert(9);
@@ -23,6 +26,7 @@ TEST(SetTest, Insertion) {
     EXPECT_EQ(mySet.contains(2), true);
     EXPECT_EQ(mySet.contains(7), true);
  }
+ 
 /*
 TEST(SetTest, AssignmentOperator) {
     s21::set<int> mySet;
