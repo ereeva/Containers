@@ -18,7 +18,7 @@ public:
   using size_type = std::size_t;
 
   RBTree();
-  RBTree(Node *node) : RBTree(){ root_ = node;};
+  RBTree(Node *node) : RBTree() { root_ = node; };
   RBTree(RBTree &&other) {
     root_ = other.root_;
     other.root_ = other.end_;
@@ -49,9 +49,11 @@ public:
       return false;
     return root_->contains(root_, key);
   };
-  iterator find(const key_type key){
-    RBTree<key_type>::iterator it();
-    return it.find(root_, key);
+  iterator find(const key_type key) {
+    Node *fptr = root_->find_node(root_, key);
+    if (fptr == nullptr)
+      fptr = end_;
+    return iterator(fptr, end_);
   }
 
 private:
@@ -84,6 +86,7 @@ template <class key_type> struct RBTree<key_type>::Node {
       right_ = nullptr;
     }
   }
+  Node *find_node(Node *node, const key_type key);
   bool contains(Node *node, const key_type key);
 };
 
@@ -91,8 +94,7 @@ template <class key_type> class RBTree<key_type>::BTreeIterator {
 public:
   BTreeIterator(Node *node);
   BTreeIterator(Node *node, Node *end);
-  Node* GetPtr(){return ptr;};
-  iterator find(Node *node, const key_type key);
+  Node *GetPtr() { return ptr; }
   iterator begin();
   iterator end();
   iterator next();

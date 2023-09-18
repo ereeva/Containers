@@ -33,7 +33,7 @@ public:
   void erase(iterator pos);
   void swap(set &other);
   void merge(set &other);
-  
+
 private:
   size_type size_ = 0;
 };
