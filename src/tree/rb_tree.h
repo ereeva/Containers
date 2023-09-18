@@ -18,6 +18,7 @@ public:
   using size_type = std::size_t;
 
   RBTree();
+  RBTree(Node *node) : RBTree(){ root_ = node;};
   RBTree(RBTree &&other) {
     root_ = other.root_;
     other.root_ = other.end_;
@@ -37,13 +38,21 @@ public:
   Node *Insert(const_reference x);
   Node *Search(Node *root, Node *first) const;
   void Remove(Node *node);
-  void Merge(Node *node);
+
+  void Swap(RBTree &other) {
+    std::swap(root_, other.root_);
+    std::swap(end_, other.end_);
+  };
   void clear();
   bool contains(const key_type key) {
     if (root_ == end_)
       return false;
     return root_->contains(root_, key);
   };
+  iterator find(const key_type key){
+    RBTree<key_type>::iterator it();
+    return it.find(root_, key);
+  }
 
 private:
   void Balance(Node *&root, Node *&pt);
@@ -82,6 +91,8 @@ template <class key_type> class RBTree<key_type>::BTreeIterator {
 public:
   BTreeIterator(Node *node);
   BTreeIterator(Node *node, Node *end);
+  Node* GetPtr(){return ptr;};
+  iterator find(Node *node, const key_type key);
   iterator begin();
   iterator end();
   iterator next();

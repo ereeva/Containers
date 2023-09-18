@@ -27,7 +27,6 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root_, Node *pt)
 template <class key_type>
 bool RBTree<key_type>::Node::contains(Node *node, const key_type key){
   if(node == nullptr) return false;
-  int a = node -> data_;
   bool cont = false;
   cont |= (node->data_ == key);
   if(node->data_ > key && node->left_ != nullptr){
@@ -39,8 +38,22 @@ bool RBTree<key_type>::Node::contains(Node *node, const key_type key){
 }
 
 template <class key_type>
+typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::find(Node *node, const key_type key){
+  if(node == nullptr) return iterator(end_, end_);
+  iterator it(end_, end_); 
+  if(node->data_ > key && node->left_ != nullptr){
+    it = find(node->left_, key);
+  } else if (node->data_ < key && node->right_ != nullptr){
+    it = find(node->right_, key);
+  } 
+  return it;
+}
+
+template <class key_type>
 void RBTree<key_type>::Remove(Node* node){
 };
+
+
 
 template <class key_type>
 void RBTree<key_type>::clear(){

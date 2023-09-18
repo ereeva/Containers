@@ -32,6 +32,7 @@ TEST(SetTest, Insertion) {
     EXPECT_EQ(i, 0); 
 }
 
+
  TEST(SetTest, RengeBasedFor) {
     s21::set<int> mySet =  {1, 0, 2, 4, 3, 10, 9, 6, 7};
     int i = mySet.size();
@@ -39,8 +40,27 @@ TEST(SetTest, Insertion) {
         i--;
     EXPECT_EQ(i, 0); 
 }
+ TEST(SetTest, Erase) {
+    s21::set<int> mySet =  {1, 0, 2, 4, 3, 10, 9, 6, 7};
+    auto ptr = mySet.begin();
+    for(int i = 0; i<4; i++)ptr++;
+    mySet.erase(ptr);
+    EXPECT_EQ(mySet.size(), 8);
+}
 
+ TEST(SetTest, Swap) {
+    s21::set<int> mySet =  {1, 0, 2, 4, 3, 10, 9, 6, 7};
+    s21::set<int> mySet2;
+    mySet.swap(mySet2);
+    EXPECT_EQ(mySet.size(), 0);
+    EXPECT_EQ(mySet2.contains(3), 1);
+}
 
+ TEST(SetTest, Find) {
+    s21::set<int> mySet =  {1, 0, 2, 4, 3, 10, 9, 6, 7};
+    mySet.find(6);
+    EXPECT_EQ(*(mySet.find(6)), 6);
+}
 /*
 TEST(SetTest, AssignmentOperator) {
     s21::set<int> mySet;
