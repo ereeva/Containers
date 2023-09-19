@@ -123,8 +123,8 @@ class vector {
     return pos;
   }
   void erase(iterator pos) {
-    std::destroy_at(pos);
-    --size_;
+    for (iterator i = pos; i != end(); ++i) *i = *(i + 1);
+    pop_back();
   }
   void push_back(const T &elem) {
     if (size_ == data_.cp_) reserve(size_ == 0 ? 1 : size_ * 2);
@@ -146,9 +146,14 @@ class vector {
   }
 
   template <typename... Args>
-  iterator insert_many(const_iterator pos, Args &&...args) {
-    for (auto &&arg : {std::forward<Args>(args)...}) pos = insert(pos + 1, arg);
-    return pos;
+  iterator insert_many(iterator pos, Args &&...args) {
+    --pos;
+    size_t n = 0;
+    for (auto &&arg : {std::forward<Args>(args)...}){
+      pos = insert(pos + 1, arg);
+      ++n;
+    }
+    return pos - n + 1;
   }
 
   template <typename... Args>

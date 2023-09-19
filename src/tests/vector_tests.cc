@@ -111,8 +111,7 @@ TEST(VectorTest, CopyAssignment2) {
   EXPECT_TRUE(compare_vectors(v2, v4));
 }
 
-TEST(VectorTest, CopyAssignment3)
-{
+TEST(VectorTest, CopyAssignment3) {
   s21::vector<int> v1{1, 2, 3};
   s21::vector<int> v2;
   v2.reserve(7);
@@ -326,7 +325,7 @@ TEST(VectorTest, Clear2) {
   EXPECT_FALSE(v1.size() == 3);
 }
 
-TEST(VectorTest, Insert){
+TEST(VectorTest, Insert) {
   s21::vector<std::string> v1{"1", "2", "3"};
   auto i1 = v1.insert(v1.begin() + 2, "qwe");
   std::vector<std::string> v2{"1", "2", "3"};
@@ -335,12 +334,27 @@ TEST(VectorTest, Insert){
   EXPECT_EQ(*i1, *i2);
 }
 
-TEST(VectorTest, Erase){
-  s21::vector<std::string> v1{"1", "2", "3"};
+TEST(VectorTest, Erase) {
+  s21::vector<int> v1{1, 2, 3};
   v1.erase(v1.begin());
-  std::vector<std::string> v2{"1", "2", "3"};
+  std::vector<int> v2{1, 2, 3};
   v2.erase(v2.begin());
-  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_TRUE(compare_vectors(v1, v2));
+}
+
+TEST(VectorTest, Resize) {
+  s21::vector<std::string> v1{"1", "2", "3", "4", "5"};
+  v1.resize(3);
+  std::vector<std::string> v2{"1", "2", "3", "4", "5"};
+  v2.resize(3);
+  EXPECT_TRUE(compare_vectors(v1, v2));
+}
+
+TEST(VectorTest, Resize2) {
+  s21::vector<int> v1{1, 2, 3};
+  v1.resize(5);
+  std::vector<int> v2{1, 2, 3};
+  v2.resize(5);
   EXPECT_TRUE(compare_vectors(v1, v2));
 }
 
@@ -410,6 +424,21 @@ TEST(VectorTest, Swap1) {
   EXPECT_EQ(v1_swap.size(), 3);
   EXPECT_EQ(v1_swap.front(), 1);
   EXPECT_EQ(v1_swap.back(), 3);
+}
+
+TEST(VectorTest, InsertMany) {
+  s21::vector<int> v1{4, 5, 6};
+  v1.insert_many(v1.begin(), 1, 2, 3);
+  std::vector<int> v2{1, 2, 3, 4, 5, 6};
+  EXPECT_TRUE(compare_vectors(v1, v2));
+}
+
+TEST(VectorTest, InsertManyBack)
+{
+  s21::vector<int> v1{1,2,3};
+  v1.insert_many_back(4,5,6);
+  std::vector<int> v2{1, 2, 3, 4, 5, 6};
+  EXPECT_TRUE(compare_vectors(v1, v2));
 }
 
 TEST(VectorTest, IteratorIncrement1) {
