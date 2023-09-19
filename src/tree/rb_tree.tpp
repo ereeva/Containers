@@ -152,6 +152,8 @@ void RBTree<key_type>::Balance(Node *&root_, Node *&pt) {
   }
   root_->color = BLACK;
 }
+template <class key_type>
+RBTree<key_type>::BTreeIterator::BTreeIterator() : ptr(nullptr){};
 
 template <class key_type>
 RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node) : ptr(node) {

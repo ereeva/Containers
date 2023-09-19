@@ -4,23 +4,24 @@
 #include "set.h"
 #include "tree/rb_tree.h"
 #include <initializer_list>
+#include <tuple>
 #include <limits>
 #include <utility>
 
 namespace s21 {
+template <class K, class T> struct pair;
 template <class K, class T> class map : public set<pair<K, T>> {
 public:
-  using typename RBTree<std::pair<K, T>>::Node;
-  using typename RBTree<std::pair<K, T>>::BTreeIterator;
+  using typename RBTree<pair<K, T>>::Node;
+  using typename RBTree<pair<K, T>>::BTreeIterator;
   using key_type = K;
   using value_type = T;
   using reference = value_type &;
   using const_reference = const value_type &;
   using size_type = std::size_t;
-  using iterator = typename RBTree<T>::BTreeIterator;
-  struct pair;
+  using iterator = typename RBTree<pair<K, T>>::BTreeIterator;
   map();
-  map(std::initializer_list<std::pair<K, T>> const &items);
+  map(std::initializer_list<pair<K, T>> const &items);
   //   map(const map &s);
   //   map(map &&s);
   //   map(Node *node);
@@ -28,25 +29,50 @@ public:
   //   bool empty();
   //   size_type size();
   //   size_type max_size();
-  //   // void clear();
+  //   void clear();
   //   std::pair<iterator, bool> insert(const value_type &value);
   //   void erase(iterator pos);
   //   void swap(map &other);
   //   void merge(map &other);
   bool contains(const key_type &key) {
-    auto Key = make_pair(key, value_type());
-    return this->contains_tr(Key);
+    return this->contains_tr(pair<key_type, value_type>(key, value_type()));
   };
+
+  //   std::pair<iterator, bool> insert(const key_type &key, const T &obj) {
+  //     return this->insert(pair<key_type, value_type>(key, obj));
+  //   };
+  //   std::pair<iterator, bool> insert_or_assign(const key_type &key,
+  //                                              const T &obj) {
+  //     if (!this->contains(key))
+  //       this->insert(pair<key_type, value_type>(key, obj));
+  //     else this->operator[](key).value = obj;
+  //   };
+  value_type &operator[](const key_type &key) {
+    iterator ptr;
+    if(!(this->contains(key)))
+        this->insert(pair<key_type, value_type>(key));
+        ptr = (this->find(pair<key_type, value_type>(key)));
+    return (*ptr).value;
+  }
+
 private:
 };
 
-template <class key_type, class value_type>
-struct map<key_type, value_type>::pair {
+/// @brief
+/// @tparam key_type
+/// @tparam value_type
+template <class key_type, class value_type> struct pair {
+  pair() : key(), value(){};
+  pair(const key_type &key_) : key(key_), value(){};
+  pair(const key_type &key_, value_type value_) : key(key_), value(value_){};
+  pair(std::pair<key_type, value_type> &p) : key(p.first), value(p.second){};
   bool operator==(const pair &other) { return key == other.key; };
-  bool operator<(const pair &other){return key < other.key;};
-  bool operator!=(const pair &other){return !(*this == other);};
-  bool operator>(const pair &other){return other.key < key;};
-  pair& make_pair(key_type& key_, value_type& value){ return pair(key, value);};
+  bool operator<(const pair &other) { return key < other.key; };
+  bool operator!=(const pair &other) { return !(*this == other); };
+  bool operator>(const pair &other) { return other.key < key; };
+  pair &make_pair(key_type &key, value_type &value) {
+    return pair(key, value);
+  };
   key_type key;
   value_type value;
 };
@@ -54,7 +80,7 @@ struct map<key_type, value_type>::pair {
 template <class key_type, class value_type> map<key_type, value_type>::map(){};
 template <class key_type, class value_type>
 map<key_type, value_type>::map(
-    std::initializer_list<std::pair<key_type, value_type>> const &items)
+    std::initializer_list<pair<key_type, value_type>> const &items)
     : map() {
   for (auto &item : items)
     this->insert(item);

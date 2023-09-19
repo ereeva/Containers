@@ -41,12 +41,12 @@ public:
     std::swap(end_, other.end_);
   };
   void clear();
-  bool contains_tr(const key_type& key) {
+  bool contains_tr(const key_type key) {
     if (root_ == end_)
       return false;
     return root_->contains(root_, key);
   };
-  iterator find(const key_type& key) {
+  iterator find(const key_type key) {
     Node *fptr = root_->find_node(root_, key);
     if (fptr == nullptr)
       fptr = end_;
@@ -89,6 +89,7 @@ template <class key_type> struct RBTree<key_type>::Node {
 
 template <class key_type> class RBTree<key_type>::BTreeIterator {
 public:
+  BTreeIterator();
   BTreeIterator(Node *node);
   BTreeIterator(Node *node, Node *end);
   Node *GetPtr() { return ptr; }

@@ -33,7 +33,8 @@ public:
   void erase(iterator pos);
   void swap(set &other);
   void merge(set &other);
-  bool contains(const key_type& key) { return this->contains_tr(key);} 
+  bool contains(const key_type &key) { return this->contains_tr(key); }
+
 private:
   size_type size_ = 0;
 };
@@ -48,9 +49,9 @@ template <class value_type> set<value_type>::set(const set<value_type> &s) {
   for (auto &it : s)
     this->insert(it);
 };
-template <class value_type> set<value_type>::set(set<value_type> &&s){ 
+template <class value_type> set<value_type>::set(set<value_type> &&s) {
   swap(s);
-  };
+};
 template <class value_type> set<value_type>::set(Node *node){};
 template <class value_type> set<value_type>::~set(){};
 
@@ -63,7 +64,7 @@ typename set<value_type>::size_type set<value_type>::size() {
 };
 template <class value_type>
 typename set<value_type>::size_type set<value_type>::max_size() {
-  return (std::numeric_limits<typename s21::set<value_type>::size_type>::max() *
+  return (std::numeric_limits<typename s21::set<value_type>::size_type>::max() /
           sizeof(Node));
 };
 
