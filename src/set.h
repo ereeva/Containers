@@ -33,7 +33,7 @@ public:
   void erase(iterator pos);
   void swap(set &other);
   void merge(set &other);
-
+  bool contains(const key_type& key) { return this->contains_tr(key);} 
 private:
   size_type size_ = 0;
 };
