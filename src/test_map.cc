@@ -40,86 +40,31 @@ TEST(mapTest, operator_) {
   EXPECT_EQ(mymap[4], "bbb");
   mymap[5] = "blabla";
   EXPECT_EQ(mymap[5], "blabla");
+  s21::map<int, std::string> mcmap = std::move(mymap);
+  EXPECT_EQ(mcmap[5], "blabla");
+  EXPECT_EQ(mymap.size(), 0);
+  EXPECT_ANY_THROW (mcmap.at(6));
 }
-// TEST(mapTest, Insertion) {
-//   s21::map<int, std::string> mymap;
-//   EXPECT_EQ(mymap.contains(0), false);
-//   mymap.insert(0);
-//   mymap.insert(2);
-//   mymap.insert(9);
-//   mymap.insert(7);
-//   EXPECT_EQ(mymap.contains(9), true);
-//   EXPECT_EQ(mymap.contains(0), true);
-//   EXPECT_EQ(mymap.contains(2), true);
-//   EXPECT_EQ(mymap.contains(7), true);
-//   int i = mymap.size();
-//   for (auto &it : mymap)
-//     i--;
-//   EXPECT_EQ(i, 0);
-// }
+TEST(mapTest, Insertion) {
+  s21::map<int, std::string> mymap;
+  EXPECT_EQ(mymap.contains(0), false);
+  mymap.insert(0);
+  mymap.insert(2);
+  mymap.insert(9);
+  mymap.insert(7);
+  mymap.insert_or_assign(7, "bla");
+  EXPECT_EQ(mymap.at(7), "bla");
+  EXPECT_EQ(mymap.contains(9), true);
+  EXPECT_EQ(mymap.contains(0), true);
+  EXPECT_EQ(mymap.contains(2), true);
+  EXPECT_EQ(mymap.contains(7), true);
+  int i = mymap.size();
+  for (auto &it : mymap)
+    i--;
+  EXPECT_EQ(i, 0);
+}
 
-// TEST(mapTest, RengeBasedFor) {
-//   s21::map<int, std::string> mymap = {std::pair(1, "abc"), std::pair(2,
-//   "ced"),
-//                                       std::pair(3, "efd") std::pair(4,
-//                                       "qwe")};
-//   int i = mymap.size();
-//   for (auto &it : mymap)
-//     i--;
-//   EXPECT_EQ(i, 0);
-// }
-// TEST(mapTest, Erase) {
-//   s21::map<int, std::string> mymap = {std::pair(1, "abc"), std::pair(2,
-//   "ced"),
-//                                       std::pair(3, "efd") std::pair(4,
-//                                       "qwe")};
-//   auto ptr = mymap.begin();
-//   for (int i = 0; i < 4; i++)
-//     ptr++;
-//   mymap.erase(ptr);
-//   EXPECT_EQ(mymap.size(), 8);
-// }
-
-// TEST(mapTest, Swap) {
-//   s21::map<int, std::string> mymap = {std::pair(1, "abc"), std::pair(2,
-//   "ced"),
-//                                       std::pair(3, "efd") std::pair(4,
-//                                       "qwe")};
-//   s21::map<int, std::string> mymap2;
-//   mymap.swap(mymap2);
-//   EXPECT_EQ(mymap.size(), 0);
-//   EXPECT_EQ(mymap2.contains(3), 1);
-// }
-
-// TEST(mapTest, Find) {
-//   s21::map<int, std::string> mymap = {std::pair(1, "abc"), std::pair(2,
-//   "ced"),
-//                                       std::pair(3, "efd") std::pair(4,
-//                                       "qwe")};
-//   s21::map<int, std::string>::iterator ptr = mymap.find(10);
-//   EXPECT_EQ(*ptr, 10);
-//   ptr = mymap.find(1);
-//   EXPECT_EQ(*ptr, 1);
-//   ptr = mymap.find(0);
-//   EXPECT_EQ(*ptr, 0);
-//   ptr = mymap.find(6);
-//   EXPECT_EQ(*ptr, 6);
-//   ptr = mymap.find(17);
-//   EXPECT_EQ(*ptr, 0);
-// }
 int main() {
   testing::InitGoogleTest();
   return RUN_ALL_TESTS();
-    // std::map<int, std::string> m;
-  //   s21::map<int, std::string> initList = {std::pair<int, std::string>(1,
-  //   "abc"),
-  //                                          std::pair<int, std::string>(2,
-  //                                          "ced"), std::pair<int,
-  //                                          std::string>(3, "efd"),
-  //                                          std::pair<int, std::string>(4,
-  //                                          "qwe")};
-  //   s21::map<int, std::string> copyCons(initList);
-  //   s21::map<int, std::string> moveCons(std::move(initList));
-  //   ;
-  return 0;
 }

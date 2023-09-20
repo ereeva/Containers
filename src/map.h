@@ -4,12 +4,16 @@
 #include "set.h"
 #include "tree/rb_tree.h"
 #include <initializer_list>
-#include <tuple>
 #include <limits>
+#include <stdexcept>
+#include <tuple>
 #include <utility>
 
 namespace s21 {
 template <class K, class T> struct pair;
+/// @brief container holds pairs<key, value> derived from s21::set<pair<K,T>>
+/// @tparam K 
+/// @tparam T 
 template <class K, class T> class map : public set<pair<K, T>> {
 public:
   using typename RBTree<pair<K, T>>::Node;
@@ -22,43 +26,77 @@ public:
   using iterator = typename RBTree<pair<K, T>>::BTreeIterator;
   map();
   map(std::initializer_list<pair<K, T>> const &items);
-  //   map(const map &s);
-  //   map(map &&s);
-  //   map(Node *node);
-  //   ~map();
-  //   bool empty();
-  //   size_type size();
-  //   size_type max_size();
-  //   void clear();
-  //   std::pair<iterator, bool> insert(const value_type &value);
-  //   void erase(iterator pos);
-  //   void swap(map &other);
-  //   void merge(map &other);
+
+  /// @brief return reference of element or throw exception
+  /// @param key 
+  /// @return  reference to the mapped value of the element with key 
+  reference at(const key_type &key) {
+    iterator ptr;
+    if (this->contains(key))
+      ptr = (this->find(pair<key_type, value_type>(key)));
+    else
+      throw std::out_of_range("map::at");
+    return (*ptr).value;
+  };
+
+  /// @brief check for element exists in container
+  /// @param key 
+  /// @return bool
   bool contains(const key_type &key) {
     return this->contains_tr(pair<key_type, value_type>(key, value_type()));
   };
 
-  //   std::pair<iterator, bool> insert(const key_type &key, const T &obj) {
-  //     return this->insert(pair<key_type, value_type>(key, obj));
-  //   };
-  //   std::pair<iterator, bool> insert_or_assign(const key_type &key,
-  //                                              const T &obj) {
-  //     if (!this->contains(key))
-  //       this->insert(pair<key_type, value_type>(key, obj));
-  //     else this->operator[](key).value = obj;
-  //   };
-  value_type &operator[](const key_type &key) {
+  /// @brief insert element to container
+  /// @param value 
+  /// @return pair of iterator and true if inserted
+  std::pair<iterator, bool> insert(pair<key_type, value_type> value){
+    if (this->contains(value.key))
+      return std::make_pair(iterator(nullptr), false);
+    else {
+      this->IncSize();
+      return std::make_pair(iterator(this->Insert(value)), true);
+    }
+  };
+
+  /// @brief insert element to map taking key and value
+  /// @param key 
+  /// @param obj 
+  /// @return pair of iterator and true if inserted
+  std::pair<iterator, bool> insert(const key_type &key, const T &obj) {
+    return this->insert(pair<key_type, value_type>(key, obj));
+  };
+
+  /// @brief insert or assign an element in map
+  /// @param key
+  /// @param obj
+  /// @return pair of iterator and true if inserted , false if assign
+  std::pair<iterator, bool> insert_or_assign(const key_type &key,
+                                             const T &obj) {
+    bool in = false;
     iterator ptr;
-    if(!(this->contains(key)))
-        this->insert(pair<key_type, value_type>(key));
-        ptr = (this->find(pair<key_type, value_type>(key)));
-    return (*ptr).value;
+    if (!(this->contains(key))) {
+      ptr = (this->insert(pair<key_type, value_type>(key))).first;
+      in = true;
+    } else {
+      ptr = this->find(pair<key_type, value_type>(key));
+      (*ptr).value = obj;
+    }
+    return std::pair<iterator, bool>(ptr, in);
+  };
+
+  /// @brief return reference of element (insert if doesn't exists) 
+  /// @param key 
+  /// @return reference
+  reference operator[](const key_type &key) {
+    if (!(this->contains(key)))
+      this->insert(pair<key_type, value_type>(key));
+    return this->at(key);
   }
 
 private:
 };
 
-/// @brief
+/// @brief hold key-value pair
 /// @tparam key_type
 /// @tparam value_type
 template <class key_type, class value_type> struct pair {
@@ -78,6 +116,10 @@ template <class key_type, class value_type> struct pair {
 };
 
 template <class key_type, class value_type> map<key_type, value_type>::map(){};
+/// @brief initializer_list costructor ( {{ key, value},...} )
+/// @tparam key_type 
+/// @tparam value_type 
+/// @param items 
 template <class key_type, class value_type>
 map<key_type, value_type>::map(
     std::initializer_list<pair<key_type, value_type>> const &items)
@@ -85,65 +127,7 @@ map<key_type, value_type>::map(
   for (auto &item : items)
     this->insert(item);
 };
-// template <class value_type> map<value_type>::map(const map<value_type> &s) {
-//   for (auto &it : s)
-//     this->insert(it);
-// };
-// template <class value_type> map<value_type>::map(map<value_type> &&s){
-//   swap(s);
-//   };
-// template <class value_type> map<value_type>::map(Node *node){};
-// template <class value_type> map<value_type>::~map(){};
 
-// template <class value_type> bool map<value_type>::empty() {
-//   return this->root_ == this->end_;
-// };
-// template <class value_type>
-// typename map<value_type>::size_type map<value_type>::size() {
-//   return size_;
-// };
-// template <class value_type>
-// typename map<value_type>::size_type map<value_type>::max_size() {
-//   return (std::numeric_limits<typename
-//   s21::map<value_type>::size_type>::max() *
-//           sizeof(Node));
-// };
-
-// template <class value_type> void map<value_type>::erase(iterator pos) {
-//   Node *ptr = pos.GetPtr();
-//   size_type tmp_size = size_ - 1;
-//   map<value_type> lft(ptr->left_);
-//   map<value_type> rht(ptr->right_);
-//   if (ptr->parent_ != nullptr) {
-//     if (ptr == ptr->parent_->left_)
-//       ptr->parent_->left_ = nullptr;
-//     else
-//       ptr->parent_->right_ = nullptr;
-//   }
-//   delete ptr;
-//   merge(lft);
-//   merge(rht);
-//   size_ = tmp_size;
-// };
-// template <class value_type> void map<value_type>::merge(map &other) {
-//   for (auto &node : other)
-//     this->insert(node);
-// }
-
-// template <class value_type> void map<value_type>::swap(map &other) {
-//   std::swap(size_, other.size_);
-//   this->Swap(other);
-// }
-
-// template <class value_type>
-// typename std::pair<typename s21::map<value_type>::iterator, bool>
-// s21::map<value_type>::insert(const value_type &value) {
-//   if (this->contains(value))
-//     return std::make_pair(iterator(nullptr), false);
-//   else {
-//     this->size_++;
-//     return std::make_pair(iterator(this->Insert(value)), true);
-//   }
 } // namespace s21
 
 #endif
