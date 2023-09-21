@@ -2,10 +2,12 @@
 #define S21_CONTAINERS_TREE_RB_TREE_H
 
 #include <utility>
+#include <functional>
+
 namespace s21 {
 enum Color { RED, BLACK };
 
-template <class T> class RBTree {
+template <class T, class comp = std::less<T>> class RBTree {
 public:
   struct Node;
   class BTreeIterator;
@@ -60,7 +62,7 @@ private:
   Node *root_, *end_;
 };
 
-template <class key_type> struct RBTree<key_type>::Node {
+template <class key_type,class comp> struct RBTree<key_type, comp>::Node {
   key_type data_;
   bool color;
   Node *left_, *right_, *parent_;
@@ -87,7 +89,7 @@ template <class key_type> struct RBTree<key_type>::Node {
   bool contains(Node *node, const key_type key);
 };
 
-template <class key_type> class RBTree<key_type>::BTreeIterator {
+template <class key_type, class comp> class RBTree<key_type, comp>::BTreeIterator {
 public:
   BTreeIterator();
   BTreeIterator(Node *node);

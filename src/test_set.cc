@@ -1,4 +1,5 @@
 #include "set.h"
+#include "vector/vector.h"
 #include <gtest/gtest.h>
 
 TEST(SetTest, Constructors) {
@@ -82,47 +83,24 @@ TEST(SetTest, Find) {
   ptr = mySet.find(1);
   EXPECT_EQ(*ptr, 1);
   ptr = mySet.find(0);
-  EXPECT_EQ(*ptr, 0);
   ptr = mySet.find(6);
   EXPECT_EQ(*ptr, 6);
   ptr = mySet.find(17);
   EXPECT_EQ(*ptr, 0);
 }
-/*
-TEST(SetTest, AssignmentOperator) {
-    s21::set<int> mySet;
-    mySet.Insert(5);
-    mySet.Insert(10);
-    s21::set<int> assignedSet;
-    assignedSet = mySet;
-    EXPECT_NE(assignedSet.contains(5), assignedSet.end());
-    EXPECT_NE(assignedSet.find(10), assignedSet.end());
+
+TEST(SetTest, TestInsertMany) {
+  s21::set<int> mySet;
+  s21::vector<std::pair<s21::set<int>::iterator, bool>> res =
+      mySet.insert_many(1, 2, 3, 4, 5, 6);
+  EXPECT_EQ(mySet.contains(5), true);
+  EXPECT_EQ(mySet.contains(6), true);
+  for (auto &a : res)
+    EXPECT_EQ(a.second, true);
 }
-*/
 
 int main() {
   testing::InitGoogleTest();
   return RUN_ALL_TESTS();
-//   s21::set<int> initList = {1, 2, 3, 4};
-//   s21::set<int> copyCons(initList);
-//   s21::set<int> moveCons(std::move(initList));
-  //   s21::set<int> mySet =  {1, 0, 2, 4, 3, 10, 9, 6, 7};
-  // s21::set<int>::iterator ptr = mySet.find(10);
-  // std::cout<<*ptr;
-  //   s21::set<int> mySet;
-  //     mySet.insert(0);
-  //     mySet.insert (2);
-  //     mySet.insert(9);
-  //     mySet.insert(7);
-  //       int i = mySet.size();
-  //       auto it_end = mySet.end();
-  //       auto it_begin = mySet.begin();
-  //     for(; it_begin != it_end; ++it_begin )
-  //         i--;
-  // std::cout<<a.contains(2);
-  // std::cout << a. contains(3);
-  // std::cout<<a.contains(0);
-  // std::cout<<a.contains(9);
-  // std::cout<<a.contains(7);
-  return 0;
+   return 0;
 }

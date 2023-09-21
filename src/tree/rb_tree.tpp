@@ -1,17 +1,17 @@
 namespace s21 {
 
-template <class key_type>
-RBTree<key_type>::RBTree() : root_(new Node()), end_(root_){};
+template <class key_type, class comp>
+RBTree<key_type, comp>::RBTree() : root_(new Node()), end_(root_){};
 
-template <class key_type>
-RBTree<key_type>::RBTree(RBTree &&other) {
+template <class key_type, class comp>
+RBTree<key_type, comp>::RBTree(RBTree &&other) {
     std::swap(root_ , other.root_);
     std::swap(other.root_ = other.end_);
   };
 
-template <class key_type>
-typename RBTree<key_type>::Node *
-RBTree<key_type>::Insert(const_reference data_) {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::Node *
+RBTree<key_type, comp>::Insert(const_reference data_) {
   if (root_ == end_)
     root_ = nullptr;
   Node *pt = new Node(data_);
@@ -20,12 +20,12 @@ RBTree<key_type>::Insert(const_reference data_) {
   return root_;
 };
 
-template <class key_type>
-typename RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root_,
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::Node *RBTree<key_type, comp>::Search(Node *root_,
                                                           Node *pt) const {
   if (root_ == nullptr)
     return pt;
-  if (pt->data_ < root_->data_) {
+  if (comp{}(pt->data_,root_->data_)) {
     root_->left_ = Search(root_->left_, pt);
     root_->left_->parent_ = root_;
   } else if (pt->data_ > root_->data_) {
@@ -34,8 +34,8 @@ typename RBTree<key_type>::Node *RBTree<key_type>::Search(Node *root_,
   }
   return root_;
 }
-template <class key_type>
-bool RBTree<key_type>::Node::contains(Node *node, const key_type key) {
+template <class key_type, class comp>
+bool RBTree<key_type, comp>::Node::contains(Node *node, const key_type key) {
   if (node == nullptr)
     return false;
   bool cont = false;
@@ -48,9 +48,9 @@ bool RBTree<key_type>::Node::contains(Node *node, const key_type key) {
   return cont;
 }
 
-template <class key_type>
-typename RBTree<key_type>::Node *
-RBTree<key_type>::Node::find_node(Node *node, const key_type key) {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::Node *
+RBTree<key_type, comp>::Node::find_node(Node *node, const key_type key) {
   if (node == nullptr)
     return node;
   Node *it(nullptr);
@@ -64,17 +64,17 @@ RBTree<key_type>::Node::find_node(Node *node, const key_type key) {
   return it;
 }
 
-template <class key_type> void RBTree<key_type>::Remove(Node *node){};
+template <class key_type, class comp> void RBTree<key_type, comp>::Remove(Node *node){};
 
-template <class key_type> void RBTree<key_type>::clear() {
+template <class key_type, class comp> void RBTree<key_type, comp>::clear() {
   root_->Clear();
   if (root_ != end_)
     delete root_;
   root_ = end_;
 }
 
-template <class key_type>
-void RBTree<key_type>::RotateLeft(Node *&root_, Node *&pt) {
+template <class key_type, class comp>
+void RBTree<key_type, comp>::RotateLeft(Node *&root_, Node *&pt) {
   Node *pt_right_ = pt->right_;
   pt->right_ = pt_right_->left_;
   if (pt->right_ != nullptr)
@@ -90,8 +90,8 @@ void RBTree<key_type>::RotateLeft(Node *&root_, Node *&pt) {
   pt->parent_ = pt_right_;
 }
 
-template <class key_type>
-void RBTree<key_type>::RotateRight(Node *&root_, Node *&pt) {
+template <class key_type, class comp>
+void RBTree<key_type, comp>::RotateRight(Node *&root_, Node *&pt) {
   Node *pt_left_ = pt->left_;
   pt->left_ = pt_left_->right_;
   if (pt->left_ != nullptr)
@@ -107,8 +107,8 @@ void RBTree<key_type>::RotateRight(Node *&root_, Node *&pt) {
   pt->parent_ = pt_left_;
 }
 
-template <class key_type>
-void RBTree<key_type>::Balance(Node *&root_, Node *&pt) {
+template <class key_type, class comp>
+void RBTree<key_type, comp>::Balance(Node *&root_, Node *&pt) {
   Node *parent_pt = nullptr;
   Node *grand_parent_pt = nullptr;
   while ((pt != root_) && (pt->color != BLACK) && (pt->parent_->color == RED)) {
@@ -152,18 +152,18 @@ void RBTree<key_type>::Balance(Node *&root_, Node *&pt) {
   }
   root_->color = BLACK;
 }
-template <class key_type>
-RBTree<key_type>::BTreeIterator::BTreeIterator() : ptr(nullptr){};
+template <class key_type, class comp>
+RBTree<key_type, comp>::BTreeIterator::BTreeIterator() : ptr(nullptr){};
 
-template <class key_type>
-RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node) : ptr(node) {
+template <class key_type, class comp>
+RBTree<key_type, comp>::BTreeIterator::BTreeIterator(Node *node) : ptr(node) {
   root = ptr;
   while (root->parent_ != nullptr)
     root = root->parent_;
 }
 
-template <class key_type>
-RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node, Node *end)
+template <class key_type, class comp>
+RBTree<key_type, comp>::BTreeIterator::BTreeIterator(Node *node, Node *end)
     : ptr(node), end_(end) {
   if (ptr == end_)
     return;
@@ -172,36 +172,36 @@ RBTree<key_type>::BTreeIterator::BTreeIterator(Node *node, Node *end)
     root = root->parent_;
 }
 
-template <class key_type>
-typename RBTree<key_type>::Node *
-RBTree<key_type>::BTreeIterator::FindMin(Node *ptr) {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::Node *
+RBTree<key_type, comp>::BTreeIterator::FindMin(Node *ptr) {
   Node *node = ptr;
   while (node->left_ != nullptr)
     node = node->left_;
   return node;
 }
 
-template <class key_type>
-typename RBTree<key_type>::Node *
-RBTree<key_type>::BTreeIterator::FindMax(Node *ptr) {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::Node *
+RBTree<key_type, comp>::BTreeIterator::FindMax(Node *ptr) {
   Node *node = ptr;
   while (node->right_ != nullptr)
     node = node->right_;
   return node;
 }
 
-template <class key_type>
-typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::begin() {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator RBTree<key_type, comp>::BTreeIterator::begin() {
   return iterator(FindMin(ptr), end_);
 }
 
-template <class key_type>
-typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::end() {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator RBTree<key_type, comp>::BTreeIterator::end() {
   return iterator(end_);
 }
 
-template <class key_type>
-typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::next() {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator RBTree<key_type, comp>::BTreeIterator::next() {
   if (ptr == FindMax(root))
     ptr = end_;
   else if (ptr->right_ != nullptr)
@@ -214,8 +214,8 @@ typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::next() {
   return *this;
 };
 
-template <class key_type>
-typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::prev() {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator RBTree<key_type, comp>::BTreeIterator::prev() {
   if (ptr->left_ != nullptr)
     ptr = FindMax(ptr->left_);
   else {
@@ -226,50 +226,50 @@ typename RBTree<key_type>::iterator RBTree<key_type>::BTreeIterator::prev() {
   return *this;
 };
 
-template <class key_type>
-typename RBTree<key_type>::iterator
-RBTree<key_type>::BTreeIterator::operator++() {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator
+RBTree<key_type, comp>::BTreeIterator::operator++() {
   return next();
 };
 
-template <class key_type>
-typename RBTree<key_type>::iterator
-RBTree<key_type>::BTreeIterator::operator--() {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator
+RBTree<key_type, comp>::BTreeIterator::operator--() {
   return prev();
 };
 
-template <class key_type>
-typename RBTree<key_type>::iterator
-RBTree<key_type>::BTreeIterator::operator++(int) {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator
+RBTree<key_type, comp>::BTreeIterator::operator++(int) {
   iterator tmp(ptr, end_);
   next();
   return tmp;
 };
 
-template <class key_type>
-typename RBTree<key_type>::iterator
-RBTree<key_type>::BTreeIterator::operator--(int) {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::iterator
+RBTree<key_type, comp>::BTreeIterator::operator--(int) {
   iterator tmp(ptr, end_);
   prev();
   return tmp;
 };
-template <class key_type>
-bool RBTree<key_type>::BTreeIterator::operator==(const iterator rhs) const {
+template <class key_type, class comp>
+bool RBTree<key_type, comp>::BTreeIterator::operator==(const iterator rhs) const {
   return ptr == rhs.ptr;
 };
-template <class key_type>
-bool RBTree<key_type>::BTreeIterator::operator<(const iterator rhs) const {
+template <class key_type, class comp>
+bool RBTree<key_type, comp>::BTreeIterator::operator<(const iterator rhs) const {
   return ptr->data_ < rhs.ptr->data_;
 };
 
-template <class key_type>
-typename RBTree<key_type>::reference
-RBTree<key_type>::BTreeIterator::operator*() {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::reference
+RBTree<key_type, comp>::BTreeIterator::operator*() {
   return ptr->data_;
 };
-template <class key_type>
-typename RBTree<key_type>::const_reference
-RBTree<key_type>::BTreeIterator::operator*() const {
+template <class key_type, class comp>
+typename RBTree<key_type, comp>::const_reference
+RBTree<key_type, comp>::BTreeIterator::operator*() const {
   return ptr->data_;
 };
 }; // namespace s21
