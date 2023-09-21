@@ -60,7 +60,7 @@ TEST(SetTest, RengeBasedFor) {
   EXPECT_EQ(i, 0);
 }
 TEST(SetTest, Erase) {
-  s21::set<int> mySet = {1, 0, 2, 4, 3, 10, 9, 6, 7};
+  s21::set<int> mySet = {1, 0, 2,2, 4, 3, 10, 9, 6, 7};
   auto ptr = mySet.begin();
   for (int i = 0; i < 4; i++)
     ptr++;

@@ -157,7 +157,7 @@ template <class value_type, class comp>
 typename std::pair<typename s21::set<value_type, comp>::iterator, bool>
 s21::set<value_type, comp>::insert(const value_type &value) {
   if (this->contains(value))
-    return std::make_pair(iterator(nullptr), false);
+    return std::make_pair(this->find(value), false);
   else {
     this->size_++;
     return std::make_pair(iterator(this->Insert(value)), true);

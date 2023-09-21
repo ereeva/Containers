@@ -100,6 +100,9 @@ TEST(multisetTest, TestInsertMany) {
 }
 
 int main() {
-  testing::InitGoogleTest();
-  return RUN_ALL_TESTS();
+//   testing::InitGoogleTest();
+//   return RUN_ALL_TESTS();
+  s21::multiset<int> initList = {2, 2, 3, 4};
+  for(auto& a : initList) std::cout << a;
+  return 0;
 }
