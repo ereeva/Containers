@@ -3,7 +3,7 @@ CC = g++ -std=c++17 -g
 CPPFLAGS = -Wall -Werror -Wextra 
 TESTFLAGS = -lgtest -pthread
 # LINUX_FLAGS = -lrt -lpthread -lm -lsubunit
-GCOV_FLAGS = --coverage -fprofile-arcs -ftest-coverage 
+GCOV_FLAGS = --coverage #-fprofile-arcs -ftest-coverage 
 TEST_SRC = tests/*.cc
 TEST_TARGET = test
 
@@ -22,14 +22,14 @@ clean:
 
 test: clean
 ifeq ($(OS), Darwin)
-	@$(CC) $(TESTFLAGS) $(LIBS) $(CPPFLAGS) $(TEST_SRC) -o $(TEST_TARGET)
+	@$(CC) $(TESTFLAGS) $(CPPFLAGS) $(TEST_SRC) -o $(TEST_TARGET)
 else
-	@$(CC) $(TESTFLAGS) $(TEST_SRC) $(CPPFLAGS) -o $(TEST_TARGET) $(LIBS) $(LINUX_FLAGS)
+	@$(CC) $(TESTFLAGS) $(TEST_SRC) $(CPPFLAGS) -o $(TEST_TARGET) $(LINUX_FLAGS)
 endif
 	@./$(TEST_TARGET)
 
 gcov_report: clean
-	@$(CC) $(TESTFLAGS) $(GCOV_FLAGS) $(LIBS) $(CPPFLAGS) $(TEST_SRC) -o gcov_report 
+	@$(CC) $(TESTFLAGS) $(GCOV_FLAGS) $(CPPFLAGS) $(TEST_SRC) -o gcov_report 
 	@./gcov_report
 	@lcov -t "stest" --no-external --ignore-errors mismatch -o test.info -c -d  .
 	@genhtml -o report test.info
