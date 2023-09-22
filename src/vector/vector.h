@@ -123,8 +123,9 @@ class vector {
     return pos;
   }
   void erase(iterator pos) {
-    for (iterator i = pos; i != end(); ++i) *i = *(i + 1);
-    pop_back();
+    for (iterator i = pos; i != end() - 1; ++i) *i = *(i + 1);
+    std::destroy_at(data_ + size_ - 1);
+    --size_;
   }
   void push_back(const T &elem) {
     if (size_ == data_.cp_) reserve(size_ == 0 ? 1 : size_ * 2);

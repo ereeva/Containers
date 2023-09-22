@@ -81,10 +81,10 @@ class list {
     for (size_type i = 0; i < n; ++i) push_back(value_type());
   }
   list(std::initializer_list<T> const &items) : list() {
-    for (auto &item : items) push_back(item);
+    for (const auto &item : items) push_back(item);
   }
   list(const list &l) : list() {
-    for (auto node : l) push_back(node);
+    for (const auto node : l) push_back(node);
   }
   list(list &&l) noexcept : list() { swap(l); }
 

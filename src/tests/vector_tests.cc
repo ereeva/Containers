@@ -335,7 +335,7 @@ TEST(VectorTest, Insert) {
 }
 
 TEST(VectorTest, Erase) {
-  s21::vector<int> v1{1, 2, 3};
+  s21::vector<int> v1{1, 2, 3}; 
   v1.erase(v1.begin());
   std::vector<int> v2{1, 2, 3};
   v2.erase(v2.begin());
