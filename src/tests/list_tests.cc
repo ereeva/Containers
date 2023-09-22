@@ -1,6 +1,6 @@
 #include <list>
 
-#include "../list/list.h"
+#include "../list/s21_list.h"
 #include "all_tests.h"
 
 bool listsEqual(s21::list<int> L1, std::list<int> L2) {

@@ -1,7 +1,7 @@
 #ifndef CPP2_S21_STACK_STACK_H_
 #define CPP2_S21_STACK_STACK_H_
 
-#include "../list/list.h"
+#include "../list/s21_list.h"
 
 namespace s21 {
 template <class T, class Container = list<T>>

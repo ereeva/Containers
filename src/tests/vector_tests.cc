@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "../vector/vector.h"
+#include "../vector/s21_vector.h"
 #include "all_tests.h"
 
 template <typename value_type>

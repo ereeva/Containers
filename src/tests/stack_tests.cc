@@ -1,7 +1,7 @@
 #include <stack>
 
-#include "../stack/stack.h"
-#include "../vector/vector.h"
+#include "../stack/s21_stack.h"
+#include "../vector/s21_vector.h"
 #include "all_tests.h"
 
 TEST(StackTest, DefaultConstructor) {
