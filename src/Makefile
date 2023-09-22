@@ -47,25 +47,13 @@ gcov_report: report/index.html
 open_report:
 	-$(OPEN) report/index.html
 
-check: leaks cppcheck linter
+check: leaks style
 
-linter:
-	@cp ../linters/.clang-format ./
-	@clang-format -n $(TEST)
-	@clang-format -n $(SOURCE)
-	@clang-format -n view/*/*.cc view/*/*.h
-	@clang-format -n controller/*.cc controller/*.h
-	@clang-format -n main.cc
-	@rm -f .clang-format
+clang:
+	clang-format -i --style=Google */*.cc */*.h *.h
 
-run_linter:
-	@cp ../linters/.clang-format ./
-	@clang-format -i $(TEST)
-	@clang-format -i $(SOURCE)
-	@clang-format -i view/*/*.cc view/*/*.h
-	@clang-format -i controller/*.cc controller/*.h
-	@clang-format -i main.cc
-	@rm -f .clang-format
+style:
+	clang-format -n --style=Google */*.cc */*.h *.h
 
 cppcheck:
 	cppcheck --std=c++17 --enable=all --language=c++ --suppress=missingIncludeSystem $(TEST) $(SOURCE)
@@ -73,4 +61,4 @@ cppcheck:
 leaks: $(TEST_FILE)
 	$(LEAKS) ./$(TEST_FILE)
 
-.PHONY: all clean test gcov_report rebuild linter cppcheck leaks check
+.PHONY: all clean test gcov_report style cppcheck leaks check

@@ -150,7 +150,7 @@ class vector {
   iterator insert_many(iterator pos, Args &&...args) {
     --pos;
     size_t n = 0;
-    for (auto &&arg : {std::forward<Args>(args)...}){
+    for (auto &&arg : {std::forward<Args>(args)...}) {
       pos = insert(pos + 1, arg);
       ++n;
     }

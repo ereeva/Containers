@@ -3,4 +3,4 @@
 
 #include "array/s21_array.h"
 
-#endif // CPP2_S21_CONTAINERSPLUS_H_
+#endif  // CPP2_S21_CONTAINERSPLUS_H_

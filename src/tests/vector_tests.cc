@@ -335,7 +335,7 @@ TEST(VectorTest, Insert) {
 }
 
 TEST(VectorTest, Erase) {
-  s21::vector<int> v1{1, 2, 3}; 
+  s21::vector<int> v1{1, 2, 3};
   v1.erase(v1.begin());
   std::vector<int> v2{1, 2, 3};
   v2.erase(v2.begin());
@@ -433,10 +433,9 @@ TEST(VectorTest, InsertMany) {
   EXPECT_TRUE(compare_vectors(v1, v2));
 }
 
-TEST(VectorTest, InsertManyBack)
-{
-  s21::vector<int> v1{1,2,3};
-  v1.insert_many_back(4,5,6);
+TEST(VectorTest, InsertManyBack) {
+  s21::vector<int> v1{1, 2, 3};
+  v1.insert_many_back(4, 5, 6);
   std::vector<int> v2{1, 2, 3, 4, 5, 6};
   EXPECT_TRUE(compare_vectors(v1, v2));
 }
