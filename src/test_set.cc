@@ -99,8 +99,19 @@ TEST(SetTest, TestInsertMany) {
     EXPECT_EQ(a.second, true);
 }
 
+TEST(SetTest, TestConstIterator) {
+  const s21::set<int> mySet = {1, 0, 2, 4, 3, 5, 8, 10, 9, 6, 7};
+  s21::set<int>::const_iterator iter = mySet.find(0);
+  for(auto &item : mySet) 
+    EXPECT_EQ (*iter++, item);
+}
+
 int main() {
-  testing::InitGoogleTest();
-  return RUN_ALL_TESTS();
+  // testing::InitGoogleTest();
+  // return RUN_ALL_TESTS();
+  const s21::set<int> mySet = {1, 0, 2, 4, 3, 5, 8, 10, 9, 6, 7};
+  s21::set<int>::const_iterator iter = mySet.find(0);
+  for(s21::set<int>::const_iterator iter = mySet.begin(); iter != mySet.end(); ++iter)
+    std::cout << *iter; 
    return 0;
 }

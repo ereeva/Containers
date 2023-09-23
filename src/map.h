@@ -14,18 +14,18 @@ template <class T, class K> struct pair;
 /// @brief container holds pairs<key, value> derived from s21::set<pair<K,T>>
 /// @tparam K 
 /// @tparam T 
-template <class T, class K> class map : public set<pair<T, K>> {
+template <class K, class T> class map : public set<pair<K, T>> {
 public:
-  using typename RBTree<pair<T, K>>::Node;
-  using typename RBTree<pair<T, K>>::BTreeIterator;
-  using key_type = T;
-  using value_type = K;
+  using typename RBTree<pair<K, T>>::Node;
+  using typename RBTree<pair<K, T>>::BTreeIterator;
+  using key_type = K;
+  using value_type = T;
   using reference = value_type &;
   using const_reference = const value_type &;
   using size_type = std::size_t;
-  using iterator = typename RBTree<pair<T, K>>::BTreeIterator;
+  using iterator = typename RBTree<pair<K, T>>::BTreeIterator;
   map();
-  map(std::initializer_list<pair<T, K>> const &items);
+  map(std::initializer_list<pair<K, T>> const &items);
 
   /// @brief return reference of element or throw exception
   /// @param key 

@@ -1,8 +1,8 @@
 #ifndef S21_CONTAINERS_TREE_RB_TREE_H
 #define S21_CONTAINERS_TREE_RB_TREE_H
 
-#include <utility>
 #include <functional>
+#include <utility>
 
 namespace s21 {
 enum Color { RED, BLACK };
@@ -11,17 +11,19 @@ template <class T, class comp = std::less<T>> class RBTree {
 public:
   struct Node;
   class BTreeIterator;
+  class ConstBTreeIterator;
 
   using key_type = T;
   using value_type = key_type;
   using reference = value_type &;
   using const_reference = const value_type &;
   using iterator = BTreeIterator;
+  using const_iterator = ConstBTreeIterator;
   using size_type = std::size_t;
 
   RBTree();
   RBTree(Node *node) : RBTree() { root_ = node; };
-  RBTree(RBTree &&other) ;
+  RBTree(RBTree &&other);
   ~RBTree() {
     clear();
     delete end_;
@@ -48,12 +50,18 @@ public:
       return false;
     return root_->contains(root_, key);
   };
-  iterator find(const key_type key) {
-   Node *fptr = root_->find_node(root_, key);
+  iterator find(const key_type key) noexcept {
+    Node *fptr = root_->find_node(root_, key);
     if (fptr == nullptr)
       fptr = end_;
     return iterator(fptr, end_);
-  }
+  };
+  const_iterator find(const key_type key) const noexcept {
+    Node *fptr = root_->find_node(root_, key);
+    if (fptr == nullptr)
+      fptr = end_;
+    return const_iterator(fptr, end_);
+  };
 
 private:
   void Balance(Node *&root, Node *&pt);
@@ -62,7 +70,7 @@ private:
   Node *root_, *end_;
 };
 
-template <class key_type,class comp> struct RBTree<key_type, comp>::Node {
+template <class key_type, class comp> struct RBTree<key_type, comp>::Node {
   key_type data_;
   bool color;
   Node *left_, *right_, *parent_;
@@ -85,16 +93,16 @@ template <class key_type,class comp> struct RBTree<key_type, comp>::Node {
       right_ = nullptr;
     }
   }
-  Node *find_node(Node *node, const key_type key);
-  bool contains(Node *node, const key_type key);
+  Node *find_node(Node *node, const key_type key) const;
+  bool contains(Node *node, const key_type key) const;
 };
 
-template <class key_type, class comp> class RBTree<key_type, comp>::BTreeIterator {
+template <class key_type, class comp>
+class RBTree<key_type, comp>::BTreeIterator {
 public:
   BTreeIterator();
   BTreeIterator(Node *node);
   BTreeIterator(Node *node, Node *end);
-  Node *GetPtr() { return ptr; }
   iterator begin();
   iterator end();
   iterator next();
@@ -106,8 +114,7 @@ public:
   bool operator==(const iterator rhs) const;
   bool operator<(const iterator rhs) const;
   bool operator!=(const iterator rhs) const { return !operator==(rhs); };
-  reference operator*();
-  const_reference operator*() const;
+  reference operator*() const;
 
 private:
   Node *FindMax(Node *ptr);
@@ -115,6 +122,18 @@ private:
   Node *ptr, *end_, *root;
 };
 
+template <class key_type, class comp>
+class RBTree<key_type, comp>::ConstBTreeIterator
+    : public RBTree<key_type, comp>::BTreeIterator {
+public:
+  ConstBTreeIterator(Node *node, Node *end){};
+  const_iterator begin() ;
+  const_iterator end() ;
+  const_iterator operator++() ;
+  const_iterator operator--() ;
+
+  const_reference operator*() const { return **this; }
+};
 }; // namespace s21
 
 #include "rb_tree.tpp"

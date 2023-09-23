@@ -21,6 +21,7 @@ public:
   using const_reference = const value_type &;
   using size_type = std::size_t;
   using iterator = typename RBTree<T, comp>::BTreeIterator;
+  using const_iterator = typename RBTree<T, comp>::ConstBTreeIterator;
 
   set();
   set(std::initializer_list<T> const &items);
