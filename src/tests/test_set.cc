@@ -1,6 +1,7 @@
-#include "set.h"
-#include "vector/vector.h"
+#include "../set/s21_set.h"
+#include "../vector/vector.h"
 #include <gtest/gtest.h>
+
 
 TEST(SetTest, Constructors) {
   s21::set<int> initList = {1, 2, 3, 4, 4, 3, 2, 1};
@@ -107,11 +108,6 @@ TEST(SetTest, TestConstIterator) {
 }
 
 int main() {
-  // testing::InitGoogleTest();
-  // return RUN_ALL_TESTS();
-  const s21::set<int> mySet = {1, 0, 2, 4, 3, 5, 8, 10, 9, 6, 7};
-  s21::set<int>::const_iterator iter = mySet.find(0);
-  for(s21::set<int>::const_iterator iter = mySet.begin(); iter != mySet.end(); ++iter)
-    std::cout << *iter; 
-   return 0;
+  testing::InitGoogleTest();
+  return RUN_ALL_TESTS();
 }

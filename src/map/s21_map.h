@@ -1,8 +1,8 @@
 #ifndef S21_CONTAINERS_SRC_MAP_H
 #define S21_CONTAINERS_SRC_MAP_H
 
-#include "set.h"
-#include "tree/rb_tree.h"
+#include "../set/s21_set.h"
+#include "../tree/rb_tree.h"
 #include <initializer_list>
 #include <limits>
 #include <stdexcept>
@@ -10,7 +10,7 @@
 #include <utility>
 
 namespace s21 {
-template <class T, class K> struct pair;
+template <class K, class T> struct pair;
 /// @brief container holds pairs<key, value> derived from s21::set<pair<K,T>>
 /// @tparam K 
 /// @tparam T 
@@ -114,6 +114,7 @@ template <class key_type, class value_type> struct pair {
   key_type key;
   value_type value;
 };
+
 
 template <class key_type, class value_type> map<key_type, value_type>::map(){};
 /// @brief initializer_list costructor ( {{ key, value},...} )

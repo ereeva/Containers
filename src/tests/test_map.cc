@@ -1,10 +1,11 @@
-#include "map.h"
+#include "../map/s21_map.h"
 #include <gtest/gtest.h>
-#include "vector/vector.h"
+#include "../vector/vector.h"
 #include <iostream>
 #include <map>
 #include <string>
 #include <utility>
+
 TEST(mapTest, Constructors) {
   s21::map<int, std::string> initList = {
       {1, "qw"}, {2, "ced"}, {3, "efd"}, {4, "abc"}};
@@ -65,15 +66,15 @@ TEST(mapTest, Insertion) {
   EXPECT_EQ(i, 0);
 }
 
-// TEST(SetTest, TestInsertMany) {
-//   s21::map<int, std::string> mySet;
-//   s21::vector<std::pair<s21::map<int, std::string>::iterator, bool>> res =
-//       mySet.insert_many(1, 2, 3,4, 5, 6);
-//   EXPECT_EQ(mySet.contains(5), true);
-//   EXPECT_EQ(mySet.contains(6), true);
-//   for (auto &a : res)
-//     EXPECT_EQ(a.second, true);
-// }
+TEST(SetTest, TestInsertMany) {
+  s21::map<int, std::string> mySet;
+  s21::vector<std::pair<s21::map<int, std::string>::iterator, bool>> res =
+      mySet.insert_many(1, 2, 3,4, 5, 6);
+  EXPECT_EQ(mySet.contains(5), true);
+  EXPECT_EQ(mySet.contains(6), true);
+  for (auto &a : res)
+    EXPECT_EQ(a.second, true);
+}
 
 int main() {
   testing::InitGoogleTest();

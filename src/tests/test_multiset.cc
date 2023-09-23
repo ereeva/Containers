@@ -1,5 +1,5 @@
-#include "multiset.h"
-#include "vector/vector.h"
+#include "../multiset/s21_multiset.h"
+#include "../vector/vector.h"
 #include <gtest/gtest.h>
 
 TEST(multisetTest, Constructors) {
@@ -109,11 +109,6 @@ TEST(multisetTest, TestInsertEqual) {
 }
 
 int main() {
-  // testing::InitGoogleTest();
-  // return RUN_ALL_TESTS();
-  s21::multiset<int> initList = {2, 2, 2, 2};
-  initList.erase(initList.find(2));
-  for (auto &a : initList)
-    std::cout << a << std::endl;
-  return 0;
+  testing::InitGoogleTest();
+  return RUN_ALL_TESTS();
 }

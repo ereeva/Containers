@@ -11,14 +11,13 @@ template <class T, class comp = std::less<T>> class RBTree {
 public:
   struct Node;
   class BTreeIterator;
-  class ConstBTreeIterator;
 
   using key_type = T;
   using value_type = key_type;
   using reference = value_type &;
   using const_reference = const value_type &;
   using iterator = BTreeIterator;
-  using const_iterator = ConstBTreeIterator;
+  using const_iterator = BTreeIterator;
   using size_type = std::size_t;
 
   RBTree();
@@ -114,7 +113,8 @@ public:
   bool operator==(const iterator rhs) const;
   bool operator<(const iterator rhs) const;
   bool operator!=(const iterator rhs) const { return !operator==(rhs); };
-  reference operator*() const;
+  const_reference operator*() const;
+  reference operator*();
 
 private:
   Node *FindMax(Node *ptr);
@@ -122,15 +122,8 @@ private:
   Node *ptr, *end_, *root;
 };
 
-template <class key_type, class comp>
-class RBTree<key_type, comp>::ConstBTreeIterator
-    : public RBTree<key_type, comp>::BTreeIterator {
-public:
-  ConstBTreeIterator(Node * node) : BTreeIterator(node){};
-  ConstBTreeIterator(Node *node, Node *end): BTreeIterator(node, end){};
-  const_reference operator*() { return **this; };
-};
+
 }; // namespace s21
 
-#include "rb_tree.tpp"
+#include "rb_tree.inc"
 #endif // S21_CONTAINERS_TREE_RB_TREE_H

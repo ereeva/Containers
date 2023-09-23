@@ -1,8 +1,8 @@
 #ifndef S21_CONTAINERS_SRC_SET_H
 #define S21_CONTAINERS_SRC_SET_H
 
-#include "tree/rb_tree.h"
-#include "vector/vector.h"
+#include "../tree/rb_tree.h"
+#include "../vector/vector.h"
 #include <functional>
 #include <initializer_list>
 #include <limits>
@@ -21,7 +21,7 @@ public:
   using const_reference = const value_type &;
   using size_type = std::size_t;
   using iterator = typename RBTree<T, comp>::BTreeIterator;
-  using const_iterator = typename RBTree<T, comp>::ConstBTreeIterator;
+  using const_iterator = iterator; 
 
   set();
   set(std::initializer_list<T> const &items);

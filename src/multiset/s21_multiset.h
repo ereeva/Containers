@@ -1,7 +1,7 @@
 #ifndef S21_CONTAINERS_SRC_MULTISET_H
 #define S21_CONTAINERS_SRC_NULTISET_H
 
-#include "set.h"
+#include "../set/s21_set.h"
 #include <functional>
 
 namespace s21 {
