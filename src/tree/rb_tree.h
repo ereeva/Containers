@@ -126,13 +126,9 @@ template <class key_type, class comp>
 class RBTree<key_type, comp>::ConstBTreeIterator
     : public RBTree<key_type, comp>::BTreeIterator {
 public:
-  ConstBTreeIterator(Node *node, Node *end){};
-  const_iterator begin() ;
-  const_iterator end() ;
-  const_iterator operator++() ;
-  const_iterator operator--() ;
-
-  const_reference operator*() const { return **this; }
+  ConstBTreeIterator(Node * node) : BTreeIterator(node){};
+  ConstBTreeIterator(Node *node, Node *end): BTreeIterator(node, end){};
+  const_reference operator*() { return **this; };
 };
 }; // namespace s21
 
