@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 TEST(SetTest, Constructors) {
-  s21::set<int> initList = {1, 2, 3, 4};
+  s21::set<int> initList = {1, 2, 3, 4, 4, 3, 2, 1};
   s21::set<int> copyCons(initList);
   s21::set<int> moveCons(std::move(initList));
   EXPECT_EQ(copyCons.contains(1), true);

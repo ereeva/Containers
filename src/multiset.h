@@ -7,21 +7,24 @@
 namespace s21 {
 template <class T> class multiset : public set<T, std::less_equal<T>> {
 public:
-  using typename RBTRee<T>::BTreeIterator;
-  using iterator = typename RBTRee<T>::BTreeIterator;
+  using RBTree<T, std::less_equal<T>>::BTreeIterator;
+  using iterator = typename RBTree<T, std::less_equal<T>>::BTreeIterator;
   multiset(){};
   multiset(std::initializer_list<T> const &items) : multiset() {
     for (auto &item : items)
       this->insert(item);
   };
   std::pair<iterator, bool> insert(const T &value) {
-    if (this->contains(value))
-      return std::make_pair(this->find(value), false);
-    else {
-      this->IncSize();
-      return std::make_pair(iterator(this->Insert(value)), true);
-    }
+    this->IncSize();
+    return std::make_pair(iterator(this->Insert(value)), true);
   }
+  void erase(iterator pos) {
+    multiset<T> *tmp = new multiset<T>();
+    for (auto it = this->begin(); it != this->end(); ++it)
+      if (it != pos)
+        tmp->insert(*it);
+    this->swap(*tmp);
+  };
 };
 } // namespace s21
 

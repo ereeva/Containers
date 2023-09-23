@@ -95,14 +95,25 @@ TEST(multisetTest, TestInsertMany) {
       mymultiset.insert_many(1, 2, 3, 4, 5, 6);
   EXPECT_EQ(mymultiset.contains(5), true);
   EXPECT_EQ(mymultiset.contains(6), true);
+  for (auto &a : mymultiset)
+    std::cout << a << std::endl;
   for (auto &a : res)
     EXPECT_EQ(a.second, true);
 }
+TEST(multisetTest, TestInsertEqual) {
+  s21::multiset<int> initList = {2, 2, 2, 2};
+  initList.erase(initList.find(2));
+  for (auto &a : initList)
+    std::cout << a << std::endl;
+  EXPECT_EQ(initList.size(), 3);
+}
 
 int main() {
-//   testing::InitGoogleTest();
-//   return RUN_ALL_TESTS();
-  s21::multiset<int> initList = {2, 2, 3, 4};
-  for(auto& a : initList) std::cout << a;
+  // testing::InitGoogleTest();
+  // return RUN_ALL_TESTS();
+  s21::multiset<int> initList = {2, 2, 2, 2};
+  initList.erase(initList.find(2));
+  for (auto &a : initList)
+    std::cout << a << std::endl;
   return 0;
 }

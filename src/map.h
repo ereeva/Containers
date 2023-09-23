@@ -10,22 +10,22 @@
 #include <utility>
 
 namespace s21 {
-template <class K, class T> struct pair;
+template <class T, class K> struct pair;
 /// @brief container holds pairs<key, value> derived from s21::set<pair<K,T>>
 /// @tparam K 
 /// @tparam T 
-template <class K, class T> class map : public set<pair<K, T>> {
+template <class T, class K> class map : public set<pair<T, K>> {
 public:
-  using typename RBTree<pair<K, T>>::Node;
-  using typename RBTree<pair<K, T>>::BTreeIterator;
-  using key_type = K;
-  using value_type = T;
+  using typename RBTree<pair<T, K>>::Node;
+  using typename RBTree<pair<T, K>>::BTreeIterator;
+  using key_type = T;
+  using value_type = K;
   using reference = value_type &;
   using const_reference = const value_type &;
   using size_type = std::size_t;
-  using iterator = typename RBTree<pair<K, T>>::BTreeIterator;
+  using iterator = typename RBTree<pair<T, K>>::BTreeIterator;
   map();
-  map(std::initializer_list<pair<K, T>> const &items);
+  map(std::initializer_list<pair<T, K>> const &items);
 
   /// @brief return reference of element or throw exception
   /// @param key 
@@ -104,10 +104,10 @@ template <class key_type, class value_type> struct pair {
   pair(const key_type &key_) : key(key_), value(){};
   pair(const key_type &key_, value_type value_) : key(key_), value(value_){};
   pair(std::pair<key_type, value_type> &p) : key(p.first), value(p.second){};
-  bool operator==(const pair &other) { return key == other.key; };
-  bool operator<(const pair &other) { return key < other.key; };
-  bool operator!=(const pair &other) { return !(*this == other); };
-  bool operator>(const pair &other) { return other.key < key; };
+  bool operator==(const pair &other) const{ return key == other.key; };
+  bool operator<(const pair &other) const{ return key < other.key; };
+  bool operator!=(const pair &other) const{ return !(*this == other); };
+  bool operator>(const pair &other) const{ return other.key < key; };
   pair &make_pair(key_type &key, value_type &value) {
     return pair(key, value);
   };

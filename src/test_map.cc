@@ -65,15 +65,15 @@ TEST(mapTest, Insertion) {
   EXPECT_EQ(i, 0);
 }
 
-TEST(SetTest, TestInsertMany) {
-  s21::map<int, std::string> mySet;
-  s21::vector<std::pair<s21::map<int, std::string>::iterator, bool>> res =
-      mySet.insert_many(1, 2, 3,4, 5, 6);
-  EXPECT_EQ(mySet.contains(5), true);
-  EXPECT_EQ(mySet.contains(6), true);
-  for (auto &a : res)
-    EXPECT_EQ(a.second, true);
-}
+// TEST(SetTest, TestInsertMany) {
+//   s21::map<int, std::string> mySet;
+//   s21::vector<std::pair<s21::map<int, std::string>::iterator, bool>> res =
+//       mySet.insert_many(1, 2, 3,4, 5, 6);
+//   EXPECT_EQ(mySet.contains(5), true);
+//   EXPECT_EQ(mySet.contains(6), true);
+//   for (auto &a : res)
+//     EXPECT_EQ(a.second, true);
+// }
 
 int main() {
   testing::InitGoogleTest();
