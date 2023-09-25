@@ -1,6 +1,7 @@
+#include <gtest/gtest.h>
+
 #include "../multiset/s21_multiset.h"
 #include "../vector/s21_vector.h"
-#include <gtest/gtest.h>
 #include "all_tests.h"
 
 TEST(multisetTest, Constructors) {
@@ -47,18 +48,15 @@ TEST(multisetTest, Insertion) {
   EXPECT_EQ(mymultiset.contains(0), true);
   EXPECT_EQ(mymultiset.contains(2), true);
   EXPECT_EQ(mymultiset.contains(7), true);
-
 }
 
 TEST(multisetTest, RengeBasedFor) {
   s21::multiset<int> mymultiset = {1, 0, 2, 4, 3, 10, 9, 6, 7};
-
 }
 TEST(multisetTest, Erase) {
   s21::multiset<int> mymultiset = {1, 0, 2, 4, 3, 10, 9, 6, 7};
   auto ptr = mymultiset.begin();
-  for (int i = 0; i < 4; i++)
-    ptr++;
+  for (int i = 0; i < 4; i++) ptr++;
   mymultiset.erase(ptr);
   EXPECT_EQ(mymultiset.size(), 8);
 }
@@ -87,19 +85,15 @@ TEST(multisetTest, Find) {
 TEST(multisetTest, TestInsertMany) {
   s21::multiset<int> mymultiset;
   s21::vector<std::pair<s21::multiset<int>::iterator, bool>> res =
-      mymultiset.insert_many(1,1,1, 2, 3, 4, 5, 6);
+      mymultiset.insert_many(1, 1, 1, 2, 3, 4, 5, 6);
   EXPECT_EQ(mymultiset.contains(5), true);
   EXPECT_EQ(mymultiset.contains(6), true);
-  for (auto &a : mymultiset)
-    std::cout << a << std::endl;
-  for (auto &a : res)
-    EXPECT_EQ(a.second, true);
+  for (auto &a : mymultiset) std::cout << a << std::endl;
+  for (auto &a : res) EXPECT_EQ(a.second, true);
 }
 TEST(multisetTest, TestInsertEqual) {
   s21::multiset<int> initList = {2, 2, 2, 2};
   initList.erase(initList.find(2));
-  for (auto &a : initList)
-    std::cout << a << std::endl;
+  for (auto &a : initList) std::cout << a << std::endl;
   EXPECT_EQ(initList.size(), 3);
 }
-

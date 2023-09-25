@@ -1,9 +1,8 @@
+#include <gtest/gtest.h>
+
 #include "../set/s21_set.h"
 #include "../vector/s21_vector.h"
-#include <gtest/gtest.h>
 #include "all_tests.h"
-
-
 
 TEST(SetTest, Constructors) {
   s21::set<int> initList = {1, 2, 3, 4, 4, 3, 2, 1};
@@ -55,10 +54,9 @@ TEST(SetTest, RengeBasedFor) {
   s21::set<int> mySet = {1, 0, 2, 4, 3, 10, 9, 6, 7};
 }
 TEST(SetTest, Erase) {
-  s21::set<int> mySet = {1, 0, 2,2, 4, 3, 10, 9, 6, 7};
+  s21::set<int> mySet = {1, 0, 2, 2, 4, 3, 10, 9, 6, 7};
   auto ptr = mySet.begin();
-  for (int i = 0; i < 4; i++)
-    ptr++;
+  for (int i = 0; i < 4; i++) ptr++;
   mySet.erase(ptr);
   EXPECT_EQ(mySet.size(), 8);
 }
@@ -90,14 +88,11 @@ TEST(SetTest, TestInsertMany) {
       mySet.insert_many(1, 2, 3, 4, 5, 6);
   EXPECT_EQ(mySet.contains(5), true);
   EXPECT_EQ(mySet.contains(6), true);
-  for (auto &a : res)
-    EXPECT_EQ(a.second, true);
+  for (auto &a : res) EXPECT_EQ(a.second, true);
 }
 
 TEST(SetTest, TestConstIterator) {
   const s21::set<int> mySet = {1, 0, 2, 4, 3, 5, 8, 10, 9, 6, 7};
   s21::set<int>::const_iterator iter = mySet.find(0);
-  for(auto &item : mySet) 
-    EXPECT_EQ (*iter++, item);
+  for (auto &item : mySet) EXPECT_EQ(*iter++, item);
 }
-

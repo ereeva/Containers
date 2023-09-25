@@ -1,11 +1,13 @@
-#include "../map/s21_map.h"
 #include <gtest/gtest.h>
-#include "../vector/s21_vector.h"
-#include "all_tests.h"
+
 #include <iostream>
 #include <map>
 #include <string>
 #include <utility>
+
+#include "../map/s21_map.h"
+#include "../vector/s21_vector.h"
+#include "all_tests.h"
 
 TEST(mapTest, Constructors) {
   s21::map<int, std::string> initList = {
@@ -29,10 +31,8 @@ TEST(mapTest, Constructors) {
   EXPECT_EQ(moveCons.size(), 4);
 }
 TEST(mapTest, operator_) {
-  s21::map<int, std::string> mymap = {{1, "abc"},
-                                      {2, "ced"},
-                                      {3, "efd"},
-                                      {4, "qwe"}};
+  s21::map<int, std::string> mymap = {
+      {1, "abc"}, {2, "ced"}, {3, "efd"}, {4, "qwe"}};
   EXPECT_EQ(mymap[1], "abc");
   EXPECT_EQ(mymap[2], "ced");
   EXPECT_EQ(mymap[3], "efd");
@@ -46,7 +46,7 @@ TEST(mapTest, operator_) {
   s21::map<int, std::string> mcmap = std::move(mymap);
   EXPECT_EQ(mcmap[5], "blabla");
   EXPECT_EQ(mymap.size(), 0);
-  EXPECT_ANY_THROW (mcmap.at(6));
+  EXPECT_ANY_THROW(mcmap.at(6));
 }
 TEST(mapTest, Insertion) {
   s21::map<int, std::string> mymap;
@@ -66,9 +66,8 @@ TEST(mapTest, Insertion) {
 TEST(MaptTest, TestInsertMany) {
   s21::map<int, std::string> mySet;
   s21::vector<std::pair<s21::map<int, std::string>::iterator, bool>> res =
-      mySet.insert_many(1, 2, 3,4, 5, 6);
+      mySet.insert_many(1, 2, 3, 4, 5, 6);
   EXPECT_EQ(mySet.contains(5), true);
   EXPECT_EQ(mySet.contains(6), true);
-  for (auto &a : res)
-    EXPECT_EQ(a.second, true);
+  for (auto &a : res) EXPECT_EQ(a.second, true);
 }

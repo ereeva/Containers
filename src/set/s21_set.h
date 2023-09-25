@@ -1,18 +1,19 @@
 #ifndef S21_CONTAINERS_SRC_SET_H
 #define S21_CONTAINERS_SRC_SET_H
 
-#include "../tree/rb_tree.h"
-#include "../vector/s21_vector.h"
 #include <functional>
 #include <initializer_list>
 #include <limits>
 #include <tuple>
 #include <utility>
 
+#include "../tree/rb_tree.h"
+#include "../vector/s21_vector.h"
+
 namespace s21 {
 template <class T, class comp = std::less<T>>
 class set : public RBTree<T, comp> {
-public:
+ public:
   using typename RBTree<T, comp>::Node;
   using typename RBTree<T, comp>::BTreeIterator;
   using key_type = T;
@@ -21,7 +22,7 @@ public:
   using const_reference = const value_type &;
   using size_type = std::size_t;
   using iterator = typename RBTree<T, comp>::BTreeIterator;
-  using const_iterator = iterator; 
+  using const_iterator = iterator;
 
   set();
   set(std::initializer_list<T> const &items);
@@ -50,13 +51,14 @@ public:
   };
   void IncSize() { size_++; };
 
-private:
+ private:
   size_type size_ = 0;
 };
 
 /// @brief default constructor
 /// @tparam value_type
-template <class value_type, class comp> set<value_type, comp>::set(){};
+template <class value_type, class comp>
+set<value_type, comp>::set(){};
 
 /// @brief itializer_list constructor
 /// @tparam valuen_type
@@ -64,17 +66,16 @@ template <class value_type, class comp> set<value_type, comp>::set(){};
 template <class value_type, class comp>
 set<value_type, comp>::set(std::initializer_list<value_type> const &items)
     : set() {
-  for (auto &item : items)
-    this->insert(item);
+  for (auto &item : items) this->insert(item);
 };
 
 /// @brief copy constructor
 /// @tparam value_type
 /// @param s
 template <class value_type, class comp>
-set<value_type, comp>::set(const set<value_type, comp> &s) : RBTree<value_type, comp>() {
-  for (auto &it : s)
-    this->insert(it);
+set<value_type, comp>::set(const set<value_type, comp> &s)
+    : RBTree<value_type, comp>() {
+  for (auto &it : s) this->insert(it);
 };
 
 /// @brief move constructor
@@ -89,16 +90,18 @@ set<value_type, comp>::set(set<value_type, comp> &&s) {
 /// @tparam value_type
 /// @param node
 template <class value_type, class comp>
-set<value_type, comp>::set(Node *node) {};
+set<value_type, comp>::set(Node *node){};
 
 /// @brief destructor
 /// @tparam value_type
-template <class value_type, class comp> set<value_type, comp>::~set(){};
+template <class value_type, class comp>
+set<value_type, comp>::~set(){};
 
 /// @brief check set for empty
 /// @tparam value_type
 /// @return return true if empty
-template <class value_type, class comp> bool set<value_type, comp>::empty() {
+template <class value_type, class comp>
+bool set<value_type, comp>::empty() {
   return this->root_ == this->end_;
 };
 
@@ -125,9 +128,9 @@ typename set<value_type, comp>::size_type set<value_type, comp>::max_size() {
 /// @param pos
 template <class value_type, class comp>
 void set<value_type, comp>::erase(iterator pos) {
-   set<value_type, comp> *tmp = new set<value_type, comp>();
-   for(auto it = this->begin(); it != this->end(); ++it)
-    if (it != pos )tmp->insert(*it); 
+  set<value_type, comp> *tmp = new set<value_type, comp>();
+  for (auto it = this->begin(); it != this->end(); ++it)
+    if (it != pos) tmp->insert(*it);
   swap(*tmp);
   delete tmp;
 };
@@ -137,8 +140,7 @@ void set<value_type, comp>::erase(iterator pos) {
 /// @param other
 template <class value_type, class comp>
 void set<value_type, comp>::merge(set &other) {
-  for (auto &node : other)
-    this->insert(node);
+  for (auto &node : other) this->insert(node);
 }
 
 /// @brief swap data of sets
@@ -164,6 +166,6 @@ s21::set<value_type, comp>::insert(const value_type &value) {
     return std::make_pair(iterator(this->Insert(value)), true);
   }
 };
-} // namespace s21
+}  // namespace s21
 
 #endif
