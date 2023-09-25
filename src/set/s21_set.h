@@ -129,6 +129,7 @@ void set<value_type, comp>::erase(iterator pos) {
    for(auto it = this->begin(); it != this->end(); ++it)
     if (it != pos )tmp->insert(*it); 
   swap(*tmp);
+  delete tmp;
 };
 
 /// @brief merge two sets

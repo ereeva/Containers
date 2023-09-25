@@ -32,6 +32,7 @@ public:
       if (it != pos)
         tmp->insert(*it);
     this->swap(*tmp);
+    delete tmp;
   };
 };
 } // namespace s21
