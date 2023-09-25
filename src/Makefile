@@ -3,8 +3,8 @@ CPPFLAGS = -Wall -Werror -Wextra
 GCOVFLAGS = --coverage
 CLEAN	= rm -rf
 
-OC := $(shell uname)
-ifeq ($(OC),Darwin)
+OS := $(shell uname)
+ifeq ($(OS),Darwin)
 	LEAKS = CK_FORK=no leaks --atExit --
 	TESTFLAGS = -lgtest -lgtest_main -lm -lstdc++ 
 else
