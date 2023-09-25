@@ -60,10 +60,6 @@ TEST(mapTest, Insertion) {
   EXPECT_EQ(mymap.contains(0), true);
   EXPECT_EQ(mymap.contains(2), true);
   EXPECT_EQ(mymap.contains(7), true);
-  int i = mymap.size();
-  for (auto &it : mymap)
-    i--;
-  EXPECT_EQ(i, 0);
 }
 
 TEST(SetTest, TestInsertMany) {

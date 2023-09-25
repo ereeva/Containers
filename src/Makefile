@@ -14,7 +14,7 @@ endif
 
 NAME = s21_containers
 
-SRC_DIR	= ./array/* ./list/* ./queue/* ./stack/* ./vector/*
+SRC_DIR	= ./array/* ./list/* ./queue/* ./stack/* ./vector/* ./map/* ./set/* ./multiset/*
 
 TEST_FILE	= $(NAME)_test
 TEST_FILE_COV	= $(TEST_FILE)_cov

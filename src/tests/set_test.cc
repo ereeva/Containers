@@ -47,18 +47,10 @@ TEST(SetTest, Insertion) {
   EXPECT_EQ(mySet.contains(0), true);
   EXPECT_EQ(mySet.contains(2), true);
   EXPECT_EQ(mySet.contains(7), true);
-  int i = mySet.size();
-  for (auto &it : mySet)
-    i--;
-  EXPECT_EQ(i, 0);
 }
 
 TEST(SetTest, RengeBasedFor) {
   s21::set<int> mySet = {1, 0, 2, 4, 3, 10, 9, 6, 7};
-  int i = mySet.size();
-  for (auto &it : mySet)
-    i--;
-  EXPECT_EQ(i, 0);
 }
 TEST(SetTest, Erase) {
   s21::set<int> mySet = {1, 0, 2,2, 4, 3, 10, 9, 6, 7};

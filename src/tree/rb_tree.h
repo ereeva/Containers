@@ -72,8 +72,8 @@ private:
 template <class key_type, class comp> struct RBTree<key_type, comp>::Node {
   key_type data_;
   bool color;
-  Node *left_, *right_, *parent_;
-  Node() : data_(), color(RED), parent_(), right_(), left_(){};
+  Node *parent_, *left_, *right_ ;
+  Node() : data_(), color(RED), parent_(), left_(), right_(){};
   Node(const Node *other)
       : data_(other->data_), color(other->color), parent_(other->parent_),
         left_(other->left_), right_(other->right_){};

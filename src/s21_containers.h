@@ -5,5 +5,7 @@
 #include "queue/s21_queue.h"
 #include "stack/s21_stack.h"
 #include "vector/s21_vector.h"
+#include "set/s21_set.h"
+#include "map/s21_map.h"
 
 #endif  // CPP2_S21_CONTAINERS_H_

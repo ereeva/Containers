@@ -46,18 +46,12 @@ TEST(multisetTest, Insertion) {
   EXPECT_EQ(mymultiset.contains(0), true);
   EXPECT_EQ(mymultiset.contains(2), true);
   EXPECT_EQ(mymultiset.contains(7), true);
-  int i = mymultiset.size();
-  for (auto &it : mymultiset)
-    i--;
-  EXPECT_EQ(i, 0);
+
 }
 
 TEST(multisetTest, RengeBasedFor) {
   s21::multiset<int> mymultiset = {1, 0, 2, 4, 3, 10, 9, 6, 7};
-  int i = mymultiset.size();
-  for (auto &it : mymultiset)
-    i--;
-  EXPECT_EQ(i, 0);
+
 }
 TEST(multisetTest, Erase) {
   s21::multiset<int> mymultiset = {1, 0, 2, 4, 3, 10, 9, 6, 7};

@@ -72,7 +72,7 @@ set<value_type, comp>::set(std::initializer_list<value_type> const &items)
 /// @tparam value_type
 /// @param s
 template <class value_type, class comp>
-set<value_type, comp>::set(const set<value_type, comp> &s) {
+set<value_type, comp>::set(const set<value_type, comp> &s) : RBTree<value_type, comp>() {
   for (auto &it : s)
     this->insert(it);
 };
