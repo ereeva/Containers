@@ -2,7 +2,7 @@
 #define S21_CONTAINERS_SRC_SET_H
 
 #include "../tree/rb_tree.h"
-#include "../vector/vector.h"
+#include "../vector/s21_vector.h"
 #include <functional>
 #include <initializer_list>
 #include <limits>
@@ -33,8 +33,8 @@ public:
     swap(other);
     return *this;
   };
-  bool empty();
   size_type size();
+  bool empty();
   size_type max_size();
   std::pair<iterator, bool> insert(const value_type &value);
   void erase(iterator pos);

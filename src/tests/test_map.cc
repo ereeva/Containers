@@ -1,6 +1,6 @@
 #include "../map/s21_map.h"
 #include <gtest/gtest.h>
-#include "../vector/vector.h"
+#include "../vector/s21_vector.h"
 #include <iostream>
 #include <map>
 #include <string>

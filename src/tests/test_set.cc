@@ -1,5 +1,5 @@
 #include "../set/s21_set.h"
-#include "../vector/vector.h"
+#include "../vector/s21_vector.h"
 #include <gtest/gtest.h>
 
 

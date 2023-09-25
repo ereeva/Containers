@@ -1,5 +1,5 @@
 #include "../multiset/s21_multiset.h"
-#include "../vector/vector.h"
+#include "../vector/s21_vector.h"
 #include <gtest/gtest.h>
 
 TEST(multisetTest, Constructors) {
@@ -92,7 +92,7 @@ TEST(multisetTest, Find) {
 TEST(multisetTest, TestInsertMany) {
   s21::multiset<int> mymultiset;
   s21::vector<std::pair<s21::multiset<int>::iterator, bool>> res =
-      mymultiset.insert_many(1, 2, 3, 4, 5, 6);
+      mymultiset.insert_many(1,1,1, 2, 3, 4, 5, 6);
   EXPECT_EQ(mymultiset.contains(5), true);
   EXPECT_EQ(mymultiset.contains(6), true);
   for (auto &a : mymultiset)

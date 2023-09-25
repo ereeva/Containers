@@ -2,6 +2,7 @@
 #define S21_CONTAINERS_SRC_NULTISET_H
 
 #include "../set/s21_set.h"
+#include "../vector/s21_vector.h"
 #include <functional>
 
 namespace s21 {
@@ -18,7 +19,14 @@ public:
     this->IncSize();
     return std::make_pair(iterator(this->Insert(value)), true);
   }
-  void erase(iterator pos) {
+  template <class... Args>
+   s21::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
+    s21::vector<std::pair<iterator, bool>> result;
+    for (auto &&arg : {std::forward<Args>(args)...})
+      result.push_back(insert(arg));
+    return result;
+  };
+   void erase(iterator pos) {
     multiset<T> *tmp = new multiset<T>();
     for (auto it = this->begin(); it != this->end(); ++it)
       if (it != pos)

@@ -111,7 +111,7 @@ template <class key_type, class value_type> struct pair {
   pair &make_pair(key_type &key, value_type &value) {
     return pair(key, value);
   };
-  key_type key;
+  const key_type key;
   value_type value;
 };
 
