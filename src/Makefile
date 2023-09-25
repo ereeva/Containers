@@ -6,7 +6,7 @@ CLEAN	= rm -rf
 OC := $(shell uname)
 ifeq ($(OC),Darwin)
 	LEAKS = CK_FORK=no leaks --atExit --
-	TESTFLAGS = -lgtest -lgtest_main -lm -lstdc++ $(shell pkg-config --cflags gtest)
+	TESTFLAGS = -lgtest -lgtest_main -lm -lstdc++ 
 else
 	LEAKS = valgrind --leak-check=full --track-origins=yes -s
 	TESTFLAGS = -lgtest -lgtest_main -lm -lstdc++ -lpthread $(shell pkg-config --cflags gtest)
@@ -38,7 +38,7 @@ test: $(TEST_FILE)
 report/index.html: $(SOURCE) $(TEST)
 	$(CC) $(CPPFLAGS) $(GCOVFLAGS) $(SOURCE) $(TEST) -o $(TEST_FILE_COV) $(TESTFLAGS)
 	./$(TEST_FILE_COV)
-	lcov -t "$(TEST_FILE_COV)" -o $(TEST_FILE_COV).info -c -d . --no-external
+	lcov -t "$(TEST_FILE_COV)" -o $(TEST_FILE_COV).info -c -d . --no-external  --ignore-errors mismatch
 	genhtml -o report $(TEST_FILE_COV).info
 
 gcov_report: report/index.html

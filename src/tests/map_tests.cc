@@ -1,6 +1,7 @@
 #include "../map/s21_map.h"
 #include <gtest/gtest.h>
 #include "../vector/s21_vector.h"
+#include "all_tests.h"
 #include <iostream>
 #include <map>
 #include <string>
@@ -62,7 +63,7 @@ TEST(mapTest, Insertion) {
   EXPECT_EQ(mymap.contains(7), true);
 }
 
-TEST(SetTest, TestInsertMany) {
+TEST(MaptTest, TestInsertMany) {
   s21::map<int, std::string> mySet;
   s21::vector<std::pair<s21::map<int, std::string>::iterator, bool>> res =
       mySet.insert_many(1, 2, 3,4, 5, 6);
@@ -70,9 +71,4 @@ TEST(SetTest, TestInsertMany) {
   EXPECT_EQ(mySet.contains(6), true);
   for (auto &a : res)
     EXPECT_EQ(a.second, true);
-}
-
-int main() {
-  testing::InitGoogleTest();
-  return RUN_ALL_TESTS();
 }

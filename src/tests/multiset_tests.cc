@@ -1,6 +1,7 @@
 #include "../multiset/s21_multiset.h"
 #include "../vector/s21_vector.h"
 #include <gtest/gtest.h>
+#include "all_tests.h"
 
 TEST(multisetTest, Constructors) {
   s21::multiset<int> initList = {1, 2, 3, 4};
@@ -102,7 +103,3 @@ TEST(multisetTest, TestInsertEqual) {
   EXPECT_EQ(initList.size(), 3);
 }
 
-int main() {
-  testing::InitGoogleTest();
-  return RUN_ALL_TESTS();
-}

@@ -1,6 +1,8 @@
 #include "../set/s21_set.h"
 #include "../vector/s21_vector.h"
 #include <gtest/gtest.h>
+#include "all_tests.h"
+
 
 
 TEST(SetTest, Constructors) {
@@ -99,7 +101,3 @@ TEST(SetTest, TestConstIterator) {
     EXPECT_EQ (*iter++, item);
 }
 
-int main() {
-  testing::InitGoogleTest();
-  return RUN_ALL_TESTS();
-}
